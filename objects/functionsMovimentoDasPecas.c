@@ -6,12 +6,11 @@ CasaTabuleiro* movimentosPossiveisPeao(CasaTabuleiro peca, Tabuleiro tabuleiro, 
     Coordenada pecaLinhaAtual = peca.peca->posicao.linha;
     Coordenada pecaColunaAtual = peca.peca->posicao.coluna;
 
-    #pragma CASAS RELEVANTES AO PEAO
-        CasaTabuleiro **casasRelevantes = casasRelevantesAoPeao(tabuleiro, pecaLinhaAtual, pecaColunaAtual);
-        CasaTabuleiro *casaAcimaDoPeaoLinha = casasRelevantes[0];
-        CasaTabuleiro *casaAcimaDoPeaoLinhaDireita = casasRelevantes[1];
-        CasaTabuleiro *casaAcimaDoPeaoLinhaEsquerda = casasRelevantes[2];
-    #pragma endregion
+    //CASAS RELEVANTES AO PEAO
+    CasaTabuleiro **casasRelevantes = casasRelevantesAoPeao(tabuleiro, pecaLinhaAtual, pecaColunaAtual);
+    CasaTabuleiro *casaAcimaDoPeaoLinha = casasRelevantes[0];
+    CasaTabuleiro *casaAcimaDoPeaoLinhaDireita = casasRelevantes[1];
+    CasaTabuleiro *casaAcimaDoPeaoLinhaEsquerda = casasRelevantes[2];
 
     ListaCasaTabuleiro movimentosPossiveis = criarListaCasasTabuleiro();
 
@@ -49,4 +48,11 @@ CasaTabuleiro** casasRelevantesAoPeao(Tabuleiro tabuleiro, Coordenada pecaLinhaA
     casasRelevantes[2] = casaAcimaDoPeaoLinhaEsquerda;
 
     return casasRelevantes;
+}
+
+void moverPeca(CasaTabuleiro pecaMovida, Tabuleiro tabuleiro, CasaTabuleiro novaPosicao) {
+    tabuleiro[novaPosicao.peca->posicao.linha][novaPosicao.peca->posicao.coluna].peca = pecaMovida.peca;
+    tabuleiro[pecaMovida.peca->posicao.linha][pecaMovida.peca->posicao.coluna].peca = NULL;
+    pecaMovida.peca->posicao = novaPosicao.peca->posicao;
+    free(novaPosicao.peca);
 }

@@ -38,7 +38,7 @@
 
     #pragma FUNCOES DAS PECAS
         //mover peca para nova posicao
-        void moverPeca(CasaTabuleiro pecaMovida, Tabuleiro tabuleiro, Posicao novaPosicao);
+        void moverPeca(CasaTabuleiro pecaMovida, Tabuleiro tabuleiro, CasaTabuleiro novaPosicao);
 
         //funcao que retorna todas os movimentos possiveis
         CasaTabuleiro* movimentosPossiveis(CasaTabuleiro peca, Jogo jogo);
