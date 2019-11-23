@@ -45,7 +45,7 @@ No* retornarElementoPorValor(Lista lista, void *valor) {
         return noAtual->proximo;
 }
 
-void adicionarElementoAoFinalDaLista(Lista lista, void* novoValor) {
+No* adicionarElementoAoFinalDaLista(Lista lista, void* novoValor) {
     No *novoNo = (No*)malloc(sizeof(No));
     novoNo->valor = novoValor;
     novoNo->proximo = NULL;
@@ -54,14 +54,36 @@ void adicionarElementoAoFinalDaLista(Lista lista, void* novoValor) {
     while(noAtual->proximo != NULL) noAtual = noAtual->proximo;
 
     noAtual->proximo = novoNo;
+    return novoNo;
 }
 
-void adicionarElementoAoInicioDaLista(Lista lista, void* novoValor) {
+No* adicionarElementoAoInicioDaLista(Lista lista, void* novoValor) {
     No *novoNo = (No*)malloc(sizeof(No));
     novoNo->valor = novoValor;
     novoNo->proximo = *lista.inicio;
 
     lista.inicio = &novoNo;
+    return novoNo;
+}
+
+No* adicionarElementoPorIndice(Lista lista, void* novoValor, Indice indice) {
+    No* noAlterado = retornarElementoPorIndice(lista, indice);
+
+    if(noAlterado == NULL)
+        return NULL;
+    
+    noAlterado->valor = novoValor;
+    return noAlterado;
+}
+
+No* adicionarElementoPorValor(Lista lista, void* novoValor, void* valor) {
+    No* noAlterado = retornarElementoPorValor(lista, valor);
+
+    if(noAlterado == NULL)
+        return NULL;
+    
+    noAlterado->valor = novoValor;
+    return noAlterado;
 }
 
 void removerElementoDaListaPorValor(Lista lista, void* valor) {
@@ -130,4 +152,15 @@ void apagarLista(Lista lista) {
 void apagarNo(No **no) {
     free((*no)->valor);
     free((*no));
+}
+
+size_t listalen(Lista lista) {
+    size_t len = 0;
+    No* noAtual = *lista.inicio;
+    while (noAtual != NULL)
+    {
+        noAtual = noAtual->proximo;
+        len++;
+    }
+    return len;
 }

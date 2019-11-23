@@ -1,5 +1,5 @@
-#ifndef LISTA_XADREZ
-    #define LISTA_XADREZ 1
+#ifndef LISTA_GENERICA
+    #define LISTA_GENERICA 1
 
     #ifndef INCLUDE_STDLIB
         #define INCLUDE_STDLIB 1
@@ -26,9 +26,13 @@
 
     No* retornarElementoPorValor(Lista lista, void *valor);
 
-    void adicionarElementoAoFinalDaLista(Lista lista, void* novoValor);
+    No* adicionarElementoAoFinalDaLista(Lista lista, void* novoValor);
 
-    void adicionarElementoAoInicioDaLista(Lista lista, void* novoValor);
+    No* adicionarElementoAoInicioDaLista(Lista lista, void* novoValor);
+
+    No* adicionarElementoPorIndice(Lista lista, void* novoValor, Indice indice);
+
+    No* adicionarElementoPorValor(Lista lista, void* novoValor, void* valor);
 
     void removerElementoDaListaPorValor(Lista lista, void* valor);
 
@@ -37,4 +41,6 @@
     void apagarNo(No **no);
 
     void apagarLista(Lista lista);
+
+    size_t listalen(Lista lista);
 #endif

@@ -37,14 +37,16 @@
     #pragma endregion
 
     #pragma FUNCOES DAS PECAS
-    //mover peca para nova posicao
-    void moverPeca(CasaTabuleiro pecaMovida, Tabuleiro tabuleiro, Posicao novaPosicao);
+        //mover peca para nova posicao
+        void moverPeca(CasaTabuleiro pecaMovida, Tabuleiro tabuleiro, Posicao novaPosicao);
 
-    //funcao que retorna todas os movimentos possiveis
-    CasaTabuleiro* movimentosPossiveis(CasaTabuleiro peca, Jogo jogo);
+        //funcao que retorna todas os movimentos possiveis
+        CasaTabuleiro* movimentosPossiveis(CasaTabuleiro peca, Jogo jogo);
 
-    //funcao dos movimentos do peao
-    CasaTabuleiro* movimentosPossiveisPeao(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual);
+        //funcao dos movimentos do peao
+        CasaTabuleiro* movimentosPossiveisPeao(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual);
 
+        //funcao que retorna os movimentos relevantes ao peao
+        CasaTabuleiro** casasRelevantesAoPeao(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual);
     #pragma endregion
 #endif
