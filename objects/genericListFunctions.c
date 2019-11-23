@@ -13,12 +13,36 @@ Lista criarListaDeTipoGenerico(size_t tamanhoElemento, void* primeiroValor) {
     return novaLista;
 }
 
-No retornarElementoPorIndice(Indice indice) {
+No* retornarElementoPorIndice(Lista lista, Indice indice) {
+    Indice count = 0;
+    No* noAtual = *lista.inicio;
+    while (noAtual != NULL)
+    {
+        count += 1;
+        if(count == indice) break;
+        noAtual = noAtual->proximo;
+    }
+    //noAtual representa o nó anterior ao buscado
 
+    if(noAtual == NULL || noAtual->proximo == NULL)
+        return NULL;
+    else
+        return noAtual->proximo;
 }
 
-No retornarElementoPorValor(void *valor) {
+No* retornarElementoPorValor(Lista lista, void *valor) {
+    No* noAtual = *lista.inicio;
+    while (noAtual != NULL)
+    {
+        if(noAtual->valor == valor) break;
+        noAtual = noAtual->proximo;
+    }
+    //noAtual representa o nó anterior ao buscado
 
+    if(noAtual == NULL || noAtual->proximo == NULL)
+        return NULL;
+    else
+        return noAtual->proximo;
 }
 
 void adicionarElementoAoFinalDaLista(Lista lista, void* novoValor) {
@@ -41,11 +65,55 @@ void adicionarElementoAoInicioDaLista(Lista lista, void* novoValor) {
 }
 
 void removerElementoDaListaPorValor(Lista lista, void* valor) {
+    if((*lista.inicio)->valor == valor)
+    {
+        lista.inicio = &(*lista.inicio)->proximo;
+    }
+    else
+    {
+        No* noAtual = *lista.inicio;
+        while(noAtual != NULL)
+        {
+            if(noAtual->valor == valor) break;
+            noAtual = noAtual->proximo;
+        }
+        //noAtual representa o nó anterior ao excluido
 
+        //se houver um nó indice-1 && se houver um proximo nó...
+        if(noAtual != NULL && noAtual->proximo != NULL)
+        {
+            No* noApagado = noAtual->proximo;
+            noAtual->proximo = noApagado->proximo;
+            apagarNo(noApagado);
+        }
+    }
 }
 
 void removerElementoDaListaPorIndice(Lista lista, Indice indice) {
-    
+    if(indice == 0)
+    {
+        lista.inicio = &(*lista.inicio)->proximo;
+    }
+    else
+    {
+        Indice count = 0;
+        No* noAtual = *lista.inicio;
+        while(noAtual != NULL)
+        {
+            count += 1;
+            if(count == indice) break;
+            noAtual = noAtual->proximo;
+        }
+        //noAtual representa o nó anterior ao excluido
+
+        //se houver um nó indice-1 && se houver um proximo nó...
+        if(noAtual != NULL && noAtual->proximo != NULL)
+        {
+            No* noApagado = noAtual->proximo;
+            noAtual->proximo = noApagado->proximo;
+            apagarNo(noApagado);
+        }
+    }
 }
 
 void apagarLista(Lista lista) {
@@ -55,7 +123,11 @@ void apagarLista(Lista lista) {
     while(noAtual->proximo != NULL) {
         No* temp = noAtual;
         noAtual = noAtual->proximo;
-        free(temp->valor);
-        free(temp);
+        apagarNo(&temp);
     }
+}
+
+void apagarNo(No **no) {
+    free((*no)->valor);
+    free((*no));
 }

@@ -22,9 +22,9 @@
 
     Lista criarListaDeTipoGenerico(size_t tamanhoElemento);
 
-    No retornarElementoPorIndice(Indice indice);
+    No* retornarElementoPorIndice(Lista lista, Indice indice);
 
-    No retornarElementoPorValor(void *valor);
+    No* retornarElementoPorValor(Lista lista, void *valor);
 
     void adicionarElementoAoFinalDaLista(Lista lista, void* novoValor);
 
@@ -33,6 +33,8 @@
     void removerElementoDaListaPorValor(Lista lista, void* valor);
 
     void removerElementoDaListaPorIndice(Lista lista, Indice indice);
+
+    void apagarNo(No **no);
 
     void apagarLista(Lista lista);
 #endif
