@@ -29,4 +29,8 @@ bool pecaEstaEmXeque(CasaTabuleiro pecaTestada, Tabuleiro tabuleiro);
 //Verifica se a peca esta impedindo um xequemate
 bool pecaImpedindoXequeMate(CasaTabuleiro pecaTestada, Tabuleiro tabuleiro);
 
+void terminarJogo(Jogo jogo);
+
+void ApagarPeca(CasaTabuleiro peca);
+
 #endif
