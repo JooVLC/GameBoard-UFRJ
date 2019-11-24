@@ -8,7 +8,7 @@
         #include <stdbool.h>
     #endif
 
-    #pragma FUNCOES DO JOGO 
+    //FUNCOES DO JOGO 
         //Cria o jogo e retorna ele a partir dos nomes pegos do CMD
         Jogo inicializarJogo(Nome nomeJogadorBranco, Nome nomeJogadorPreto);
 
@@ -39,9 +39,9 @@
 
         //Funcao para desalocar peca da heap
         void ApagarPeca(CasaTabuleiro peca);
-    #pragma endregion
+    //endregion
 
-    #pragma FUNCOES DAS PECAS
+    //FUNCOES DAS PECAS
         //mover peca para nova posicao
         void moverPeca(CasaTabuleiro pecaMovida, Tabuleiro tabuleiro, CasaTabuleiro novaPosicao);
 
@@ -83,5 +83,5 @@
 
         //funcao que retorna os movimentos relevantes ao rei
         CasaTabuleiro** casasRelevantesAoRei(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual);
-    #pragma endregion
+    //endregion
 #endif
