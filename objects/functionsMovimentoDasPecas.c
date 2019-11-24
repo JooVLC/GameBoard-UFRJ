@@ -236,11 +236,11 @@ CasaTabuleiro** casasRelevantesAoBispo(Tabuleiro tabuleiro, Coordenada pecaLinha
     bool encontrouPeca;
     CasaTabuleiro** casasRelevantes = malloc(sizeof(CasaTabuleiro*) * MOVIMENTOS_POSSIVEIS_BISPO);
 
-    //Movimentos na horizontal (da posição da torre indo para a esquerda):
+    //Movimentos na diagonal superior esquerda (da posição do bispo indo para cima):
     encontrouPeca = false;
-    for(int i = pecaColunaAtual - 1; i >= 0; i--, index++)
+    for(int i = pecaLinhaAtual + 1, j = pecaColunaAtual - 1; i < QTD_CASAS_POR_LINHA && j >= 0; i++, j--, index++)
     {
-        CasaTabuleiro* casaPossivelParaMoverTorre = &tabuleiro[pecaLinhaAtual][i];
+        CasaTabuleiro* casaPossivelParaMoverTorre = &tabuleiro[i][j];
         
         if(encontrouPeca)
             casasRelevantes[index] = NULL;
@@ -255,18 +255,18 @@ CasaTabuleiro** casasRelevantesAoBispo(Tabuleiro tabuleiro, Coordenada pecaLinha
         }
     }
 
-    //Movimentos na horizontal (da posição da torre indo para a direita):
+    //Movimentos na diagonal superior direita (da posição do bispo indo para cima):
     encontrouPeca = false;
-    for(int i = pecaColunaAtual + 1; i < QTD_CASAS_POR_COLUNA; i++, index++)
+    for(int i = pecaLinhaAtual + 1, j = pecaColunaAtual + 1; i < QTD_CASAS_POR_LINHA && j < QTD_CASAS_POR_COLUNA; i++, j++, index++)
     {
-        CasaTabuleiro* casaPossivelParaMoverTorre = &tabuleiro[pecaLinhaAtual][i];
+        CasaTabuleiro* casaPossivelParaMoverTorre = &tabuleiro[i][j];
         
         if(encontrouPeca)
             casasRelevantes[index] = NULL;
         else   
             casasRelevantes[index] = casaPossivelParaMoverTorre;
 
-        if(casaPossivelParaMoverTorre->peca != NULL) //Se achar alguma peça pare
+        if(casaPossivelParaMoverTorre->peca != NULL)//Se achar alguma peça pare
         {
             encontrouPeca = true;
             if(casaPossivelParaMoverTorre->peca->cor == tabuleiro[pecaLinhaAtual][pecaColunaAtual].peca->cor)
@@ -274,18 +274,18 @@ CasaTabuleiro** casasRelevantesAoBispo(Tabuleiro tabuleiro, Coordenada pecaLinha
         }
     }
 
-    //Movimentos na vertical (da posição da torre indo para cima)
+    //Movimentos na diagonal inferior esquerda (da posição do bispo indo para baixo):
     encontrouPeca = false;
-    for(int i = pecaLinhaAtual + 1; i < QTD_CASAS_POR_LINHA; i++, index++)
+    for(int i = pecaLinhaAtual - 1, j = pecaColunaAtual - 1; i >= 0 && j >= 0; i--, j--, index++)
     {
-        CasaTabuleiro* casaPossivelParaMoverTorre = &tabuleiro[i][pecaLinhaAtual];
+        CasaTabuleiro* casaPossivelParaMoverTorre = &tabuleiro[i][j];
         
         if(encontrouPeca)
             casasRelevantes[index] = NULL;
         else   
             casasRelevantes[index] = casaPossivelParaMoverTorre;
 
-        if(casaPossivelParaMoverTorre->peca != NULL) //Se achar alguma peça pare
+        if(casaPossivelParaMoverTorre->peca != NULL)//Se achar alguma peça pare
         {
             encontrouPeca = true;
             if(casaPossivelParaMoverTorre->peca->cor == tabuleiro[pecaLinhaAtual][pecaColunaAtual].peca->cor)
@@ -293,24 +293,25 @@ CasaTabuleiro** casasRelevantesAoBispo(Tabuleiro tabuleiro, Coordenada pecaLinha
         }
     }
 
-    //Movimentos na vertical (da posição da torre indo para baixo)
+    //Movimentos na diagonal inferior direita (da posição do bispo indo para baixo):
     encontrouPeca = false;
-    for(int i = pecaLinhaAtual - 1; i >= 0; i--, index++)
+    for(int i = pecaLinhaAtual - 1, j = pecaColunaAtual + 1; i >= 0 && j < QTD_CASAS_POR_COLUNA; i--, j++, index++)
     {
-        CasaTabuleiro* casaPossivelParaMoverTorre = &tabuleiro[i][pecaLinhaAtual];
+        CasaTabuleiro* casaPossivelParaMoverTorre = &tabuleiro[i][j];
         
         if(encontrouPeca)
             casasRelevantes[index] = NULL;
         else   
             casasRelevantes[index] = casaPossivelParaMoverTorre;
 
-        if(casaPossivelParaMoverTorre->peca != NULL) //Se achar alguma peça pare
+        if(casaPossivelParaMoverTorre->peca != NULL)//Se achar alguma peça pare
         {
             encontrouPeca = true;
             if(casaPossivelParaMoverTorre->peca->cor == tabuleiro[pecaLinhaAtual][pecaColunaAtual].peca->cor)
                 casasRelevantes[index] = NULL;
         }
     }
+
 
     return casasRelevantes;
 }
@@ -321,11 +322,38 @@ Rainha se move em qualquer sentido (diagonal, horizontal e vertical) como se fos
 Rainha não pode ultrapassar o board
 */
 CasaTabuleiro* movimentosPossiveisRainha(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual) {
-    
+    Coordenada pecaLinhaAtual = peca.peca->posicao.linha;
+    Coordenada pecaColunaAtual = peca.peca->posicao.coluna;
+
+    CasaTabuleiro **casasRelevantes = casasRelevantesARainha(tabuleiro, pecaLinhaAtual, pecaColunaAtual);
+    ListaCasaTabuleiro movimentosPossiveis = criarListaCasasTabuleiro();
+
+    for(int i = 0; i < MOVIMENTOS_POSSIVEIS_RAINHA; i++)
+    {
+        if(casasRelevantes[i] != NULL)
+            adicionarNovoMovimento(movimentosPossiveis, *casasRelevantes[i]);
+    }
+
+    free(casasRelevantes);
+    return ListaParaArrayDeCasaTabuleiro(movimentosPossiveis);
 }
 
 CasaTabuleiro** casasRelevantesARainha(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual) {
+    CasaTabuleiro** casasRelevantes = malloc(sizeof(CasaTabuleiro*) * MOVIMENTOS_POSSIVEIS_RAINHA);
+    CasaTabuleiro** movimentosRelevantesBispo = casasRelevantesAoBispo(tabuleiro, pecaLinhaAtual, pecaColunaAtual);
+    CasaTabuleiro** movimentosRelevantesTorre = casasRelevantesATorre(tabuleiro, pecaLinhaAtual, pecaColunaAtual);
 
+    //MOVIMENTOS_POSSIVEIS_RAINHA = MOVIMENTOS_POSSIVEIS_BISPO + MOVIMENTOS_POSSIVEIS_TORRE
+    for(int i = 0; i < MOVIMENTOS_POSSIVEIS_BISPO; i++)
+        casasRelevantes[i] = movimentosRelevantesBispo[i];
+
+    for(int i = MOVIMENTOS_POSSIVEIS_BISPO; i < MOVIMENTOS_POSSIVEIS_RAINHA; i++)
+        casasRelevantes[i] = movimentosRelevantesTorre[i - MOVIMENTOS_POSSIVEIS_BISPO];
+
+    free(movimentosRelevantesBispo);
+    free(movimentosRelevantesTorre);
+
+    return casasRelevantes;
 }
 
 
@@ -335,11 +363,47 @@ Rei não pode ultrapassar o board
 Rei não pode se colocar em cheque
 */
 CasaTabuleiro* movimentosPossiveisRei(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual) {
-    
+    Coordenada pecaLinhaAtual = peca.peca->posicao.linha;
+    Coordenada pecaColunaAtual = peca.peca->posicao.coluna;
+
+    CasaTabuleiro **casasRelevantes = casasRelevantesAoRei(tabuleiro, pecaLinhaAtual, pecaColunaAtual);
+    ListaCasaTabuleiro movimentosPossiveis = criarListaCasasTabuleiro();
+
+    for(int i = 0; i < MOVIMENTOS_POSSIVEIS_REI; i++)
+    {
+        if(casasRelevantes[i] != NULL)
+        {
+            bool existePecaComMesmaCor = casasRelevantes[i]->peca != NULL && casasRelevantes[i]->peca->cor == peca.peca->cor;
+            if(!existePecaComMesmaCor)
+                adicionarNovoMovimento(movimentosPossiveis, *casasRelevantes[i]);
+        }
+    }
+
+    free(casasRelevantes);
+    return ListaParaArrayDeCasaTabuleiro(movimentosPossiveis);
 }
 
 CasaTabuleiro** casasRelevantesAoRei(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual) {
+    CasaTabuleiro *casa_SuperiorDireita = pecaLinhaAtual + 2 < QTD_CASAS_POR_COLUNA && pecaColunaAtual + 1 < QTD_CASAS_POR_COLUNA ? &tabuleiro[pecaLinhaAtual+2][pecaColunaAtual+1] : NULL;
+    CasaTabuleiro *casa_SuperiorEsquerda = pecaLinhaAtual + 2 < QTD_CASAS_POR_COLUNA && pecaColunaAtual - 1 > 0 ? &tabuleiro[pecaLinhaAtual+2][pecaColunaAtual-1] : NULL;
+    CasaTabuleiro *casa_Superior = pecaLinhaAtual + 1 < QTD_CASAS_POR_COLUNA && pecaColunaAtual - 2 > 0 ? &tabuleiro[pecaLinhaAtual+1][pecaColunaAtual-2] : NULL;
+    CasaTabuleiro *casa_Esquerda = pecaLinhaAtual - 1 > 0 && pecaColunaAtual - 2 > 0 ? &tabuleiro[pecaLinhaAtual-1][pecaColunaAtual-2] : NULL;
+    CasaTabuleiro *casa_InferiorDireita = pecaLinhaAtual + 1 < QTD_CASAS_POR_COLUNA && pecaColunaAtual + 2 < QTD_CASAS_POR_COLUNA ? &tabuleiro[pecaLinhaAtual+1][pecaColunaAtual+2] : NULL;
+    CasaTabuleiro *casa_InferiorEsquerda = pecaLinhaAtual - 1 > 0 && pecaColunaAtual + 2 < QTD_CASAS_POR_COLUNA ? &tabuleiro[pecaLinhaAtual-1][pecaColunaAtual+2] : NULL;
+    CasaTabuleiro *casa_Inferior = pecaLinhaAtual - 2 > 0 && pecaColunaAtual + 1 < QTD_CASAS_POR_COLUNA ? &tabuleiro[pecaLinhaAtual-2][pecaColunaAtual+1] : NULL;
+    CasaTabuleiro *casa_Direita = pecaLinhaAtual - 2 > 0 && pecaColunaAtual - 1 > 0 ? &tabuleiro[pecaLinhaAtual-2][pecaColunaAtual-1] : NULL;
+    CasaTabuleiro** casasRelevantes = malloc(sizeof(CasaTabuleiro*) * MOVIMENTOS_POSSIVEIS_REI);
 
+    casasRelevantes[0] = casa_SuperiorDireita;
+    casasRelevantes[1] = casa_SuperiorEsquerda;
+    casasRelevantes[2] = casa_Superior;
+    casasRelevantes[3] = casa_Esquerda;
+    casasRelevantes[4] = casa_InferiorDireita;
+    casasRelevantes[5] = casa_InferiorEsquerda;
+    casasRelevantes[6] = casa_Inferior;
+    casasRelevantes[7] = casa_Direita;
+
+    return casasRelevantes;
 }
 
 
