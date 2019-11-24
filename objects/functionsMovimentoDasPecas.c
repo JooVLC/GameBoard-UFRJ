@@ -319,5 +319,5 @@ void moverPeca(CasaTabuleiro pecaMovida, Tabuleiro tabuleiro, CasaTabuleiro nova
     tabuleiro[novaPosicao.peca->posicao.linha][novaPosicao.peca->posicao.coluna].peca = pecaMovida.peca;
     tabuleiro[pecaMovida.peca->posicao.linha][pecaMovida.peca->posicao.coluna].peca = NULL;
     pecaMovida.peca->posicao = novaPosicao.peca->posicao;
-    free(novaPosicao.peca);
+    free(novaPosicao.peca); //talvez apague dps (depende de como Peca *peca é criada)
 }

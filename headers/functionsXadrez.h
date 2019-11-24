@@ -60,5 +60,23 @@
 
         //funcao que retorna os movimentos relevantes a torre
         CasaTabuleiro** casasRelevantesATorre(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual);
+
+        //funcao dos movimentos do bispo
+        CasaTabuleiro* movimentosPossiveisBispo(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual);
+
+        //funcao que retorna os movimentos relevantes ao bispo
+        CasaTabuleiro** casasRelevantesAoBispo(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual);
+
+        //funcao dos movimentos da rainha
+        CasaTabuleiro* movimentosPossiveisRainha(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual);
+
+        //funcao que retorna os movimentos relevantes a rainha
+        CasaTabuleiro** casasRelevantesARainha(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual);
+
+        //funcao dos movimentos do rei
+        CasaTabuleiro* movimentosPossiveisRei(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual);
+
+        //funcao que retorna os movimentos relevantes ao rei
+        CasaTabuleiro** casasRelevantesAoRei(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual);
     #pragma endregion
 #endif
