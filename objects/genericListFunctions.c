@@ -151,7 +151,7 @@ void apagarLista(Lista lista, bool valorFoiAlocado) {
 
 void apagarNo(No **no, bool valorFoiAlocado) {
     if(valorFoiAlocado)
-        free((*no)->valor);
+        free( &((*no)->valor) );
     free((*no));
 }
 
