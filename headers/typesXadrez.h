@@ -1,11 +1,13 @@
 #ifndef XADREZ_TYPES
     #define XADREZ_TYPES 1
 
-    #ifndef __bool_true_false_are_defined
+    #ifndef INCLUDE_STDBOOL
+        #define INCLUDE_STDBOOL 1
         #include <stdbool.h>
     #endif
 
-    #ifndef NULL
+    #ifndef INCLUDE_STDLIB
+        #define INCLUDE_STDLIB 1
         #include <stdlib.h>
     #endif
 
@@ -15,13 +17,32 @@
     #define NOME_LEN 51
     #define QTD_JOGADORES 2
 
+    #define MOVIMENTOS_POSSIVEIS_PEAO 3
+    #define MOVIMENTOS_POSSIVEIS_CAVALO 8
+    #define MOVIMENTOS_POSSIVEIS_TORRE 14
+    #define MOVIMENTOS_POSSIVEIS_BISPO 13
+    #define MOVIMENTOS_POSSIVEIS_RAINHA 27
+    #define MOVIMENTOS_POSSIVEIS_REI 8
+
+    typedef unsigned int Coordenada;
+
     typedef struct {
-        unsigned int x, y;
+        Coordenada linha, coluna;
     } Posicao;
 
-    typedef enum { BRANCO = 0, PRETO = 1 } CorPeca;
+    typedef enum { 
+        BRANCO = 0, 
+        PRETO = 1 
+    } CorPeca;
 
-    typedef enum { PEAO = 0, TORRE, CAVALO, BISPO, RAINHA, REI } TipoPeca;
+    typedef enum { 
+        PEAO = 0, 
+        TORRE, 
+        CAVALO, 
+        BISPO, 
+        RAINHA, 
+        REI 
+    } TipoPeca;
 
     typedef struct {
         Posicao posicao;
@@ -40,13 +61,19 @@
 
     typedef struct {
         Peca *peca;
+        CorPeca cor;
     } CasaTabuleiro;
 
     typedef CasaTabuleiro Tabuleiro[QTD_CASAS_POR_LINHA][QTD_CASAS_POR_COLUNA];
 
+    typedef unsigned int Turno;
+
+    typedef unsigned int QtdMovimentosPossiveis;
+
     typedef struct {
         Tabuleiro tabuleiro;
-        CorPeca corAtual;
         Jogador jogadores[QTD_JOGADORES];
-    } Jogo;
+        CorPeca corJogando;
+        Turno turno;
+    } Jogo;   
 #endif
