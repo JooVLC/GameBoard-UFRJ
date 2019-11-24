@@ -54,6 +54,7 @@ CasaTabuleiro** casasRelevantesAoPeao(Tabuleiro tabuleiro, Coordenada pecaLinhaA
     return casasRelevantes;
 }
 
+
 /*Cavalo pode pular peças
 Cavalo pode se mover em L para qualquer casa proxima sem peça da mesma cor
 L = duas casas (linhas ou coluna) e depos uma casas (coluna ou linha)
@@ -102,6 +103,7 @@ CasaTabuleiro** casasRelevantesAoCavalo(Tabuleiro tabuleiro, Coordenada pecaLinh
     return casasRelevantes;
 }
 
+
 /*Torre não pode pular peças
 Torre se move na horizontal e vertical para qualquer casa até atingir um alvo inimigo ou parar em uma peça amiga
 Torre não pode ultrapassar o board
@@ -110,7 +112,7 @@ CasaTabuleiro* movimentosPossiveisTorre(CasaTabuleiro peca, Tabuleiro tabuleiro,
     Coordenada pecaLinhaAtual = peca.peca->posicao.linha;
     Coordenada pecaColunaAtual = peca.peca->posicao.coluna;
 
-    CasaTabuleiro **casasRelevantes = casasRelevantesAoCavalo(tabuleiro, pecaLinhaAtual, pecaColunaAtual);
+    CasaTabuleiro **casasRelevantes = casasRelevantesATorre(tabuleiro, pecaLinhaAtual, pecaColunaAtual);
     ListaCasaTabuleiro movimentosPossiveis = criarListaCasasTabuleiro();
 
     for(int i = 0; i < MOVIMENTOS_POSSIVEIS_TORRE; i++)
@@ -206,6 +208,7 @@ CasaTabuleiro** casasRelevantesATorre(Tabuleiro tabuleiro, Coordenada pecaLinhaA
 
     return casasRelevantes;
 }
+
 
 /*Bispo não pode pular peças
 Bispo se move na diagonal de sua cor de origem para qualquer casa até atingir um alvo inimigo ou parar em uma peça amiga
@@ -311,6 +314,34 @@ CasaTabuleiro** casasRelevantesAoBispo(Tabuleiro tabuleiro, Coordenada pecaLinha
 
     return casasRelevantes;
 }
+
+
+/*Rainha não pode pular peças
+Rainha se move em qualquer sentido (diagonal, horizontal e vertical) como se fosse um Bispo ou Torre
+Rainha não pode ultrapassar o board
+*/
+CasaTabuleiro* movimentosPossiveisRainha(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual) {
+    
+}
+
+CasaTabuleiro** casasRelevantesARainha(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual) {
+
+}
+
+
+/*Rei não pode pular peças
+Rei se move como a Rainha, mas sempre limitado por uma casa
+Rei não pode ultrapassar o board
+Rei não pode se colocar em cheque
+*/
+CasaTabuleiro* movimentosPossiveisRei(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual) {
+    
+}
+
+CasaTabuleiro** casasRelevantesAoRei(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual) {
+
+}
+
 
 void moverPeca(CasaTabuleiro pecaMovida, Tabuleiro tabuleiro, CasaTabuleiro novaPosicao) {
     if(pecaMovida.peca->cor == novaPosicao.peca->cor)
