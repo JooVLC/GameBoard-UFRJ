@@ -86,7 +86,7 @@ No* adicionarElementoPorValor(Lista lista, void* novoValor, void* valor) {
     return noAlterado;
 }
 
-void removerElementoDaListaPorValor(Lista lista, void* valor) {
+void removerElementoDaListaPorValor(Lista lista, void* valor, bool valorFoiAlocado) {
     if((*lista.inicio)->valor == valor)
     {
         lista.inicio = &(*lista.inicio)->proximo;
@@ -106,12 +106,12 @@ void removerElementoDaListaPorValor(Lista lista, void* valor) {
         {
             No* noApagado = noAtual->proximo;
             noAtual->proximo = noApagado->proximo;
-            apagarNo(noApagado);
+            apagarNo(&noApagado, valorFoiAlocado);
         }
     }
 }
 
-void removerElementoDaListaPorIndice(Lista lista, Indice indice) {
+void removerElementoDaListaPorIndice(Lista lista, Indice indice, bool valorFoiAlocado) {
     if(indice == 0)
     {
         lista.inicio = &(*lista.inicio)->proximo;
@@ -133,24 +133,26 @@ void removerElementoDaListaPorIndice(Lista lista, Indice indice) {
         {
             No* noApagado = noAtual->proximo;
             noAtual->proximo = noApagado->proximo;
-            apagarNo(noApagado);
+            apagarNo(&noApagado, valorFoiAlocado);
         }
     }
 }
 
-void apagarLista(Lista lista) {
+void apagarLista(Lista lista, bool valorFoiAlocado) {
     No* noAtual = *lista.inicio;
     lista.inicio = NULL;
 
     while(noAtual->proximo != NULL) {
         No* temp = noAtual;
         noAtual = noAtual->proximo;
-        apagarNo(&temp);
+        apagarNo(&temp, valorFoiAlocado);
     }
 }
 
-void apagarNo(No **no) {
-    free((*no)->valor);
+void apagarNo(No **no, bool valorFoiAlocado) {
+    if(valorFoiAlocado)
+        free((*no)->valor);
+        S
     free((*no));
 }
 

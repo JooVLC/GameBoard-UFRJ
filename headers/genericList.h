@@ -6,6 +6,11 @@
         #include <stdlib.h>
     #endif
 
+    #ifndef INCLUDE_STDBOOL
+        #define INCLUDE_STDBOOL 1
+        #include <stdbool.h>
+    #endif
+    
     typedef struct No {
         void* valor;
         struct No* proximo;
@@ -34,13 +39,13 @@
 
     No* adicionarElementoPorValor(Lista lista, void* novoValor, void* valor);
 
-    void removerElementoDaListaPorValor(Lista lista, void* valor);
+    void removerElementoDaListaPorValor(Lista lista, void* valor, bool valorFoiAlocado);
 
-    void removerElementoDaListaPorIndice(Lista lista, Indice indice);
+    void removerElementoDaListaPorIndice(Lista lista, Indice indice, bool valorFoiAlocado);
 
-    void apagarNo(No **no);
+    void apagarNo(No **no, bool valorFoiAlocado);
 
-    void apagarLista(Lista lista);
+    void apagarLista(Lista lista, bool valorFoiAlocado);
 
     size_t listalen(Lista lista);
 #endif

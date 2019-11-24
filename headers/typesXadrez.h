@@ -16,9 +16,13 @@
     #define QTD_CASAS 64
     #define NOME_LEN 51
     #define QTD_JOGADORES 2
-    #define MOVIMENTOS_POSSIVEIS_CAVALO 8
+
     #define MOVIMENTOS_POSSIVEIS_PEAO 3
+    #define MOVIMENTOS_POSSIVEIS_CAVALO 8
     #define MOVIMENTOS_POSSIVEIS_TORRE 14
+    #define MOVIMENTOS_POSSIVEIS_BISPO 13
+    #define MOVIMENTOS_POSSIVEIS_RAINHA 27
+    #define MOVIMENTOS_POSSIVEIS_REI 8
 
     typedef unsigned int Coordenada;
 
