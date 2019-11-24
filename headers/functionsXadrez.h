@@ -49,6 +49,12 @@
         //funcao que retorna os movimentos relevantes ao peao
         CasaTabuleiro** casasRelevantesAoPeao(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual);
 
+        //funcao dos movimentos do cavalo
+        CasaTabuleiro* movimentosPossiveisCavalo(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual);
+
+        //funcao que retorna os movimentos relevantes ao cavalo
+        CasaTabuleiro** casasRelevantesAoCavalo(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual);
+
         //funcao dos movimentos da torre
         CasaTabuleiro* movimentosPossiveisTorre(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual);
 
