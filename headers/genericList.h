@@ -25,7 +25,7 @@
 
     typedef unsigned int Indice;
 
-    Lista criarListaDeTipoGenerico(size_t tamanhoElemento);
+    Lista criarListaDeTipoGenerico(size_t tamanhoElemento, void* primeiroElemento);
 
     No* retornarElementoPorIndice(Lista lista, Indice indice);
 
