@@ -48,5 +48,11 @@
 
         //funcao que retorna os movimentos relevantes ao peao
         CasaTabuleiro** casasRelevantesAoPeao(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual);
+
+        //funcao dos movimentos da torre
+        CasaTabuleiro* movimentosPossiveisTorre(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual);
+
+        //funcao que retorna os movimentos relevantes a torre
+        CasaTabuleiro** casasRelevantesATorre(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual);
     #pragma endregion
 #endif
