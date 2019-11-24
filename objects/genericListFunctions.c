@@ -3,7 +3,7 @@
 Lista criarListaDeTipoGenerico(size_t tamanhoElemento, void* primeiroValor) {
     Lista novaLista;
 
-    InicioLista inicio = (InicioLista)malloc(tamanhoElemento);
+    InicioLista inicio = malloc(sizeof(InicioLista));
     inicio->proximo = NULL;
     inicio->valor = primeiroValor;
 
@@ -152,7 +152,6 @@ void apagarLista(Lista lista, bool valorFoiAlocado) {
 void apagarNo(No **no, bool valorFoiAlocado) {
     if(valorFoiAlocado)
         free((*no)->valor);
-        S
     free((*no));
 }
 
