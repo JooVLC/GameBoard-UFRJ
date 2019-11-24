@@ -3,6 +3,11 @@
 
     #include "typesXadrez.h"
 
+    #ifndef INCLUDE_STDBOOL
+        #define INCLUDE_STDBOOL 1
+        #include <stdbool.h>
+    #endif
+
     #pragma FUNCOES DO JOGO 
         //Cria o jogo e retorna ele a partir dos nomes pegos do CMD
         Jogo inicializarJogo(Nome nomeJogadorBranco, Nome nomeJogadorPreto);
