@@ -384,14 +384,14 @@ CasaTabuleiro* movimentosPossiveisRei(CasaTabuleiro peca, Tabuleiro tabuleiro, T
 }
 
 CasaTabuleiro** casasRelevantesAoRei(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual) {
-    CasaTabuleiro *casa_SuperiorDireita = pecaLinhaAtual + 2 < QTD_CASAS_POR_COLUNA && pecaColunaAtual + 1 < QTD_CASAS_POR_COLUNA ? &tabuleiro[pecaLinhaAtual+2][pecaColunaAtual+1] : NULL;
-    CasaTabuleiro *casa_SuperiorEsquerda = pecaLinhaAtual + 2 < QTD_CASAS_POR_COLUNA && pecaColunaAtual - 1 > 0 ? &tabuleiro[pecaLinhaAtual+2][pecaColunaAtual-1] : NULL;
-    CasaTabuleiro *casa_Superior = pecaLinhaAtual + 1 < QTD_CASAS_POR_COLUNA && pecaColunaAtual - 2 > 0 ? &tabuleiro[pecaLinhaAtual+1][pecaColunaAtual-2] : NULL;
-    CasaTabuleiro *casa_Esquerda = pecaLinhaAtual - 1 > 0 && pecaColunaAtual - 2 > 0 ? &tabuleiro[pecaLinhaAtual-1][pecaColunaAtual-2] : NULL;
-    CasaTabuleiro *casa_InferiorDireita = pecaLinhaAtual + 1 < QTD_CASAS_POR_COLUNA && pecaColunaAtual + 2 < QTD_CASAS_POR_COLUNA ? &tabuleiro[pecaLinhaAtual+1][pecaColunaAtual+2] : NULL;
-    CasaTabuleiro *casa_InferiorEsquerda = pecaLinhaAtual - 1 > 0 && pecaColunaAtual + 2 < QTD_CASAS_POR_COLUNA ? &tabuleiro[pecaLinhaAtual-1][pecaColunaAtual+2] : NULL;
-    CasaTabuleiro *casa_Inferior = pecaLinhaAtual - 2 > 0 && pecaColunaAtual + 1 < QTD_CASAS_POR_COLUNA ? &tabuleiro[pecaLinhaAtual-2][pecaColunaAtual+1] : NULL;
-    CasaTabuleiro *casa_Direita = pecaLinhaAtual - 2 > 0 && pecaColunaAtual - 1 > 0 ? &tabuleiro[pecaLinhaAtual-2][pecaColunaAtual-1] : NULL;
+    CasaTabuleiro *casa_SuperiorDireita = pecaLinhaAtual + 1 < QTD_CASAS_POR_LINHA && pecaColunaAtual + 1 < QTD_CASAS_POR_COLUNA ? &tabuleiro[pecaLinhaAtual+1][pecaColunaAtual+1] : NULL;
+    CasaTabuleiro *casa_SuperiorEsquerda = pecaLinhaAtual + 1 < QTD_CASAS_POR_COLUNA && pecaColunaAtual - 1 >= 0 ? &tabuleiro[pecaLinhaAtual+1][pecaColunaAtual-1] : NULL;
+    CasaTabuleiro *casa_Superior = pecaLinhaAtual + 1 < QTD_CASAS_POR_COLUNA ? &tabuleiro[pecaLinhaAtual+1][pecaColunaAtual] : NULL;
+    CasaTabuleiro *casa_Esquerda = pecaColunaAtual - 1 >= 0 ? &tabuleiro[pecaLinhaAtual][pecaColunaAtual-1] : NULL;
+    CasaTabuleiro *casa_InferiorDireita = pecaLinhaAtual - 1 >= 0 && pecaColunaAtual + 1 < QTD_CASAS_POR_COLUNA ? &tabuleiro[pecaLinhaAtual-1][pecaColunaAtual+1] : NULL;
+    CasaTabuleiro *casa_InferiorEsquerda = pecaLinhaAtual - 1 >= 0 && pecaColunaAtual - 1 >= 0 ? &tabuleiro[pecaLinhaAtual-1][pecaColunaAtual-1] : NULL;
+    CasaTabuleiro *casa_Inferior = pecaLinhaAtual - 1 >= 0 ? &tabuleiro[pecaLinhaAtual-1][pecaColunaAtual] : NULL;
+    CasaTabuleiro *casa_Direita = pecaColunaAtual - 1 >= 0 ? &tabuleiro[pecaLinhaAtual][pecaColunaAtual-1] : NULL;
     CasaTabuleiro** casasRelevantes = malloc(sizeof(CasaTabuleiro*) * MOVIMENTOS_POSSIVEIS_REI);
 
     casasRelevantes[0] = casa_SuperiorDireita;
