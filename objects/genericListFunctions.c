@@ -157,7 +157,7 @@ void apagarLista(Lista lista) {
 }
 
 void apagarNo(No **no) {
-    free((*no)->valor));
+    free((*no)->valor);
     free(*no);
 }
 
