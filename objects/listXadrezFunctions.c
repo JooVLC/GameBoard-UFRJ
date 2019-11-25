@@ -8,6 +8,9 @@ ListaCasaTabuleiro* criarListaCasasTabuleiro() {
 }
 
 CasaTabuleiro* ListaParaArrayDeCasaTabuleiro(ListaCasaTabuleiro lista) {
+    if(listalen(lista) == 1)
+        return NULL;
+
     size_t listaTamanho = listalen(lista);
     CasaTabuleiro* array = malloc(lista.tamanhoElementos * listaTamanho);
 

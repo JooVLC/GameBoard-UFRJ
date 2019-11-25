@@ -83,5 +83,8 @@
 
         //funcao que retorna os movimentos relevantes ao rei
         CasaTabuleiro** casasRelevantesAoRei(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual);
+
+        //função que verifica os movimentos que deixariam o rei em cheque
+        void filtrarCasasPossiveisAoRei(CasaTabuleiro** casasPossiveis, Tabuleiro tabuleiro, Turno turnoAtual);
     //endregion
 #endif

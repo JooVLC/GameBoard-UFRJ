@@ -440,3 +440,35 @@ void moverPeca(CasaTabuleiro pecaMovida, Tabuleiro tabuleiro, CasaTabuleiro nova
     pecaMovida.peca->posicao = novaPosicao.peca->posicao;
     free(novaPosicao.peca); //talvez apague dps (depende de como Peca *peca é criada)
 }
+
+CasaTabuleiro* movimentosPossiveis(CasaTabuleiro peca, Jogo jogo) {
+    CasaTabuleiro* movimentosPossiveis = NULL;
+    switch (peca.peca->tipo)
+    {
+        case PEAO:
+            movimentosPossiveis = movimentosPossiveisPeao(peca, jogo.tabuleiro, jogo.turno);
+            break;
+        case CAVALO:
+            movimentosPossiveis = movimentosPossiveisCavalo(peca, jogo.tabuleiro, jogo.turno);
+            break;
+        case TORRE:
+            movimentosPossiveis = movimentosPossiveisTorre(peca, jogo.tabuleiro, jogo.turno);
+            break;
+        case BISPO:
+            movimentosPossiveis = movimentosPossiveisBispo(peca, jogo.tabuleiro, jogo.turno);
+            break;
+        case RAINHA:
+            movimentosPossiveis = movimentosPossiveisRainha(peca, jogo.tabuleiro, jogo.turno);
+            break;
+        case REI:
+            movimentosPossiveis = movimentosPossiveisRei(peca, jogo.tabuleiro, jogo.turno);
+            filtrarCasasPossiveisAoRei(&movimentosPossiveis, jogo.tabuleiro, jogo.turno);
+            break;
+    }
+
+    return movimentosPossiveis;
+}
+
+void filtrarCasasPossiveisAoRei(CasaTabuleiro** casasPossiveis, Tabuleiro tabuleiro, Turno turnoAtual) {
+
+}
