@@ -65,7 +65,7 @@ No* adicionarElementoAoInicioDaLista(Lista lista, void* novoValor) {
     memmove(novoNo->valor, novoValor, lista.tamanhoElementos);
     novoNo->proximo = *lista.inicio;
 
-    lista.inicio = &novoNo;
+    *lista.inicio = &novoNo;
     return novoNo;
 }
 
