@@ -1,16 +1,18 @@
 #include "../headers/genericList.h"
 
-Lista criarListaDeTipoGenerico(size_t tamanhoElemento, void* primeiroValor) {
-    Lista novaLista;
+#ifndef INCLUDE_STRING
+    #define INCLUDE_STRING 1
+    #include <string.h>
+#endif
 
-    InicioLista inicio = malloc(sizeof(InicioLista));
+void criarListaDeTipoGenerico(Lista *novaLista, size_t tamanhoElemento, void* primeiroValor) {
+    InicioLista inicio = malloc(sizeof(No));
     inicio->proximo = NULL;
-    inicio->valor = primeiroValor;
+    inicio->valor = malloc(tamanhoElemento);
+    memmove(inicio->valor, primeiroValor, tamanhoElemento);
 
-    novaLista.tamanhoElementos = tamanhoElemento;
-    novaLista.inicio = &inicio;
-
-    return novaLista;
+    novaLista->tamanhoElementos = tamanhoElemento;
+    novaLista->inicio = &inicio;
 }
 
 No* retornarElementoPorIndice(Lista lista, Indice indice) {
@@ -18,16 +20,13 @@ No* retornarElementoPorIndice(Lista lista, Indice indice) {
     No* noAtual = *lista.inicio;
     while (noAtual != NULL)
     {
-        count += 1;
         if(count == indice) break;
+        count += 1;
         noAtual = noAtual->proximo;
     }
-    //noAtual representa o nó anterior ao buscado
+    //noAtual representa o buscado
 
-    if(noAtual == NULL || noAtual->proximo == NULL)
-        return NULL;
-    else
-        return noAtual->proximo;
+    return noAtual;;
 }
 
 No* retornarElementoPorValor(Lista lista, void *valor) {
@@ -37,17 +36,15 @@ No* retornarElementoPorValor(Lista lista, void *valor) {
         if(noAtual->valor == valor) break;
         noAtual = noAtual->proximo;
     }
-    //noAtual representa o nó anterior ao buscado
+    //noAtual representa o buscado
 
-    if(noAtual == NULL || noAtual->proximo == NULL)
-        return NULL;
-    else
-        return noAtual->proximo;
+    return noAtual;
 }
 
 No* adicionarElementoAoFinalDaLista(Lista lista, void* novoValor) {
-    No *novoNo = (No*)malloc(sizeof(No));
-    novoNo->valor = novoValor;
+    No *novoNo = malloc(sizeof(No));
+    novoNo->valor = malloc(lista.tamanhoElementos);
+    memmove(novoNo->valor, novoValor, lista.tamanhoElementos);
     novoNo->proximo = NULL;
 
     No* noAtual = *lista.inicio;
@@ -59,7 +56,8 @@ No* adicionarElementoAoFinalDaLista(Lista lista, void* novoValor) {
 
 No* adicionarElementoAoInicioDaLista(Lista lista, void* novoValor) {
     No *novoNo = (No*)malloc(sizeof(No));
-    novoNo->valor = novoValor;
+    novoNo->valor = malloc(lista.tamanhoElementos);
+    memmove(novoNo->valor, novoValor, lista.tamanhoElementos);
     novoNo->proximo = *lista.inicio;
 
     lista.inicio = &novoNo;
@@ -72,7 +70,9 @@ No* adicionarElementoPorIndice(Lista lista, void* novoValor, Indice indice) {
     if(noAlterado == NULL)
         return NULL;
     
-    noAlterado->valor = novoValor;
+    free(noAlterado->valor);
+    noAlterado->valor = malloc(lista.tamanhoElementos);
+    memmove(noAlterado->valor, novoValor, lista.tamanhoElementos);
     return noAlterado;
 }
 
@@ -82,11 +82,13 @@ No* adicionarElementoPorValor(Lista lista, void* novoValor, void* valor) {
     if(noAlterado == NULL)
         return NULL;
     
-    noAlterado->valor = novoValor;
+    free(noAlterado->valor);
+    noAlterado->valor = malloc(lista.tamanhoElementos);
+    memmove(noAlterado->valor, novoValor, lista.tamanhoElementos);
     return noAlterado;
 }
 
-void removerElementoDaListaPorValor(Lista lista, void* valor, bool valorFoiAlocado) {
+void removerElementoDaListaPorValor(Lista lista, void* valor) {
     if((*lista.inicio)->valor == valor)
     {
         lista.inicio = &(*lista.inicio)->proximo;
@@ -106,12 +108,12 @@ void removerElementoDaListaPorValor(Lista lista, void* valor, bool valorFoiAloca
         {
             No* noApagado = noAtual->proximo;
             noAtual->proximo = noApagado->proximo;
-            apagarNo(&noApagado, valorFoiAlocado);
+            apagarNo(&noApagado);
         }
     }
 }
 
-void removerElementoDaListaPorIndice(Lista lista, Indice indice, bool valorFoiAlocado) {
+void removerElementoDaListaPorIndice(Lista lista, Indice indice) {
     if(indice == 0)
     {
         lista.inicio = &(*lista.inicio)->proximo;
@@ -133,26 +135,25 @@ void removerElementoDaListaPorIndice(Lista lista, Indice indice, bool valorFoiAl
         {
             No* noApagado = noAtual->proximo;
             noAtual->proximo = noApagado->proximo;
-            apagarNo(&noApagado, valorFoiAlocado);
+            apagarNo(&noApagado);
         }
     }
 }
 
-void apagarLista(Lista lista, bool valorFoiAlocado) {
+void apagarLista(Lista lista) {
     No* noAtual = *lista.inicio;
     lista.inicio = NULL;
 
     while(noAtual->proximo != NULL) {
         No* temp = noAtual;
         noAtual = noAtual->proximo;
-        apagarNo(&temp, valorFoiAlocado);
+        apagarNo(&temp);
     }
 }
 
-void apagarNo(No **no, bool valorFoiAlocado) {
-    if(valorFoiAlocado)
-        free( &((*no)->valor) );
-    free((*no));
+void apagarNo(No **no) {
+    free((*no)->valor));
+    free(*no);
 }
 
 size_t listalen(Lista lista) {
