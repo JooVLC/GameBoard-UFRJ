@@ -14,8 +14,13 @@
 void criarListaDeTipoGenerico(Lista **novaLista, size_t tamanhoElemento, void* primeiroValor) {
     InicioLista inicio = malloc(sizeof(No));
     inicio->proximo = NULL;
-    inicio->valor = malloc(tamanhoElemento);
-    memmove(inicio->valor, primeiroValor, tamanhoElemento);
+    if(primeiroValor != NULL)
+    {
+        inicio->valor = malloc(tamanhoElemento);
+        memmove(inicio->valor, primeiroValor, tamanhoElemento);
+    }
+    else
+        inicio->valor = NULL;
 
     (*novaLista)->tamanhoElementos = tamanhoElemento;
     (*novaLista)->inicio = &inicio;

@@ -5,9 +5,9 @@
     
     typedef Lista ListaCasaTabuleiro;
 
-    ListaCasaTabuleiro criarListaCasasTabuleiro();
+    ListaCasaTabuleiro* criarListaCasasTabuleiro();
 
     CasaTabuleiro* ListaParaArrayDeCasaTabuleiro(ListaCasaTabuleiro lista);
 
-    void adicionarNovoMovimento(ListaCasaTabuleiro lista, CasaTabuleiro peca);
+    void adicionarNovoMovimento(ListaCasaTabuleiro *lista, CasaTabuleiro peca);
 #endif

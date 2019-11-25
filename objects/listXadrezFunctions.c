@@ -1,8 +1,9 @@
 #include "../headers/genericList.h";
 #include "../headers/listXadrez.h"
 
-ListaCasaTabuleiro criarListaCasasTabuleiro() {
-    Lista listaCasas = criarListaDeTipoGenerico(sizeof(CasaTabuleiro), NULL);
+ListaCasaTabuleiro* criarListaCasasTabuleiro() {
+    Lista *listaCasas = malloc(sizeof(Lista));
+    criarListaDeTipoGenerico(&listaCasas, sizeof(CasaTabuleiro), NULL);
     return listaCasas;
 }
 
@@ -16,9 +17,9 @@ CasaTabuleiro* ListaParaArrayDeCasaTabuleiro(ListaCasaTabuleiro lista) {
     return array;
 }
 
-void adicionarNovoMovimento(ListaCasaTabuleiro lista, CasaTabuleiro peca) {
-    if(listalen(lista) == 1)
-        (*lista.inicio)->valor = &peca;
+void adicionarNovoMovimento(ListaCasaTabuleiro *lista, CasaTabuleiro peca) {
+    if(listalen(*lista) == 1)
+        adicionarElementoPorIndice(*lista, &peca, 0);
     else
-        adicionarElementoAoFinalDaLista(lista, &peca);
+        adicionarElementoAoFinalDaLista(*lista, &peca);
 }
