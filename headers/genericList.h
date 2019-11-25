@@ -25,7 +25,7 @@
 
     typedef unsigned int Indice;
 
-    void criarListaDeTipoGenerico(Lista *novaLista, size_t tamanhoElemento, void* primeiroValor);
+    void criarListaDeTipoGenerico(Lista *8novaLista, size_t tamanhoElemento, void* primeiroValor);
 
     No* retornarElementoPorIndice(Lista lista, Indice indice);
 
@@ -39,9 +39,9 @@
 
     No* adicionarElementoPorValor(Lista lista, void* novoValor, void* valor);
 
-    void removerElementoDaListaPorValor(Lista lista, void* valor, bool valorFoiAlocado);
+    void removerElementoDaListaPorValor(Lista lista, void* valor);
 
-    void removerElementoDaListaPorIndice(Lista lista, Indice indice, bool valorFoiAlocado);
+    void removerElementoDaListaPorIndice(Lista lista, Indice indice);
 
     void apagarNo(No **no);
 

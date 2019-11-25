@@ -5,14 +5,19 @@
     #include <string.h>
 #endif
 
-void criarListaDeTipoGenerico(Lista *novaLista, size_t tamanhoElemento, void* primeiroValor) {
+#ifndef INCLUDE_STDLIB
+        #define INCLUDE_STDLIB 1
+        #include <stdlib.h>
+#endif
+
+void criarListaDeTipoGenerico(Lista **novaLista, size_t tamanhoElemento, void* primeiroValor) {
     InicioLista inicio = malloc(sizeof(No));
     inicio->proximo = NULL;
     inicio->valor = malloc(tamanhoElemento);
     memmove(inicio->valor, primeiroValor, tamanhoElemento);
 
-    novaLista->tamanhoElementos = tamanhoElemento;
-    novaLista->inicio = &inicio;
+    (*novaLista)->tamanhoElementos = tamanhoElemento;
+    (*novaLista)->inicio = &inicio;
 }
 
 No* retornarElementoPorIndice(Lista lista, Indice indice) {
