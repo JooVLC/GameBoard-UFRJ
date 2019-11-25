@@ -10,6 +10,7 @@
         #include <stdlib.h>
 #endif
 
+
 void criarListaDeTipoGenerico(Lista **novaLista, size_t tamanhoElemento, void* primeiroValor) {
     InicioLista inicio = malloc(sizeof(No));
     inicio->proximo = NULL;
@@ -65,7 +66,7 @@ No* adicionarElementoAoInicioDaLista(Lista lista, void* novoValor) {
     memmove(novoNo->valor, novoValor, lista.tamanhoElementos);
     novoNo->proximo = *lista.inicio;
 
-    *lista.inicio = &novoNo;
+    *lista.inicio = novoNo;
     return novoNo;
 }
 
@@ -96,7 +97,7 @@ No* adicionarElementoPorValor(Lista lista, void* novoValor, void* valor) {
 void removerElementoDaListaPorValor(Lista lista, void* valor) {
     if((*lista.inicio)->valor == valor)
     {
-        lista.inicio = &(*lista.inicio)->proximo;
+        *lista.inicio = (*lista.inicio)->proximo;
     }
     else
     {
@@ -121,7 +122,7 @@ void removerElementoDaListaPorValor(Lista lista, void* valor) {
 void removerElementoDaListaPorIndice(Lista lista, Indice indice) {
     if(indice == 0)
     {
-        lista.inicio = &(*lista.inicio)->proximo;
+        *lista.inicio = (*lista.inicio)->proximo;
     }
     else
     {
@@ -167,7 +168,7 @@ size_t listalen(Lista lista) {
     while (noAtual != NULL)
     {
         noAtual = noAtual->proximo;
-        len++;
+        len += 1;
     }
     return len;
 }
