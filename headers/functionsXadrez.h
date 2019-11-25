@@ -12,8 +12,11 @@
         //Cria o jogo e retorna ele a partir dos nomes pegos do CMD
         Jogo inicializarJogo(Nome nomeJogadorBranco, Nome nomeJogadorPreto);
 
-        //Cria o tabuleiro e coloca as pecas nele nas posicoes padroes do xadrez
+        //Cria o tabuleiro e inicializa ele
         void inicializarTabuleiro(Tabuleiro novoTabuleiro);
+
+        //Cria as pecas e coloca elas nas posições padrões do xadrez
+        void inicializarPecas(Tabuleiro novoTabuleiro);
 
         //Cria 8 peoes da cor desejada e retorna um ponteiro para o primeiro peao
         Peca* criarPeoes(CorPeca corCriada);
@@ -36,9 +39,6 @@
 
         //Funcao para desalocar jogo da heap
         void terminarJogo(Jogo jogo);
-
-        //Funcao para desalocar peca da heap
-        void ApagarPeca(CasaTabuleiro peca);
     //endregion
 
     //FUNCOES DAS PECAS
@@ -83,5 +83,8 @@
 
         //funcao que retorna os movimentos relevantes ao rei
         CasaTabuleiro** casasRelevantesAoRei(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual);
+
+        //função que verifica os movimentos que deixariam o rei em cheque
+        void filtrarCasasPossiveisAoRei(CasaTabuleiro** casasPossiveis, Tabuleiro tabuleiro, Turno turnoAtual);
     //endregion
 #endif
