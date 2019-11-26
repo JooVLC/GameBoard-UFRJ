@@ -12,3 +12,13 @@
         #define INCLUDE_STDLIB 1
         #include <stdlib.h>
 #endif
+
+#ifndef INCLUDE_IO
+    #define INCLUDE_IO 1
+    #include <stdio.h>
+#endif
+
+#ifndef INCLUDE_GUI
+    #define INCLUDE_GUI 1
+    #include <stdio.h>
+#endif
