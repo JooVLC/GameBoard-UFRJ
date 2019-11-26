@@ -72,6 +72,7 @@ Jogo inicializarJogo(Nome nomeJogadorBranco, Nome nomeJogadorPreto) {
     novoJogo.jogadores[1] = jogadorPreto;
     novoJogo.corJogando = BRANCO;
     novoJogo.turno = 1;
+    novoJogo.jogando = true;
     inicializarTabuleiro(novoJogo.tabuleiro);
     inicializarPecas(novoJogo.tabuleiro);
 
@@ -132,5 +133,10 @@ void inicializarPecas(Tabuleiro novoTabuleiro) {
     }
     free(peoes);
     free(outrasPecas);
+}
+
+void proximoTurno(Jogo *jogo) {
+    jogo->turno += 1;
+    jogo->corJogando = !(jogo->corJogando);
 }
 

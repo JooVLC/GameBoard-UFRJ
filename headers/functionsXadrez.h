@@ -2,6 +2,7 @@
     #define XADREZ_FUNCOES 1
 
     #include "typesXadrez.h"
+    #include "listXadrez.h"
 
     #ifndef INCLUDE_STDBOOL
         #define INCLUDE_STDBOOL 1
@@ -46,40 +47,40 @@
         void moverPeca(CasaTabuleiro pecaMovida, Tabuleiro tabuleiro, CasaTabuleiro novaPosicao);
 
         //funcao que retorna todas os movimentos possiveis
-        CasaTabuleiro* movimentosPossiveis(CasaTabuleiro peca, Jogo jogo);
+        ListaCasaTabuleiro* movimentosPossiveis(CasaTabuleiro peca, Jogo jogo);
 
         //funcao dos movimentos do peao
-        CasaTabuleiro* movimentosPossiveisPeao(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual);
+        ListaCasaTabuleiro* movimentosPossiveisPeao(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual);
 
         //funcao que retorna os movimentos relevantes ao peao
         CasaTabuleiro** casasRelevantesAoPeao(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual);
 
         //funcao dos movimentos do cavalo
-        CasaTabuleiro* movimentosPossiveisCavalo(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual);
+        ListaCasaTabuleiro* movimentosPossiveisCavalo(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual);
 
         //funcao que retorna os movimentos relevantes ao cavalo
         CasaTabuleiro** casasRelevantesAoCavalo(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual);
 
         //funcao dos movimentos da torre
-        CasaTabuleiro* movimentosPossiveisTorre(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual);
+        ListaCasaTabuleiro* movimentosPossiveisTorre(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual);
 
         //funcao que retorna os movimentos relevantes a torre
         CasaTabuleiro** casasRelevantesATorre(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual);
 
         //funcao dos movimentos do bispo
-        CasaTabuleiro* movimentosPossiveisBispo(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual);
+        ListaCasaTabuleiro* movimentosPossiveisBispo(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual);
 
         //funcao que retorna os movimentos relevantes ao bispo
         CasaTabuleiro** casasRelevantesAoBispo(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual);
 
         //funcao dos movimentos da rainha
-        CasaTabuleiro* movimentosPossiveisRainha(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual);
+        ListaCasaTabuleiro* movimentosPossiveisRainha(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual);
 
         //funcao que retorna os movimentos relevantes a rainha
         CasaTabuleiro** casasRelevantesARainha(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual);
 
         //funcao dos movimentos do rei
-        CasaTabuleiro* movimentosPossiveisRei(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual);
+        ListaCasaTabuleiro* movimentosPossiveisRei(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual);
 
         //funcao que retorna os movimentos relevantes ao rei
         CasaTabuleiro** casasRelevantesAoRei(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual);
