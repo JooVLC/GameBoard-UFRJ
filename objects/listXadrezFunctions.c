@@ -26,3 +26,24 @@ void adicionarNovoMovimento(ListaCasaTabuleiro *lista, CasaTabuleiro peca) {
     else
         adicionarElementoAoFinalDaLista(*lista, &peca);
 }
+
+bool listaEstaVazia(ListaCasaTabuleiro lista) {
+    if(lenListaCasaTabuleiro(lista) == 0)
+        return true;
+    else
+        return false; 
+}
+
+CasaTabuleiro* retornarMovimentoPeloIndice(ListaCasaTabuleiro lista, Indice indice) {
+    if(listaEstaVazia(lista))
+        return NULL;
+    
+    return retornarElementoPorIndice(lista, indice);
+}
+
+size_t lenListaCasaTabuleiro(ListaCasaTabuleiro lista) {
+    if((*lista.inicio)->valor == NULL)
+        return 0;
+    else
+        return listalen(lista);
+}

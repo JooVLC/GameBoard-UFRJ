@@ -15,4 +15,6 @@
     Posicao pedirPecaMovidaJogador(void);
 
     CasaTabuleiro* pedirMovimentoJogador(CasaTabuleiro pecaMovida, ListaCasaTabuleiro movimentos);
+
+    char letraDoTipoDaPeca(TipoPeca tipoPeca);
 #endif

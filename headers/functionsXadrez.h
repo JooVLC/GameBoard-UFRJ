@@ -40,6 +40,8 @@
 
         //Funcao para desalocar jogo da heap
         void terminarJogo(Jogo jogo);
+
+        void proximoTurno(Jogo *jogo);
     //endregion
 
     //FUNCOES DAS PECAS

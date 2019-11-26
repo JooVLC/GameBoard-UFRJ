@@ -32,7 +32,7 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
         }
 
         moverPeca(pecaTentandoMover, jogo.tabuleiro, *movimento);
-        proximoTurno(jogo);
+        proximoTurno(&jogo);
         apagarLista(*movimentosPossiveisArray);
         free(movimentosPossiveisArray);
     }
@@ -42,23 +42,60 @@ void printarTabuleiro(Tabuleiro tabuleiro) {
     printColunas();
     for(int i = 0; i < QTD_CASAS_POR_LINHA; i++) {
         printLinhaIndice(QTD_CASAS_POR_COLUNA - i, tabuleiro);
-        puts("");
     }
 }
 
 void printColunas(void) {
     char letra = 'a';
+    puts("   ");
     for(int i = 0; i < QTD_CASAS_POR_LINHA; i++)
         printf("  %c  ", letra + i);
     puts("");
 }
 
-void printLinhaIndice(int indice, Tabuleiro tabuleiro) {
+void printLinhaIndice(int linha, Tabuleiro tabuleiro) {
+    printf("%d  ", QTD_CASAS_POR_COLUNA - linha);
+    for(int i = 0; i < QTD_CASAS_POR_LINHA; i++)
+    {
+        CasaTabuleiro peca = tabuleiro[linha][i];
+        printf("  %c  ", letraDoTipoDaPeca(peca.peca->tipo));
+    }
+    puts("");
+}
 
+char letraDoTipoDaPeca(TipoPeca tipoPeca) {
+    char letra;
+    switch (tipoPeca)
+    {
+        case PEAO:
+            letra = 'P';
+            break;
+        case CAVALO:
+            letra = 'C';
+        case TORRE:
+            letra = 'T';
+        case BISPO:
+            letra = 'B';
+        case RAINHA:
+            letra = 'Q';
+        case REI:
+            letra = 'K';
+    }
+
+    return letra;
 }
 
 Posicao pedirPecaMovidaJogador(void) {
+    int linha;
+    char coluna;
+    puts("Digite a linha e coluna (%d %c):");
+    scanf("%d %c", &linha, &coluna);
+    getchar();
 
+    Posicao posicao;
+    posicao.linha = linha;
+    posicao.coluna = coluna - 'a';
+    return posicao;
 }
 
 CasaTabuleiro* pedirMovimentoJogador(CasaTabuleiro pecaMovida, ListaCasaTabuleiro movimentos) {
