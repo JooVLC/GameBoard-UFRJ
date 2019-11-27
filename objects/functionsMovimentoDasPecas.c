@@ -7,7 +7,7 @@ Peao pode se mover duas casas no inicio do jogo (não necessita verificação po
 Peao pode se mover para comer um peao na diagonal direita
 Peao pode se mover para comer um peao na diagonal esquerda
 Peao pode se mover para frente (ate o final do board)*/
-CasaTabuleiro* movimentosPossiveisPeao(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual) {
+ListaCasaTabuleiro* movimentosPossiveisPeao(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual) {
     Coordenada pecaLinhaAtual = peca.peca->posicao.linha;
     Coordenada pecaColunaAtual = peca.peca->posicao.coluna;
 
@@ -37,12 +37,8 @@ CasaTabuleiro* movimentosPossiveisPeao(CasaTabuleiro peca, Tabuleiro tabuleiro, 
     if(casaAcimaDoPeaoLinha != NULL && casaAcimaDoPeaoLinha->peca == NULL)
         adicionarNovoMovimento(movimentosPossiveis, *casaAcimaDoPeaoLinha);
     
-    CasaTabuleiro* arrayMovimentos = ListaParaArrayDeCasaTabuleiro(*movimentosPossiveis);
-    apagarLista(*movimentosPossiveis);
-    free(movimentosPossiveis);
     free(casasRelevantes);
-
-    return arrayMovimentos;
+    return movimentosPossiveis;
 }
 
 CasaTabuleiro** casasRelevantesAoPeao(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual) {
@@ -63,7 +59,7 @@ CasaTabuleiro** casasRelevantesAoPeao(Tabuleiro tabuleiro, Coordenada pecaLinhaA
 Cavalo pode se mover em L para qualquer casa proxima sem peça da mesma cor
 L = duas casas (linhas ou coluna) e depos uma casas (coluna ou linha)
 Cavalo não pode ultrapassar o board*/
-CasaTabuleiro* movimentosPossiveisCavalo(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual) {
+ListaCasaTabuleiro* movimentosPossiveisCavalo(CasaTabuleiro peca, Tabuleiro tabuleiro) {
     Coordenada pecaLinhaAtual = peca.peca->posicao.linha;
     Coordenada pecaColunaAtual = peca.peca->posicao.coluna;
 
@@ -80,12 +76,8 @@ CasaTabuleiro* movimentosPossiveisCavalo(CasaTabuleiro peca, Tabuleiro tabuleiro
         }
     }
 
-    CasaTabuleiro* arrayMovimentos = ListaParaArrayDeCasaTabuleiro(*movimentosPossiveis);
-    apagarLista(*movimentosPossiveis);
-    free(movimentosPossiveis);
     free(casasRelevantes);
-
-    return arrayMovimentos;
+    return movimentosPossiveis;
 }
 
 CasaTabuleiro** casasRelevantesAoCavalo(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual) {
@@ -116,7 +108,7 @@ CasaTabuleiro** casasRelevantesAoCavalo(Tabuleiro tabuleiro, Coordenada pecaLinh
 Torre se move na horizontal e vertical para qualquer casa até atingir um alvo inimigo ou parar em uma peça amiga
 Torre não pode ultrapassar o board
 */
-CasaTabuleiro* movimentosPossiveisTorre(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual) {
+ListaCasaTabuleiro* movimentosPossiveisTorre(CasaTabuleiro peca, Tabuleiro tabuleiro) {
     Coordenada pecaLinhaAtual = peca.peca->posicao.linha;
     Coordenada pecaColunaAtual = peca.peca->posicao.coluna;
 
@@ -129,12 +121,8 @@ CasaTabuleiro* movimentosPossiveisTorre(CasaTabuleiro peca, Tabuleiro tabuleiro,
             adicionarNovoMovimento(movimentosPossiveis, *casasRelevantes[i]);
     }
 
-    CasaTabuleiro* arrayMovimentos = ListaParaArrayDeCasaTabuleiro(*movimentosPossiveis);
-    apagarLista(*movimentosPossiveis);
-    free(movimentosPossiveis);
     free(casasRelevantes);
-
-    return arrayMovimentos;
+    return movimentosPossiveis;
 }
 
 CasaTabuleiro** casasRelevantesATorre(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual) {
@@ -226,7 +214,7 @@ CasaTabuleiro** casasRelevantesATorre(Tabuleiro tabuleiro, Coordenada pecaLinhaA
 Bispo se move na diagonal de sua cor de origem para qualquer casa até atingir um alvo inimigo ou parar em uma peça amiga
 Bispo não pode ultrapassar o board
 */
-CasaTabuleiro* movimentosPossiveisBispo(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual) {
+ListaCasaTabuleiro* movimentosPossiveisBispo(CasaTabuleiro peca, Tabuleiro tabuleiro) {
     Coordenada pecaLinhaAtual = peca.peca->posicao.linha;
     Coordenada pecaColunaAtual = peca.peca->posicao.coluna;
 
@@ -239,12 +227,8 @@ CasaTabuleiro* movimentosPossiveisBispo(CasaTabuleiro peca, Tabuleiro tabuleiro,
             adicionarNovoMovimento(movimentosPossiveis, *casasRelevantes[i]);
     }
 
-    CasaTabuleiro* arrayMovimentos = ListaParaArrayDeCasaTabuleiro(*movimentosPossiveis);
-    apagarLista(*movimentosPossiveis);
-    free(movimentosPossiveis);
     free(casasRelevantes);
-
-    return arrayMovimentos;
+    return movimentosPossiveis;
 }
 
 CasaTabuleiro** casasRelevantesAoBispo(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual) {
@@ -337,7 +321,7 @@ CasaTabuleiro** casasRelevantesAoBispo(Tabuleiro tabuleiro, Coordenada pecaLinha
 Rainha se move em qualquer sentido (diagonal, horizontal e vertical) como se fosse um Bispo ou Torre
 Rainha não pode ultrapassar o board
 */
-CasaTabuleiro* movimentosPossiveisRainha(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual) {
+ListaCasaTabuleiro* movimentosPossiveisRainha(CasaTabuleiro peca, Tabuleiro tabuleiro) {
     Coordenada pecaLinhaAtual = peca.peca->posicao.linha;
     Coordenada pecaColunaAtual = peca.peca->posicao.coluna;
 
@@ -350,12 +334,8 @@ CasaTabuleiro* movimentosPossiveisRainha(CasaTabuleiro peca, Tabuleiro tabuleiro
             adicionarNovoMovimento(movimentosPossiveis, *casasRelevantes[i]);
     }
 
-    CasaTabuleiro* arrayMovimentos = ListaParaArrayDeCasaTabuleiro(*movimentosPossiveis);
-    apagarLista(*movimentosPossiveis);
-    free(movimentosPossiveis);
     free(casasRelevantes);
-
-    return arrayMovimentos;
+    return movimentosPossiveis;
 }
 
 CasaTabuleiro** casasRelevantesARainha(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual) {
@@ -382,7 +362,7 @@ Rei se move como a Rainha, mas sempre limitado por uma casa
 Rei não pode ultrapassar o board
 Rei não pode se colocar em cheque
 */
-CasaTabuleiro* movimentosPossiveisRei(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual) {
+ListaCasaTabuleiro* movimentosPossiveisRei(CasaTabuleiro peca, Tabuleiro tabuleiro) {
     Coordenada pecaLinhaAtual = peca.peca->posicao.linha;
     Coordenada pecaColunaAtual = peca.peca->posicao.coluna;
 
@@ -399,12 +379,8 @@ CasaTabuleiro* movimentosPossiveisRei(CasaTabuleiro peca, Tabuleiro tabuleiro, T
         }
     }
 
-    CasaTabuleiro* arrayMovimentos = ListaParaArrayDeCasaTabuleiro(*movimentosPossiveis);
-    apagarLista(*movimentosPossiveis);
-    free(movimentosPossiveis);
     free(casasRelevantes);
-
-    return arrayMovimentos;
+    return movimentosPossiveis;
 }
 
 CasaTabuleiro** casasRelevantesAoRei(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual) {
@@ -441,34 +417,38 @@ void moverPeca(CasaTabuleiro pecaMovida, Tabuleiro tabuleiro, CasaTabuleiro nova
     free(novaPosicao.peca); //talvez apague dps (depende de como Peca *peca é criada)
 }
 
-CasaTabuleiro* movimentosPossiveis(CasaTabuleiro peca, Jogo jogo) {
-    CasaTabuleiro* movimentosPossiveis = NULL;
+ListaCasaTabuleiro* movimentosPossiveis(CasaTabuleiro peca, Jogo jogo) {
+    ListaCasaTabuleiro *movimentosPossiveisPeca;
+
+    if(peca.peca == NULL)
+        return NULL;
+
     switch (peca.peca->tipo)
     {
         case PEAO:
-            movimentosPossiveis = movimentosPossiveisPeao(peca, jogo.tabuleiro, jogo.turno);
+            movimentosPossiveisPeca = movimentosPossiveisPeao(peca, jogo.tabuleiro, jogo.turno);
             break;
         case CAVALO:
-            movimentosPossiveis = movimentosPossiveisCavalo(peca, jogo.tabuleiro, jogo.turno);
+            movimentosPossiveisPeca = movimentosPossiveisCavalo(peca, jogo.tabuleiro);
             break;
         case TORRE:
-            movimentosPossiveis = movimentosPossiveisTorre(peca, jogo.tabuleiro, jogo.turno);
+            movimentosPossiveisPeca = movimentosPossiveisTorre(peca, jogo.tabuleiro);
             break;
         case BISPO:
-            movimentosPossiveis = movimentosPossiveisBispo(peca, jogo.tabuleiro, jogo.turno);
+            movimentosPossiveisPeca = movimentosPossiveisBispo(peca, jogo.tabuleiro);
             break;
         case RAINHA:
-            movimentosPossiveis = movimentosPossiveisRainha(peca, jogo.tabuleiro, jogo.turno);
+            movimentosPossiveisPeca = movimentosPossiveisRainha(peca, jogo.tabuleiro);
             break;
         case REI:
-            movimentosPossiveis = movimentosPossiveisRei(peca, jogo.tabuleiro, jogo.turno);
-            filtrarCasasPossiveisAoRei(&movimentosPossiveis, jogo.tabuleiro, jogo.turno);
+            movimentosPossiveisPeca = movimentosPossiveisRei(peca, jogo.tabuleiro);
+            //filtrarCasasPossiveisAoRei(&movimentosPossiveis, jogo.tabuleiro, jogo.turno);
             break;
     }
 
-    return movimentosPossiveis;
+    return movimentosPossiveisPeca;
 }
 
-void filtrarCasasPossiveisAoRei(CasaTabuleiro** casasPossiveis, Tabuleiro tabuleiro, Turno turnoAtual) {
+/*void filtrarCasasPossiveisAoRei(CasaTabuleiro** casasPossiveis, Tabuleiro tabuleiro, Turno turnoAtual) {
 
-}
+}*/

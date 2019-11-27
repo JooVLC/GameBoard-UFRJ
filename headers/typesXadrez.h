@@ -75,5 +75,6 @@
         Jogador jogadores[QTD_JOGADORES];
         CorPeca corJogando;
         Turno turno;
+        bool jogando;
     } Jogo;   
 #endif

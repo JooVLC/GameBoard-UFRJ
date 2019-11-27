@@ -11,23 +11,26 @@
         #include <stdlib.h>
 #endif
 
+#include <stdio.h>
+
 Jogador criarJogador(Nome nomeJogador, CorPeca corJogador) {
     Jogador jogador;
     jogador.corDasPecas = corJogador;
     strcpy(jogador.nome, nomeJogador);
+    return jogador;
 }
 
-Peca* criarPeoes(CorPeca corCriada) {
-    static const QTD_PEOES = QTD_CASAS_POR_COLUNA;
-    Peca* peoes = malloc(sizeof(Peca) * QTD_PEOES);
+Peca** criarPeoes(CorPeca corCriada) {
+    static const int QTD_PEOES = QTD_CASAS_POR_COLUNA;
+    Peca** peoes = malloc(sizeof(Peca*) * QTD_PEOES);
 
     for(int i = 0; i < QTD_PEOES; i++)
     {
-        Peca novoPeao;
-        novoPeao.emXeque = false;
-        novoPeao.evitandoXequeMate = false;
-        novoPeao.tipo = PEAO;
-        novoPeao.cor = corCriada;
+        Peca* novoPeao = malloc(sizeof(novoPeao));
+        novoPeao->emXeque = false;
+        novoPeao->evitandoXequeMate = false;
+        novoPeao->tipo = PEAO;
+        novoPeao->cor = corCriada;
         
         peoes[i] = novoPeao;
     }
@@ -35,28 +38,27 @@ Peca* criarPeoes(CorPeca corCriada) {
     return peoes;
 }
 
-Peca* criarPecasEspeciais(CorPeca corCriada) {
-    static const QTD_PECAS = QTD_CASAS_POR_COLUNA;
-    Peca* pecas = malloc(QTD_PECAS * sizeof(Peca));
+Peca** criarPecasEspeciais(CorPeca corCriada) {
+    static const int QTD_PECAS = QTD_CASAS_POR_COLUNA;
+    Peca** pecas = malloc(QTD_PECAS * sizeof(Peca*));
 
     for(int i = 0; i < QTD_PECAS; i++)
     {
-        Peca novaPeca;
-        novaPeca.cor = corCriada;
-        novaPeca.emXeque = false;
-        novaPeca.evitandoXequeMate = false;
+        Peca *novaPeca = malloc(sizeof(Peca));
+        novaPeca->cor = corCriada;
+        novaPeca->emXeque = false;
+        novaPeca->evitandoXequeMate = false;
 
         pecas[i] = novaPeca;
     }
-
-    pecas[0].tipo = TORRE;
-    pecas[1].tipo = CAVALO;
-    pecas[2].tipo = BISPO;
-    pecas[3].tipo = RAINHA;
-    pecas[4].tipo = REI;
-    pecas[5].tipo = BISPO;
-    pecas[6].tipo = CAVALO;
-    pecas[7].tipo = TORRE;
+    pecas[0]->tipo = TORRE;
+    pecas[1]->tipo = CAVALO;
+    pecas[2]->tipo = BISPO;
+    pecas[3]->tipo = RAINHA;
+    pecas[4]->tipo = REI;
+    pecas[5]->tipo = BISPO;
+    pecas[6]->tipo = CAVALO;
+    pecas[7]->tipo = TORRE;
 
     return pecas;
 }
@@ -72,6 +74,7 @@ Jogo inicializarJogo(Nome nomeJogadorBranco, Nome nomeJogadorPreto) {
     novoJogo.jogadores[1] = jogadorPreto;
     novoJogo.corJogando = BRANCO;
     novoJogo.turno = 1;
+    novoJogo.jogando = true;
     inicializarTabuleiro(novoJogo.tabuleiro);
     inicializarPecas(novoJogo.tabuleiro);
 
@@ -101,7 +104,7 @@ void inicializarTabuleiro(Tabuleiro novoTabuleiro) {
 
 void inicializarPecas(Tabuleiro novoTabuleiro) {
     static const int QTD_LINHAS_COM_PECAS = 2;
-    Peca *peoes, *outrasPecas;
+    Peca **peoes, **outrasPecas;
 
     peoes = criarPeoes(BRANCO);
     outrasPecas = criarPecasEspeciais(BRANCO);
@@ -110,9 +113,14 @@ void inicializarPecas(Tabuleiro novoTabuleiro) {
         for(int j = 0; j < QTD_CASAS_POR_COLUNA; j++)
         {
             if(i == 0)
-                novoTabuleiro[i][j].peca = &outrasPecas[j];
+                novoTabuleiro[i][j].peca = outrasPecas[j];
             else
-                novoTabuleiro[i][j].peca = &peoes[j];
+                novoTabuleiro[i][j].peca = peoes[j];
+
+            Posicao posicaoPeca;
+            posicaoPeca.linha = i;
+            posicaoPeca.coluna = j;
+            novoTabuleiro[i][j].peca->posicao = posicaoPeca; 
         }    
     }
     free(peoes);
@@ -120,17 +128,30 @@ void inicializarPecas(Tabuleiro novoTabuleiro) {
 
     peoes = criarPeoes(PRETO);
     outrasPecas = criarPecasEspeciais(PRETO);
-    for(int i = QTD_CASAS_POR_LINHA - 1; i >= QTD_CASAS_POR_LINHA - QTD_LINHAS_COM_PECAS; i++)
+    for(int i = QTD_CASAS_POR_LINHA - 1; i >= QTD_CASAS_POR_LINHA - QTD_LINHAS_COM_PECAS; i--)
     {
         for(int j = 0; j < QTD_CASAS_POR_COLUNA; j++)
         {
             if(i == QTD_CASAS_POR_LINHA - 1)
-                novoTabuleiro[i][j].peca = &outrasPecas[j];
+                novoTabuleiro[i][j].peca = outrasPecas[j];
             else
-                novoTabuleiro[i][j].peca = &peoes[j];
+                novoTabuleiro[i][j].peca = peoes[j];
         }    
     }
     free(peoes);
     free(outrasPecas);
 }
 
+void proximoTurno(Jogo *jogo) {
+    jogo->turno += 1;
+    jogo->corJogando = !(jogo->corJogando);
+}
+
+Posicao converterPosicaoTelaParaCartesiano(Posicao posicaoTela) {
+    Posicao posicaoPlano;
+
+    posicaoPlano.linha = posicaoTela.linha + QTD_CASAS_POR_LINHA - (1 + 2 * posicaoTela.linha);
+    posicaoPlano.coluna = posicaoTela.coluna;
+
+    return posicaoPlano;
+}
