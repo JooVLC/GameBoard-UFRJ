@@ -38,6 +38,8 @@
         //Verifica se a peca esta impedindo um xequemate
         bool pecaImpedindoXequeMate(CasaTabuleiro pecaTestada, Tabuleiro tabuleiro);
 
+        Posicao converterPosicaoTelaParaCartesiano(Posicao posicaoTela);
+
         //Funcao para desalocar jogo da heap
         void terminarJogo(Jogo jogo);
 

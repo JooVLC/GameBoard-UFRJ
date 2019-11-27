@@ -68,7 +68,6 @@ Jogo inicializarJogo(Nome nomeJogadorBranco, Nome nomeJogadorPreto) {
     Jogo novoJogo;
 
     Jogador jogadorBranco = criarJogador(nomeJogadorBranco, BRANCO);
-    puts("foi");
     Jogador jogadorPreto = criarJogador(nomeJogadorPreto, PRETO);
 
     //Jogador Branco vai primeiro:
@@ -77,8 +76,11 @@ Jogo inicializarJogo(Nome nomeJogadorBranco, Nome nomeJogadorPreto) {
     novoJogo.corJogando = BRANCO;
     novoJogo.turno = 1;
     novoJogo.jogando = true;
+    puts("j");
     inicializarTabuleiro(novoJogo.tabuleiro);
+    puts("2");
     inicializarPecas(novoJogo.tabuleiro);
+    puts("3");
 
     return novoJogo;
 }
@@ -109,7 +111,9 @@ void inicializarPecas(Tabuleiro novoTabuleiro) {
     Peca *peoes, *outrasPecas;
 
     peoes = criarPeoes(BRANCO);
+    puts("peoes");
     outrasPecas = criarPecasEspeciais(BRANCO);
+    puts("outras pecas");
     for(int i = 0; i < QTD_LINHAS_COM_PECAS; i++)
     {
         for(int j = 0; j < QTD_CASAS_POR_COLUNA; j++)
@@ -120,12 +124,16 @@ void inicializarPecas(Tabuleiro novoTabuleiro) {
                 novoTabuleiro[i][j].peca = &peoes[j];
         }    
     }
+    puts("vai free");
     free(peoes);
     free(outrasPecas);
+    puts("foi free");
 
     peoes = criarPeoes(PRETO);
+    puts("peoes pretos");
     outrasPecas = criarPecasEspeciais(PRETO);
-    for(int i = QTD_CASAS_POR_LINHA - 1; i >= QTD_CASAS_POR_LINHA - QTD_LINHAS_COM_PECAS; i++)
+    puts("pecas pretas");
+    for(int i = QTD_CASAS_POR_LINHA - 1; i >= QTD_CASAS_POR_LINHA - QTD_LINHAS_COM_PECAS; i--)
     {
         for(int j = 0; j < QTD_CASAS_POR_COLUNA; j++)
         {
@@ -135,6 +143,7 @@ void inicializarPecas(Tabuleiro novoTabuleiro) {
                 novoTabuleiro[i][j].peca = &peoes[j];
         }    
     }
+    puts("quase no fim");
     free(peoes);
     free(outrasPecas);
 }
@@ -142,5 +151,14 @@ void inicializarPecas(Tabuleiro novoTabuleiro) {
 void proximoTurno(Jogo *jogo) {
     jogo->turno += 1;
     jogo->corJogando = !(jogo->corJogando);
+}
+
+Posicao converterPosicaoTelaParaCartesiano(Posicao posicaoTela) {
+    Posicao posicaoPlano;
+
+    posicaoPlano.linha = posicaoTela.linha + QTD_CASAS_POR_LINHA - (1 + 2 * posicaoTela.linha);
+    posicaoPlano.coluna = posicaoTela.coluna;
+
+    return posicaoPlano;
 }
 

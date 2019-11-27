@@ -8,10 +8,13 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
     Jogo jogo = inicializarJogo(jogadorBranco, jogadorPreto);
     while(jogo.jogando)
     {
+        system("cls || clear");
         printf("Vez do jogador %s jogar!!!\n\n", jogo.jogadores[jogo.corJogando].nome);
         printarTabuleiro(jogo.tabuleiro);
         
-        Posicao posicaoMovimento = pedirPecaMovidaJogador();
+        puts("impresso");
+        Posicao posicaoMovimento = converterPosicaoTelaParaCartesiano(pedirPecaMovidaJogador());
+        printf("pedido feito - %d%d\n", posicaoMovimento.linha, posicaoMovimento.coluna);
         CasaTabuleiro pecaTentandoMover = jogo.tabuleiro[posicaoMovimento.linha][posicaoMovimento.coluna];
         ListaCasaTabuleiro* movimentosPossiveisArray = movimentosPossiveis(pecaTentandoMover, jogo);
 
@@ -40,14 +43,15 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
 
 void printarTabuleiro(Tabuleiro tabuleiro) {
     printColunas();
-    for(int i = 0; i < QTD_CASAS_POR_LINHA; i++) {
+    for(int i = 1; i <= QTD_CASAS_POR_LINHA; i++) {
         printLinhaIndice(QTD_CASAS_POR_COLUNA - i, tabuleiro);
     }
 }
 
 void printColunas(void) {
     char letra = 'a';
-    puts("   ");
+    puts("");
+    printf(" ");
     for(int i = 0; i < QTD_CASAS_POR_LINHA; i++)
         printf("  %c  ", letra + i);
     puts("");
@@ -58,7 +62,8 @@ void printLinhaIndice(int linha, Tabuleiro tabuleiro) {
     for(int i = 0; i < QTD_CASAS_POR_LINHA; i++)
     {
         CasaTabuleiro peca = tabuleiro[linha][i];
-        printf("  %c  ", letraDoTipoDaPeca(peca.peca->tipo));
+        char pecaNaTela = peca.peca == NULL ? 0 : letraDoTipoDaPeca(peca.peca->tipo);
+        printf("%c    ", pecaNaTela);
     }
     puts("");
 }
@@ -80,6 +85,8 @@ char letraDoTipoDaPeca(TipoPeca tipoPeca) {
             letra = 'Q';
         case REI:
             letra = 'K';
+        default:
+            letra = 'E'; //ERRO
     }
 
     return letra;
@@ -93,7 +100,7 @@ Posicao pedirPecaMovidaJogador(void) {
     getchar();
 
     Posicao posicao;
-    posicao.linha = linha;
+    posicao.linha = linha - 1;
     posicao.coluna = coluna - 'a';
     return posicao;
 }
