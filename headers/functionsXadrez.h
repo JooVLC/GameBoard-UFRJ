@@ -20,10 +20,10 @@
         void inicializarPecas(Tabuleiro novoTabuleiro);
 
         //Cria 8 peoes da cor desejada e retorna um ponteiro para o primeiro peao
-        Peca* criarPeoes(CorPeca corCriada);
+        Peca** criarPeoes(CorPeca corCriada);
 
         //Cria as 8 pecas especiais (nao peoes) (padrao criarPeoes)
-        Peca* criarPecasEspeciais(CorPeca corCriada);
+        Peca** criarPecasEspeciais(CorPeca corCriada);
 
         //Cria um novo jogador a partir do seu nome e cor
         Jogador criarJogador(Nome nomeJogador, CorPeca corJogador);

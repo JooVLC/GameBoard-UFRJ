@@ -12,22 +12,23 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
         printf("Vez do jogador %s jogar!!!\n\n", jogo.jogadores[jogo.corJogando].nome);
         printarTabuleiro(jogo.tabuleiro);
         
-        puts("impresso");
         Posicao posicaoMovimento = converterPosicaoTelaParaCartesiano(pedirPecaMovidaJogador());
         printf("pedido feito - %d%d\n", posicaoMovimento.linha, posicaoMovimento.coluna);
         CasaTabuleiro pecaTentandoMover = jogo.tabuleiro[posicaoMovimento.linha][posicaoMovimento.coluna];
         ListaCasaTabuleiro* movimentosPossiveisArray = movimentosPossiveis(pecaTentandoMover, jogo);
-
-        if(listaEstaVazia(*movimentosPossiveisArray))
+        puts("passou");
+        if(movimentosPossiveisArray == NULL || listaEstaVazia(movimentosPossiveisArray))
         {
-            puts("Peça não pode se mover, tente outra peça");
+            puts("Peça não pode se mover ou a casa está vazia, tente outra casa...");
+            getchar();
             continue;
         }
+        puts("passou2");
 
         bool movimentoValido = false;
         CasaTabuleiro *movimento = NULL;
         while(!movimentoValido) {
-            movimento = pedirMovimentoJogador(pecaTentandoMover, *movimentosPossiveisArray);
+            movimento = pedirMovimentoJogador(pecaTentandoMover, movimentosPossiveisArray);
             if(movimento != NULL)
                 movimentoValido = true;
             else
@@ -77,16 +78,22 @@ char letraDoTipoDaPeca(TipoPeca tipoPeca) {
             break;
         case CAVALO:
             letra = 'C';
+            break;
         case TORRE:
             letra = 'T';
+            break;
         case BISPO:
             letra = 'B';
+            break;
         case RAINHA:
             letra = 'Q';
+            break;
         case REI:
             letra = 'K';
+            break;
         default:
             letra = 'E'; //ERRO
+            break;
     }
 
     return letra;
@@ -105,7 +112,7 @@ Posicao pedirPecaMovidaJogador(void) {
     return posicao;
 }
 
-CasaTabuleiro* pedirMovimentoJogador(CasaTabuleiro pecaMovida, ListaCasaTabuleiro movimentos) {
+CasaTabuleiro* pedirMovimentoJogador(CasaTabuleiro pecaMovida, ListaCasaTabuleiro *movimentos) {
     size_t tamanhoLista = lenListaCasaTabuleiro(movimentos);
 
     puts("\nDigite o número de um dos seguintes movimentos:");

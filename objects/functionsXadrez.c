@@ -20,17 +20,17 @@ Jogador criarJogador(Nome nomeJogador, CorPeca corJogador) {
     return jogador;
 }
 
-Peca* criarPeoes(CorPeca corCriada) {
+Peca** criarPeoes(CorPeca corCriada) {
     static const int QTD_PEOES = QTD_CASAS_POR_COLUNA;
-    Peca* peoes = malloc(sizeof(Peca) * QTD_PEOES);
+    Peca** peoes = malloc(sizeof(Peca*) * QTD_PEOES);
 
     for(int i = 0; i < QTD_PEOES; i++)
     {
-        Peca novoPeao;
-        novoPeao.emXeque = false;
-        novoPeao.evitandoXequeMate = false;
-        novoPeao.tipo = PEAO;
-        novoPeao.cor = corCriada;
+        Peca* novoPeao = malloc(sizeof(novoPeao));
+        novoPeao->emXeque = false;
+        novoPeao->evitandoXequeMate = false;
+        novoPeao->tipo = PEAO;
+        novoPeao->cor = corCriada;
         
         peoes[i] = novoPeao;
     }
@@ -38,28 +38,27 @@ Peca* criarPeoes(CorPeca corCriada) {
     return peoes;
 }
 
-Peca* criarPecasEspeciais(CorPeca corCriada) {
+Peca** criarPecasEspeciais(CorPeca corCriada) {
     static const int QTD_PECAS = QTD_CASAS_POR_COLUNA;
-    Peca* pecas = malloc(QTD_PECAS * sizeof(Peca));
+    Peca** pecas = malloc(QTD_PECAS * sizeof(Peca*));
 
     for(int i = 0; i < QTD_PECAS; i++)
     {
-        Peca novaPeca;
-        novaPeca.cor = corCriada;
-        novaPeca.emXeque = false;
-        novaPeca.evitandoXequeMate = false;
+        Peca *novaPeca = malloc(sizeof(Peca));
+        novaPeca->cor = corCriada;
+        novaPeca->emXeque = false;
+        novaPeca->evitandoXequeMate = false;
 
         pecas[i] = novaPeca;
     }
-
-    pecas[0].tipo = TORRE;
-    pecas[1].tipo = CAVALO;
-    pecas[2].tipo = BISPO;
-    pecas[3].tipo = RAINHA;
-    pecas[4].tipo = REI;
-    pecas[5].tipo = BISPO;
-    pecas[6].tipo = CAVALO;
-    pecas[7].tipo = TORRE;
+    pecas[0]->tipo = TORRE;
+    pecas[1]->tipo = CAVALO;
+    pecas[2]->tipo = BISPO;
+    pecas[3]->tipo = RAINHA;
+    pecas[4]->tipo = REI;
+    pecas[5]->tipo = BISPO;
+    pecas[6]->tipo = CAVALO;
+    pecas[7]->tipo = TORRE;
 
     return pecas;
 }
@@ -76,11 +75,8 @@ Jogo inicializarJogo(Nome nomeJogadorBranco, Nome nomeJogadorPreto) {
     novoJogo.corJogando = BRANCO;
     novoJogo.turno = 1;
     novoJogo.jogando = true;
-    puts("j");
     inicializarTabuleiro(novoJogo.tabuleiro);
-    puts("2");
     inicializarPecas(novoJogo.tabuleiro);
-    puts("3");
 
     return novoJogo;
 }
@@ -108,42 +104,40 @@ void inicializarTabuleiro(Tabuleiro novoTabuleiro) {
 
 void inicializarPecas(Tabuleiro novoTabuleiro) {
     static const int QTD_LINHAS_COM_PECAS = 2;
-    Peca *peoes, *outrasPecas;
+    Peca **peoes, **outrasPecas;
 
     peoes = criarPeoes(BRANCO);
-    puts("peoes");
     outrasPecas = criarPecasEspeciais(BRANCO);
-    puts("outras pecas");
     for(int i = 0; i < QTD_LINHAS_COM_PECAS; i++)
     {
         for(int j = 0; j < QTD_CASAS_POR_COLUNA; j++)
         {
             if(i == 0)
-                novoTabuleiro[i][j].peca = &outrasPecas[j];
+                novoTabuleiro[i][j].peca = outrasPecas[j];
             else
-                novoTabuleiro[i][j].peca = &peoes[j];
+                novoTabuleiro[i][j].peca = peoes[j];
+
+            Posicao posicaoPeca;
+            posicaoPeca.linha = i;
+            posicaoPeca.coluna = j;
+            novoTabuleiro[i][j].peca->posicao = posicaoPeca; 
         }    
     }
-    puts("vai free");
     free(peoes);
     free(outrasPecas);
-    puts("foi free");
 
     peoes = criarPeoes(PRETO);
-    puts("peoes pretos");
     outrasPecas = criarPecasEspeciais(PRETO);
-    puts("pecas pretas");
     for(int i = QTD_CASAS_POR_LINHA - 1; i >= QTD_CASAS_POR_LINHA - QTD_LINHAS_COM_PECAS; i--)
     {
         for(int j = 0; j < QTD_CASAS_POR_COLUNA; j++)
         {
             if(i == QTD_CASAS_POR_LINHA - 1)
-                novoTabuleiro[i][j].peca = &outrasPecas[j];
+                novoTabuleiro[i][j].peca = outrasPecas[j];
             else
-                novoTabuleiro[i][j].peca = &peoes[j];
+                novoTabuleiro[i][j].peca = peoes[j];
         }    
     }
-    puts("quase no fim");
     free(peoes);
     free(outrasPecas);
 }

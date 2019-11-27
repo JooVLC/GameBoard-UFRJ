@@ -27,23 +27,30 @@ void adicionarNovoMovimento(ListaCasaTabuleiro *lista, CasaTabuleiro peca) {
         adicionarElementoAoFinalDaLista(*lista, &peca);
 }
 
-bool listaEstaVazia(ListaCasaTabuleiro lista) {
+bool listaEstaVazia(ListaCasaTabuleiro *lista) {
     if(lenListaCasaTabuleiro(lista) == 0)
         return true;
     else
         return false; 
 }
 
-CasaTabuleiro* retornarMovimentoPeloIndice(ListaCasaTabuleiro lista, Indice indice) {
+CasaTabuleiro* retornarMovimentoPeloIndice(ListaCasaTabuleiro *lista, Indice indice) {
     if(listaEstaVazia(lista))
         return NULL;
     
-    return (CasaTabuleiro*)retornarElementoPorIndice(lista, indice)->valor;
+    return (CasaTabuleiro*)retornarElementoPorIndice(*lista, indice)->valor;
 }
 
-size_t lenListaCasaTabuleiro(ListaCasaTabuleiro lista) {
-    if((*lista.inicio)->valor == NULL)
+size_t lenListaCasaTabuleiro(ListaCasaTabuleiro *lista) {
+    puts("len error");
+    printf("prt == NULL ? R:%d\n", *lista->inicio == NULL ? 1 : 0);
+    if(*lista->inicio == NULL || (*lista->inicio)->valor == NULL) {
+        puts("if0");
         return 0;
+    }
     else
-        return listalen(lista);
+    {
+        puts("else0");
+        return listalen(*lista);
+    }
 }

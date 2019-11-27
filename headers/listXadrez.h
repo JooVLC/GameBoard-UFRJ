@@ -9,11 +9,11 @@
 
     CasaTabuleiro* ListaParaArrayDeCasaTabuleiro(ListaCasaTabuleiro lista);
 
-    bool listaEstaVazia(ListaCasaTabuleiro lista);
+    bool listaEstaVazia(ListaCasaTabuleiro *lista);
 
     void adicionarNovoMovimento(ListaCasaTabuleiro *lista, CasaTabuleiro peca);
 
-    CasaTabuleiro* retornarMovimentoPeloIndice(ListaCasaTabuleiro lista, Indice indice);
+    CasaTabuleiro* retornarMovimentoPeloIndice(ListaCasaTabuleiro *lista, Indice indice);
 
-    size_t lenListaCasaTabuleiro(ListaCasaTabuleiro lista);
+    size_t lenListaCasaTabuleiro(ListaCasaTabuleiro *lista);
 #endif

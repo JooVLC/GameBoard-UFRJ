@@ -418,31 +418,35 @@ void moverPeca(CasaTabuleiro pecaMovida, Tabuleiro tabuleiro, CasaTabuleiro nova
 }
 
 ListaCasaTabuleiro* movimentosPossiveis(CasaTabuleiro peca, Jogo jogo) {
-    ListaCasaTabuleiro *movimentosPossiveis;
+    ListaCasaTabuleiro *movimentosPossiveisPeca;
+
+    if(peca.peca == NULL)
+        return NULL;
+
     switch (peca.peca->tipo)
     {
         case PEAO:
-            movimentosPossiveis = movimentosPossiveisPeao(peca, jogo.tabuleiro, jogo.turno);
+            movimentosPossiveisPeca = movimentosPossiveisPeao(peca, jogo.tabuleiro, jogo.turno);
             break;
         case CAVALO:
-            movimentosPossiveis = movimentosPossiveisCavalo(peca, jogo.tabuleiro);
+            movimentosPossiveisPeca = movimentosPossiveisCavalo(peca, jogo.tabuleiro);
             break;
         case TORRE:
-            movimentosPossiveis = movimentosPossiveisTorre(peca, jogo.tabuleiro);
+            movimentosPossiveisPeca = movimentosPossiveisTorre(peca, jogo.tabuleiro);
             break;
         case BISPO:
-            movimentosPossiveis = movimentosPossiveisBispo(peca, jogo.tabuleiro);
+            movimentosPossiveisPeca = movimentosPossiveisBispo(peca, jogo.tabuleiro);
             break;
         case RAINHA:
-            movimentosPossiveis = movimentosPossiveisRainha(peca, jogo.tabuleiro);
+            movimentosPossiveisPeca = movimentosPossiveisRainha(peca, jogo.tabuleiro);
             break;
         case REI:
-            movimentosPossiveis = movimentosPossiveisRei(peca, jogo.tabuleiro);
+            movimentosPossiveisPeca = movimentosPossiveisRei(peca, jogo.tabuleiro);
             //filtrarCasasPossiveisAoRei(&movimentosPossiveis, jogo.tabuleiro, jogo.turno);
             break;
     }
 
-    return movimentosPossiveis;
+    return movimentosPossiveisPeca;
 }
 
 /*void filtrarCasasPossiveisAoRei(CasaTabuleiro** casasPossiveis, Tabuleiro tabuleiro, Turno turnoAtual) {
