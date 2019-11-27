@@ -1,7 +1,7 @@
 #include "./headers/includeLibrarys.h"
 #include "./headers/typesXadrez.h"
 
-#include "./console.c"
+#include "./headers/consoleLib.h"
 
 void limparBuffer(Nome nome) {
     size_t nomeLen = strlen(nome);

@@ -8,7 +8,7 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
     Jogo jogo = inicializarJogo(jogadorBranco, jogadorPreto);
     while(jogo.jogando)
     {
-        printf("Vez do jogador %s jogar!!!\n\n", jogo.jogadores[jogo.corJogando]);
+        printf("Vez do jogador %s jogar!!!\n\n", jogo.jogadores[jogo.corJogando].nome);
         printarTabuleiro(jogo.tabuleiro);
         
         Posicao posicaoMovimento = pedirPecaMovidaJogador();
@@ -100,10 +100,9 @@ Posicao pedirPecaMovidaJogador(void) {
 
 CasaTabuleiro* pedirMovimentoJogador(CasaTabuleiro pecaMovida, ListaCasaTabuleiro movimentos) {
     size_t tamanhoLista = lenListaCasaTabuleiro(movimentos);
-    char linha, coluna;
 
     puts("\nDigite o número de um dos seguintes movimentos:");
-    for(int i = 0; i < tamanhoLista; i++)
+    for(size_t i = 0; i < tamanhoLista; i++)
     {
         CasaTabuleiro* novaPosicao = retornarMovimentoPeloIndice(movimentos, i);
 
@@ -113,7 +112,7 @@ CasaTabuleiro* pedirMovimentoJogador(CasaTabuleiro pecaMovida, ListaCasaTabuleir
         char colunaAtual = pecaMovida.peca->posicao.coluna + 'a';
         char proximaColuna = novaPosicao->peca->posicao.coluna + 'a';
 
-        printf("\t%d -> %d%c para %d%c\n", i + 1, linhaAtual, colunaAtual, proximaLinha, proximaColuna);
+        printf("\t%lu -> %d%c para %d%c\n", i + 1, linhaAtual, colunaAtual, proximaLinha, proximaColuna);
     }
 
     int numeroDigitado;

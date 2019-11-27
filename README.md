@@ -13,10 +13,10 @@
 
 ```bash
 cd objects
-gcc -c *.c -Wall -Wextra -asci -pedantic
+gcc -c *.c -Wall -Wextra -pedantic -pedantic-errors
 mv *.o ../
 cd ..
-gcc `pkg-config gtk+-3.0 --cflags` program.c gui.c *.o -o xadrez.out -Wall -Wextra -asci -pedantic `pkg-config gtk+-3.0 --libs`
+gcc `pkg-config gtk+-3.0 --cflags` program.c gui.c *.o -o xadrez.out -Wall -Wextra -pedantic -pedantic-errors `pkg-config gtk+-3.0 --libs`
 rm *.o
 ./xadrez.out
 ```

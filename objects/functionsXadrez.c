@@ -11,14 +11,17 @@
         #include <stdlib.h>
 #endif
 
+#include <stdio.h>
+
 Jogador criarJogador(Nome nomeJogador, CorPeca corJogador) {
     Jogador jogador;
     jogador.corDasPecas = corJogador;
     strcpy(jogador.nome, nomeJogador);
+    return jogador;
 }
 
 Peca* criarPeoes(CorPeca corCriada) {
-    static const QTD_PEOES = QTD_CASAS_POR_COLUNA;
+    static const int QTD_PEOES = QTD_CASAS_POR_COLUNA;
     Peca* peoes = malloc(sizeof(Peca) * QTD_PEOES);
 
     for(int i = 0; i < QTD_PEOES; i++)
@@ -36,7 +39,7 @@ Peca* criarPeoes(CorPeca corCriada) {
 }
 
 Peca* criarPecasEspeciais(CorPeca corCriada) {
-    static const QTD_PECAS = QTD_CASAS_POR_COLUNA;
+    static const int QTD_PECAS = QTD_CASAS_POR_COLUNA;
     Peca* pecas = malloc(QTD_PECAS * sizeof(Peca));
 
     for(int i = 0; i < QTD_PECAS; i++)
@@ -65,6 +68,7 @@ Jogo inicializarJogo(Nome nomeJogadorBranco, Nome nomeJogadorPreto) {
     Jogo novoJogo;
 
     Jogador jogadorBranco = criarJogador(nomeJogadorBranco, BRANCO);
+    puts("foi");
     Jogador jogadorPreto = criarJogador(nomeJogadorPreto, PRETO);
 
     //Jogador Branco vai primeiro:

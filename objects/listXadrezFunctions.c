@@ -1,4 +1,4 @@
-#include "../headers/genericList.h";
+#include "../headers/genericList.h"
 #include "../headers/listXadrez.h"
 
 ListaCasaTabuleiro* criarListaCasasTabuleiro() {
@@ -14,7 +14,7 @@ CasaTabuleiro* ListaParaArrayDeCasaTabuleiro(ListaCasaTabuleiro lista) {
     size_t listaTamanho = listalen(lista);
     CasaTabuleiro* array = malloc(lista.tamanhoElementos * listaTamanho);
 
-    for(int i = 0; i < listaTamanho; i++)
+    for(size_t i = 0; i < listaTamanho; i++)
         array[i] = *((CasaTabuleiro*)retornarElementoPorIndice(lista, i)->valor);
 
     return array;
@@ -38,7 +38,7 @@ CasaTabuleiro* retornarMovimentoPeloIndice(ListaCasaTabuleiro lista, Indice indi
     if(listaEstaVazia(lista))
         return NULL;
     
-    return retornarElementoPorIndice(lista, indice);
+    return (CasaTabuleiro*)retornarElementoPorIndice(lista, indice)->valor;
 }
 
 size_t lenListaCasaTabuleiro(ListaCasaTabuleiro lista) {
