@@ -38,6 +38,7 @@
         //Verifica se a peca esta impedindo um xequemate
         bool pecaImpedindoXequeMate(CasaTabuleiro pecaTestada, Tabuleiro tabuleiro);
 
+        //Funcao que transforma uma posicao relativa a tela 2D para o plano cartesiano
         Posicao converterPosicaoTelaParaCartesiano(Posicao posicaoTela);
 
         //Funcao para desalocar jogo da heap

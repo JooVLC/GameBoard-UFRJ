@@ -161,4 +161,3 @@ Posicao converterPosicaoTelaParaCartesiano(Posicao posicaoTela) {
 
     return posicaoPlano;
 }
-

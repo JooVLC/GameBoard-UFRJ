@@ -1,6 +1,5 @@
 #include "./headers/includeLibrarys.h"
 #include "./headers/typesXadrez.h"
-
 #include "./headers/consoleLib.h"
 
 void limparBuffer(Nome nome) {

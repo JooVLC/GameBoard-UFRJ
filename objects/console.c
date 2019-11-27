@@ -1,8 +1,8 @@
-#include "./headers/includeLibrarys.h"
-#include "./headers/typesXadrez.h"
-#include "./headers/functionsXadrez.h"
-#include "./headers/listXadrez.h"
-#include "./headers/consoleLib.h"
+#include "../headers/includeLibrarys.h"
+#include "../headers/typesXadrez.h"
+#include "../headers/functionsXadrez.h"
+#include "../headers/listXadrez.h"
+#include "../headers/consoleLib.h"
 
 void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
     Jogo jogo = inicializarJogo(jogadorBranco, jogadorPreto);
