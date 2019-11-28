@@ -47,5 +47,5 @@
 
     void apagarLista(Lista lista);
 
-    size_t listalen(Lista lista);
+    size_t listalen(Lista *lista);
 #endif

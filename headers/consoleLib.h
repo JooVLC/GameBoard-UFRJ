@@ -6,13 +6,13 @@
 
     void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto);
 
-    void printarTabuleiro(Tabuleiro tabuleiro);
+    void printarTabuleiro(Tabuleiro tabuleiro, CasaTabuleiro casaMovida, CasaTabuleiro* casasPossiveis);
 
     void printColunas(void);
 
     void printBordas(bool bordaSuperior);
 
-    void printLinhaIndice(int indice, Tabuleiro tabuleiro);
+    void printLinhaIndice(int indice, Tabuleiro tabuleiro, CasaTabuleiro casaMovida, CasaTabuleiro* casasPossiveis);
 
     Posicao pedirPecaMovidaJogador(void);
 

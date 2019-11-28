@@ -11,11 +11,12 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
     {
         system("cls || clear");
         printf("Vez do jogador %s jogar!!!\n\n", jogo.jogadores[jogo.corJogando].nome);
-        printarTabuleiro(jogo.tabuleiro);
+        printarTabuleiro(jogo.tabuleiro, jogo.tabuleiro[0][0], NULL);
         
         Posicao posicaoMovimento = converterPosicaoTelaParaCartesiano(pedirPecaMovidaJogador());
         printf("pedido feito - %d%d\n", posicaoMovimento.linha, posicaoMovimento.coluna);
         CasaTabuleiro pecaTentandoMover = jogo.tabuleiro[posicaoMovimento.linha][posicaoMovimento.coluna];
+        puts("acesso correto array");
         ListaCasaTabuleiro* movimentosPossiveisArray = movimentosPossiveis(pecaTentandoMover, jogo);
         puts("passou");
         if(movimentosPossiveisArray == NULL || listaEstaVazia(movimentosPossiveisArray))
@@ -43,11 +44,11 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
     }
 }
 
-void printarTabuleiro(Tabuleiro tabuleiro) {
+void printarTabuleiro(Tabuleiro tabuleiro, CasaTabuleiro casaMovida, CasaTabuleiro* casasPossiveis) {
     printColunas();
     printBordas(true);
     for(int i = 1; i <= QTD_CASAS_POR_LINHA; i++) {
-        printLinhaIndice(QTD_CASAS_POR_COLUNA - i, tabuleiro);
+        printLinhaIndice(QTD_CASAS_POR_COLUNA - i, tabuleiro, casaMovida, casasPossiveis);
     }
     printBordas(false);
     puts("");
@@ -73,15 +74,25 @@ void printBordas(bool bordaSuperior) {
     puts("*");
 }
 
-void printLinhaIndice(int linha, Tabuleiro tabuleiro) {
+void printLinhaIndice(int linha, Tabuleiro tabuleiro, CasaTabuleiro casaMovida, CasaTabuleiro* casasPossiveis) {
+    static const char *const COR_MOVIMENTO = YELHB;
+    static const char *const COR_CASA_MOVIDA = REDB;
+
     printf("%d  |", QTD_CASAS_POR_COLUNA - linha);
+
     for(int i = 0; i < QTD_CASAS_POR_LINHA; i++)
     {
         CasaTabuleiro peca = tabuleiro[linha][i];
+
+        bool pintarCasaComoMovimento = casasPossiveis != NULL;
+        bool pintarCasaMovida = casasPossiveis != NULL && casaMovida.localizacao.linha == linha && casaMovida.localizacao.coluna == i;
+
         char pecaNaTela = peca.peca == NULL ? ' ' : letraDoTipoDaPeca(peca.peca->tipo);
-        const char *const corDaCasa = peca.cor == BRANCO ? WHT : BLKB;
-        const char *const corDaPeca = peca.peca != NULL ? (peca.peca->cor == BRANCO ? BWHT : BHBLK) : corDaCasa;
         char pecaNaTelaString[] = { pecaNaTela, '\0' };
+
+        const char *const corDaCasa = pintarCasaMovida ? COR_CASA_MOVIDA : (pintarCasaComoMovimento ? COR_MOVIMENTO : (peca.cor == BRANCO ? WHTHB : BLKHB));
+        const char *const corDaPeca = peca.peca != NULL ? (peca.peca->cor == BRANCO ? BWHT : BBLK) : corDaCasa;
+        bool corIgualCasaPeca = peca.peca != NULL && peca.cor != peca.peca->cor;
 
         printc("  ", corDaCasa, false);
         printc("", corDaCasa, true);
