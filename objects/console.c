@@ -45,29 +45,42 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
 
 void printarTabuleiro(Tabuleiro tabuleiro) {
     printColunas();
+    printBordas(true);
     for(int i = 1; i <= QTD_CASAS_POR_LINHA; i++) {
         printLinhaIndice(QTD_CASAS_POR_COLUNA - i, tabuleiro);
     }
+    printBordas(false);
     puts("");
 }
 
 void printColunas(void) {
     char letra = 'a';
     puts("");
-    printf("   ");
+    printf("    ");
     for(int i = 0; i < QTD_CASAS_POR_LINHA; i++)
         printf("  %c  ", letra + i);
     puts("");
 }
 
+void printBordas(bool bordaSuperior) {
+    printf("   *");
+    for(int i = 0; i < QTD_CASAS_POR_LINHA; i++){
+        if(bordaSuperior)
+            printf("_____");
+        else
+            printf("\u203E\u203E\u203E\u203E\u203E");
+    }
+    puts("*");
+}
+
 void printLinhaIndice(int linha, Tabuleiro tabuleiro) {
-    printf("%d  ", QTD_CASAS_POR_COLUNA - linha);
+    printf("%d  |", QTD_CASAS_POR_COLUNA - linha);
     for(int i = 0; i < QTD_CASAS_POR_LINHA; i++)
     {
         CasaTabuleiro peca = tabuleiro[linha][i];
         char pecaNaTela = peca.peca == NULL ? ' ' : letraDoTipoDaPeca(peca.peca->tipo);
-        const char *const corDaCasa = peca.cor == BRANCO ? WHTB : BLKB;
-        const char *const corDaPeca = peca.peca != NULL ? (peca.peca->cor == BRANCO ? BHWHT : BHBLK) : corDaCasa;
+        const char *const corDaCasa = peca.cor == BRANCO ? WHT : BLKB;
+        const char *const corDaPeca = peca.peca != NULL ? (peca.peca->cor == BRANCO ? BWHT : BHBLK) : corDaCasa;
         char pecaNaTelaString[] = { pecaNaTela, '\0' };
 
         printc("  ", corDaCasa, false);
@@ -76,7 +89,7 @@ void printLinhaIndice(int linha, Tabuleiro tabuleiro) {
         printc("", corDaCasa, false);
         printc("  ", corDaCasa, false);
     }
-    puts("");
+    puts("|");
 }
 
 char letraDoTipoDaPeca(TipoPeca tipoPeca) {

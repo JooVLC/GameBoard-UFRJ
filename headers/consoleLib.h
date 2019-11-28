@@ -10,6 +10,8 @@
 
     void printColunas(void);
 
+    void printBordas(bool bordaSuperior);
+
     void printLinhaIndice(int indice, Tabuleiro tabuleiro);
 
     Posicao pedirPecaMovidaJogador(void);
