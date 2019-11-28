@@ -3,6 +3,7 @@
 #include "../headers/functionsXadrez.h"
 #include "../headers/listXadrez.h"
 #include "../headers/consoleLib.h"
+#include "../headers/colors.h"
 
 void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
     Jogo jogo = inicializarJogo(jogadorBranco, jogadorPreto);
@@ -47,12 +48,13 @@ void printarTabuleiro(Tabuleiro tabuleiro) {
     for(int i = 1; i <= QTD_CASAS_POR_LINHA; i++) {
         printLinhaIndice(QTD_CASAS_POR_COLUNA - i, tabuleiro);
     }
+    puts("");
 }
 
 void printColunas(void) {
     char letra = 'a';
     puts("");
-    printf(" ");
+    printf("   ");
     for(int i = 0; i < QTD_CASAS_POR_LINHA; i++)
         printf("  %c  ", letra + i);
     puts("");
@@ -63,8 +65,16 @@ void printLinhaIndice(int linha, Tabuleiro tabuleiro) {
     for(int i = 0; i < QTD_CASAS_POR_LINHA; i++)
     {
         CasaTabuleiro peca = tabuleiro[linha][i];
-        char pecaNaTela = peca.peca == NULL ? 0 : letraDoTipoDaPeca(peca.peca->tipo);
-        printf("%c    ", pecaNaTela);
+        char pecaNaTela = peca.peca == NULL ? ' ' : letraDoTipoDaPeca(peca.peca->tipo);
+        const char *const corDaCasa = peca.cor == BRANCO ? WHTB : BLKB;
+        const char *const corDaPeca = peca.peca != NULL ? (peca.peca->cor == BRANCO ? BHWHT : BHBLK) : corDaCasa;
+        char pecaNaTelaString[] = { pecaNaTela, '\0' };
+
+        printc("  ", corDaCasa, false);
+        printc("", corDaCasa, true);
+        printc(pecaNaTelaString, corDaPeca, false);
+        printc("", corDaCasa, false);
+        printc("  ", corDaCasa, false);
     }
     puts("");
 }
@@ -133,4 +143,8 @@ CasaTabuleiro* pedirMovimentoJogador(CasaTabuleiro pecaMovida, ListaCasaTabuleir
     scanf("%d", &numeroDigitado);
     getchar();
     return retornarMovimentoPeloIndice(movimentos, numeroDigitado);
+}
+
+void printc(const char *const str, const char *const color, bool corDeBackground) {
+    printf("%s%s%s", color, str, corDeBackground ? "" : COLOR_RESTART);
 }

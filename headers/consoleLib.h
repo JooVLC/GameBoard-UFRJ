@@ -17,4 +17,6 @@
     CasaTabuleiro* pedirMovimentoJogador(CasaTabuleiro pecaMovida, ListaCasaTabuleiro *movimentos);
 
     char letraDoTipoDaPeca(TipoPeca tipoPeca);
+
+    void printc(const char *const str, const char *const color, bool corDeBackground);
 #endif
