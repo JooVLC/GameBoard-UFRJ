@@ -8,7 +8,7 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
     Jogo jogo = inicializarJogo(jogadorBranco, jogadorPreto);
     while(jogo.jogando)
     {
-        system("cls || clear");
+        system("cls;clear");
         printf("Vez do jogador %s jogar!!!\n\n", jogo.jogadores[jogo.corJogando].nome);
         printarTabuleiro(jogo.tabuleiro);
         

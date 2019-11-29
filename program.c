@@ -23,7 +23,7 @@ int main(void)
     fgets(nomeBranco, NOME_LEN, stdin);
     limparBuffer(nomeBranco);
 
-    puts("Digite o nome do jogador branco: ");
+    puts("Digite o nome do jogador preto: ");
     fgets(nomePreto, NOME_LEN, stdin);
     limparBuffer(nomePreto);
 
