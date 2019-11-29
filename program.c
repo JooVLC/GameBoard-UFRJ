@@ -18,7 +18,7 @@ void limparBuffer(Nome nome) {
 int main(void)
 {
     Nome nomeBranco, nomePreto;
-
+    system(CLEAR);
     puts("Digite o nome do jogador branco: ");
     fgets(nomeBranco, NOME_LEN, stdin);
     limparBuffer(nomeBranco);
