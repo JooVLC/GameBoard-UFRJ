@@ -5,7 +5,7 @@
     #include "./listXadrez.h"
 
     
-    #ifdef win32
+    #if defined(win32) || defined(_WIN32) || defined(WIN32) || defined(__WIN32__) || defined(__CYGWIN32__) || defined(__CYGWIN64__)
         #define CLEAR "cls"
     #else
         #define CLEAR "clear"
