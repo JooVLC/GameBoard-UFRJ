@@ -4,11 +4,17 @@
 #include "../headers/listXadrez.h"
 #include "../headers/consoleLib.h"
 
+#ifdef win32
+    #define CLEAR "cls"
+#else
+    #define CLEAR "clear"
+#endif
+
 void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
     Jogo jogo = inicializarJogo(jogadorBranco, jogadorPreto);
     while(jogo.jogando)
     {
-        system("cls;clear");
+        system(CLEAR);
         printf("Vez do jogador %s jogar!!!\n\n", jogo.jogadores[jogo.corJogando].nome);
         printarTabuleiro(jogo.tabuleiro);
         
