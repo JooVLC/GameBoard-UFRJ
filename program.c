@@ -31,7 +31,6 @@ int main(void)
     puts("Digite qualquer tecla para iniciar o jogo...");
     getchar();
 
-    printf("%s - %s\n", nomePreto, nomeBranco);
     iniciarJogoConsole(nomeBranco, nomePreto);
     //iniciarJogoGUI(nomeBranco, nomePreto);
 
