@@ -26,14 +26,13 @@ rm *.o
 > Necessario antes a instalação do gcc no Windows
 
 ```bash
-rm xadrez.exe
 cd objects
-gcc -c *.c
+gcc -c *.c -Wall -Wextra -pedantic -pedantic-errors
 mv *.o ../
 cd ..
-gcc program.c *.o -o xadrez.exe
+gcc program.c *.o -o xadrez.exe -Wall -Wextra -pedantic -pedantic-errors
 rm *.o
-.\xadrez.exe
+./xadrez.exe
 ```
 
 ---
