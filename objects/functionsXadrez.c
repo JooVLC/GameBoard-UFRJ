@@ -1,17 +1,6 @@
+#include "../headers/includeLibrarys.h"
 #include "../headers/typesXadrez.h"
 #include "../headers/functionsXadrez.h"
-
-#ifndef INCLUDE_STRING
-    #define INCLUDE_STRING 1
-    #include <string.h>
-#endif
-
-#ifndef INCLUDE_STDLIB
-        #define INCLUDE_STDLIB 1
-        #include <stdlib.h>
-#endif
-
-#include <stdio.h>
 
 Jogador criarJogador(Nome nomeJogador, CorPeca corJogador) {
     Jogador jogador;

@@ -4,6 +4,13 @@
     #include "./typesXadrez.h"
     #include "./listXadrez.h"
 
+    
+    #if defined(win32) || defined(_WIN32) || defined(WIN32) || defined(__WIN32__) || defined(__CYGWIN32__) || defined(__CYGWIN64__)
+        #define CLEAR "cls"
+    #else
+        #define CLEAR "clear"
+    #endif
+
     void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto);
 
     void printarTabuleiro(Tabuleiro tabuleiro, CasaTabuleiro casaMovida, CasaTabuleiro* casasPossiveis);

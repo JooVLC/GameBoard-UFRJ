@@ -9,16 +9,32 @@
 
 ---
 
-### Código no bash do Linux(MAC) para compilar e executar o programa
+### Código no bash do Linux(ou MAC) para compilar e executar o programa
 
 ```bash
 cd objects
 gcc -c *.c -Wall -Wextra -pedantic -pedantic-errors
 mv *.o ../
 cd ..
-gcc `pkg-config gtk+-3.0 --cflags` program.c *.o -o xadrez.out -Wall -Wextra -pedantic -pedantic-errors `pkg-config gtk+-3.0 --libs`
+gcc program.c *.o -o xadrez.out -Wall -Wextra -pedantic -pedantic-errors
 rm *.o
 ./xadrez.out
 ```
 
-> ATENÇÃO: Necessaria a biblioteca gráfica GTK
+### Código no bash do PowerShell para compilar e executar o programa
+
+> Necessario antes a instalação do gcc no Windows
+
+```bash
+cd objects
+gcc -c *.c -Wall -Wextra -pedantic -pedantic-errors
+mv *.o ../
+cd ..
+gcc program.c *.o -o xadrez.exe -Wall -Wextra -pedantic -pedantic-errors
+rm *.o
+./xadrez.exe
+```
+
+---
+
+> ATENÇÃO: Necessaria a biblioteca gráfica GTK para usar a versao com gui

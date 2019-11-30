@@ -1,14 +1,5 @@
+#include "../headers/includeLibrarys.h"
 #include "../headers/genericList.h"
-
-#ifndef INCLUDE_STRING
-    #define INCLUDE_STRING 1
-    #include <string.h>
-#endif
-
-#ifndef INCLUDE_STDLIB
-        #define INCLUDE_STDLIB 1
-        #include <stdlib.h>
-#endif
 
 
 void criarListaDeTipoGenerico(Lista **novaLista, size_t tamanhoElemento, void* primeiroValor) {
