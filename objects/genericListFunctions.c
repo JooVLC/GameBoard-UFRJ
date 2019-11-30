@@ -164,8 +164,8 @@ size_t listalen(Lista *lista) {
     puts("erro no inicio");
     while (noAtual != NULL)
     {
-        printf("%d\n", noAtual == NULL ? 1 : 0);
         noAtual = noAtual->proximo;
+        printf("%d\n", noAtual == NULL ? 1 : 0);
         len += 1;
     }
     printf("len: %d\n", len);

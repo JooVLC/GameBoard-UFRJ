@@ -2,6 +2,7 @@
 #include "../headers/typesXadrez.h"
 #include "../headers/functionsXadrez.h"
 #include "../headers/listXadrez.h"
+#include "../headers/genericList.h"
 
 /*Peao não pode pular pecas
 Peao pode se mover duas casas no inicio do jogo (não necessita verificação pois o turno já verificas as condições)
@@ -30,7 +31,7 @@ ListaCasaTabuleiro* movimentosPossiveisPeao(CasaTabuleiro peca, Tabuleiro tabule
         {
             CasaTabuleiro movimentoPeaoDuasCasas = tabuleiro[pecaLinhaAtual+2][pecaColunaAtual];
             puts("vaiAdiconar");
-            adicionarNovoMovimento(movimentosPossiveis, movimentoPeaoDuasCasas);
+            adicionarNovoMovimento(movimentosPossiveis, movimentoPeaoDuasCasas); //erro aqui
             puts("adicionou");
         }
     }
@@ -45,6 +46,7 @@ ListaCasaTabuleiro* movimentosPossiveisPeao(CasaTabuleiro peca, Tabuleiro tabule
         adicionarNovoMovimento(movimentosPossiveis, *casaAcimaDoPeaoLinha);
     
     free(casasRelevantes);
+    printf("peao:%d\n", retornarElementoPorIndice(*movimentosPossiveis, 0));
     return movimentosPossiveis;
 }
 
