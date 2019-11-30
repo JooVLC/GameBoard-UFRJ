@@ -79,6 +79,8 @@ void inicializarTabuleiro(Tabuleiro novoTabuleiro) {
         for(int j = 0; j < QTD_CASAS_POR_COLUNA; j++)
         {
             CasaTabuleiro novaCasa;
+            Posicao localizacaoNovaCasa = { i, j };
+            novaCasa.localizacao = localizacaoNovaCasa;
             novaCasa.cor = corDaCasa;
             novaCasa.peca = NULL;
             novoTabuleiro[i][j] = novaCasa;
@@ -106,9 +108,7 @@ void inicializarPecas(Tabuleiro novoTabuleiro) {
             else
                 novoTabuleiro[i][j].peca = peoes[j];
 
-            Posicao posicaoPeca;
-            posicaoPeca.linha = i;
-            posicaoPeca.coluna = j;
+            Posicao posicaoPeca = { i, j };
             novoTabuleiro[i][j].peca->posicao = posicaoPeca; 
         }    
     }
@@ -125,6 +125,9 @@ void inicializarPecas(Tabuleiro novoTabuleiro) {
                 novoTabuleiro[i][j].peca = outrasPecas[j];
             else
                 novoTabuleiro[i][j].peca = peoes[j];
+
+            Posicao posicaoPeca = { i, j };
+            novoTabuleiro[i][j].peca->posicao = posicaoPeca; 
         }    
     }
     free(peoes);

@@ -3,6 +3,7 @@
 #include "../headers/functionsXadrez.h"
 #include "../headers/listXadrez.h"
 #include "../headers/consoleLib.h"
+#include "../headers/colors.h"
 
 void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
     Jogo jogo = inicializarJogo(jogadorBranco, jogadorPreto);
@@ -10,11 +11,12 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
     {
         system(CLEAR);
         printf("Vez do jogador %s jogar!!!\n\n", jogo.jogadores[jogo.corJogando].nome);
-        printarTabuleiro(jogo.tabuleiro);
+        printarTabuleiro(jogo.tabuleiro, jogo.tabuleiro[0][0], NULL);
         
         Posicao posicaoMovimento = converterPosicaoTelaParaCartesiano(pedirPecaMovidaJogador());
         printf("pedido feito - %d%d\n", posicaoMovimento.linha, posicaoMovimento.coluna);
         CasaTabuleiro pecaTentandoMover = jogo.tabuleiro[posicaoMovimento.linha][posicaoMovimento.coluna];
+        puts("acesso correto array");
         ListaCasaTabuleiro* movimentosPossiveisArray = movimentosPossiveis(pecaTentandoMover, jogo);
         puts("passou");
         if(movimentosPossiveisArray == NULL || listaEstaVazia(movimentosPossiveisArray))
@@ -42,31 +44,63 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
     }
 }
 
-void printarTabuleiro(Tabuleiro tabuleiro) {
+void printarTabuleiro(Tabuleiro tabuleiro, CasaTabuleiro casaMovida, CasaTabuleiro* casasPossiveis) {
     printColunas();
+    printBordas(true);
     for(int i = 1; i <= QTD_CASAS_POR_LINHA; i++) {
-        printLinhaIndice(QTD_CASAS_POR_COLUNA - i, tabuleiro);
+        printLinhaIndice(QTD_CASAS_POR_COLUNA - i, tabuleiro, casaMovida, casasPossiveis);
     }
+    printBordas(false);
+    puts("");
 }
 
 void printColunas(void) {
     char letra = 'a';
     puts("");
-    printf(" ");
+    printf("    ");
     for(int i = 0; i < QTD_CASAS_POR_LINHA; i++)
         printf("  %c  ", letra + i);
     puts("");
 }
 
-void printLinhaIndice(int linha, Tabuleiro tabuleiro) {
-    printf("%d  ", QTD_CASAS_POR_COLUNA - linha);
+void printBordas(bool bordaSuperior) {
+    printf("   *");
+    for(int i = 0; i < QTD_CASAS_POR_LINHA; i++){
+        if(bordaSuperior)
+            printf("_____");
+        else
+            printf("\u203E\u203E\u203E\u203E\u203E");
+    }
+    puts("*");
+}
+
+void printLinhaIndice(int linha, Tabuleiro tabuleiro, CasaTabuleiro casaMovida, CasaTabuleiro* casasPossiveis) {
+    static const char *const COR_MOVIMENTO = YELHB;
+    static const char *const COR_CASA_MOVIDA = REDB;
+
+    printf("%d  |", QTD_CASAS_POR_COLUNA - linha);
+
     for(int i = 0; i < QTD_CASAS_POR_LINHA; i++)
     {
         CasaTabuleiro peca = tabuleiro[linha][i];
-        char pecaNaTela = peca.peca == NULL ? 0 : letraDoTipoDaPeca(peca.peca->tipo);
-        printf("%c    ", pecaNaTela);
+
+        bool pintarCasaComoMovimento = casasPossiveis != NULL;
+        bool pintarCasaMovida = casasPossiveis != NULL && casaMovida.localizacao.linha == linha && casaMovida.localizacao.coluna == i;
+
+        char pecaNaTela = peca.peca == NULL ? ' ' : letraDoTipoDaPeca(peca.peca->tipo);
+        char pecaNaTelaString[] = { pecaNaTela, '\0' };
+
+        const char *const corDaCasa = pintarCasaMovida ? COR_CASA_MOVIDA : (pintarCasaComoMovimento ? COR_MOVIMENTO : (peca.cor == BRANCO ? WHTHB : BLKHB));
+        const char *const corDaPeca = peca.peca != NULL ? (peca.peca->cor == BRANCO ? BWHT : BBLK) : corDaCasa;
+        bool corIgualCasaPeca = peca.peca != NULL && peca.cor != peca.peca->cor;
+
+        printc("  ", corDaCasa, false);
+        printc("", corDaCasa, true);
+        printc(pecaNaTelaString, corDaPeca, false);
+        printc("", corDaCasa, false);
+        printc("  ", corDaCasa, false);
     }
-    puts("");
+    puts("|");
 }
 
 char letraDoTipoDaPeca(TipoPeca tipoPeca) {
@@ -133,4 +167,8 @@ CasaTabuleiro* pedirMovimentoJogador(CasaTabuleiro pecaMovida, ListaCasaTabuleir
     scanf("%d", &numeroDigitado);
     getchar();
     return retornarMovimentoPeloIndice(movimentos, numeroDigitado);
+}
+
+void printc(const char *const str, const char *const color, bool corDeBackground) {
+    printf("%s%s%s", color, str, corDeBackground ? "" : COLOR_RESTART);
 }

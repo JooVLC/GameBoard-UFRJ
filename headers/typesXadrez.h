@@ -62,6 +62,7 @@
     typedef struct {
         Peca *peca;
         CorPeca cor;
+        Posicao localizacao;
     } CasaTabuleiro;
 
     typedef CasaTabuleiro Tabuleiro[QTD_CASAS_POR_LINHA][QTD_CASAS_POR_COLUNA];

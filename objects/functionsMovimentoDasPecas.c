@@ -9,23 +9,29 @@ Peao pode se mover para comer um peao na diagonal direita
 Peao pode se mover para comer um peao na diagonal esquerda
 Peao pode se mover para frente (ate o final do board)*/
 ListaCasaTabuleiro* movimentosPossiveisPeao(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual) {
-    Coordenada pecaLinhaAtual = peca.peca->posicao.linha;
-    Coordenada pecaColunaAtual = peca.peca->posicao.coluna;
+    Coordenada pecaLinhaAtual = peca.localizacao.linha;
+    Coordenada pecaColunaAtual = peca.localizacao.coluna;
 
     //CASAS RELEVANTES AO PEAO (manual pela dificuldade do peão e pequena quantidade de movimentos)
     CasaTabuleiro **casasRelevantes = casasRelevantesAoPeao(tabuleiro, pecaLinhaAtual, pecaColunaAtual);
+    puts("lol");
+    printf("cor: %d %d\n", casasRelevantes[0]->cor, casasRelevantes[1]->cor);
     CasaTabuleiro *casaAcimaDoPeaoLinha = casasRelevantes[0];
     CasaTabuleiro *casaAcimaDoPeaoLinhaDireita = casasRelevantes[1];
     CasaTabuleiro *casaAcimaDoPeaoLinhaEsquerda = casasRelevantes[2];
 
+    puts("vai criar");
     ListaCasaTabuleiro* movimentosPossiveis = criarListaCasasTabuleiro();
+    puts("criou");
 
     if( (turnoAtual == 1 && peca.peca->cor == BRANCO) || (turnoAtual == 2 && peca.peca->cor == PRETO) )
     {
         if(casaAcimaDoPeaoLinha != NULL && casaAcimaDoPeaoLinha->peca == NULL)
         {
             CasaTabuleiro movimentoPeaoDuasCasas = tabuleiro[pecaLinhaAtual+2][pecaColunaAtual];
+            puts("vaiAdiconar");
             adicionarNovoMovimento(movimentosPossiveis, movimentoPeaoDuasCasas);
+            puts("adicionou");
         }
     }
 
@@ -46,6 +52,8 @@ CasaTabuleiro** casasRelevantesAoPeao(Tabuleiro tabuleiro, Coordenada pecaLinhaA
     CasaTabuleiro *casaAcimaDoPeaoLinha = pecaLinhaAtual + 1 < QTD_CASAS_POR_LINHA ? &tabuleiro[pecaLinhaAtual+1][pecaColunaAtual] : NULL;
     CasaTabuleiro *casaAcimaDoPeaoLinhaDireita = pecaLinhaAtual + 1 < QTD_CASAS_POR_LINHA && pecaColunaAtual + 1 < QTD_CASAS_POR_COLUNA ? &tabuleiro[pecaLinhaAtual+1][pecaColunaAtual+1] : NULL;
     CasaTabuleiro *casaAcimaDoPeaoLinhaEsquerda = pecaLinhaAtual + 1 < QTD_CASAS_POR_LINHA && pecaColunaAtual >= 0 ? &tabuleiro[pecaLinhaAtual+1][pecaColunaAtual-1] : NULL;
+
+    printf("coodernada: %d %d\n", pecaLinhaAtual, pecaColunaAtual);
 
     CasaTabuleiro** casasRelevantes = malloc(sizeof(CasaTabuleiro*) * MOVIMENTOS_POSSIVEIS_PEAO);
     casasRelevantes[0] = casaAcimaDoPeaoLinha;
@@ -409,12 +417,12 @@ CasaTabuleiro** casasRelevantesAoRei(Tabuleiro tabuleiro, Coordenada pecaLinhaAt
 
 
 void moverPeca(CasaTabuleiro pecaMovida, Tabuleiro tabuleiro, CasaTabuleiro novaPosicao) {
-    if(pecaMovida.peca->cor == novaPosicao.peca->cor)
+    if(novaPosicao.peca != NULL && pecaMovida.peca->cor == novaPosicao.peca->cor)
         return;
 
-    tabuleiro[novaPosicao.peca->posicao.linha][novaPosicao.peca->posicao.coluna].peca = pecaMovida.peca;
+    tabuleiro[novaPosicao.localizacao.linha][novaPosicao.localizacao.coluna].peca = pecaMovida.peca;
     tabuleiro[pecaMovida.peca->posicao.linha][pecaMovida.peca->posicao.coluna].peca = NULL;
-    pecaMovida.peca->posicao = novaPosicao.peca->posicao;
+    pecaMovida.peca->posicao = novaPosicao.localizacao;
     free(novaPosicao.peca); //talvez apague dps (depende de como Peca *peca é criada)
 }
 

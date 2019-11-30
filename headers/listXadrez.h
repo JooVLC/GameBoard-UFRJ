@@ -7,7 +7,7 @@
 
     ListaCasaTabuleiro* criarListaCasasTabuleiro();
 
-    CasaTabuleiro* ListaParaArrayDeCasaTabuleiro(ListaCasaTabuleiro lista);
+    CasaTabuleiro* ListaParaArrayDeCasaTabuleiro(ListaCasaTabuleiro *lista);
 
     bool listaEstaVazia(ListaCasaTabuleiro *lista);
 

@@ -8,21 +8,21 @@ ListaCasaTabuleiro* criarListaCasasTabuleiro() {
     return listaCasas;
 }
 
-CasaTabuleiro* ListaParaArrayDeCasaTabuleiro(ListaCasaTabuleiro lista) {
+CasaTabuleiro* ListaParaArrayDeCasaTabuleiro(ListaCasaTabuleiro *lista) {
     if(listalen(lista) == 1)
         return NULL;
 
     size_t listaTamanho = listalen(lista);
-    CasaTabuleiro* array = malloc(lista.tamanhoElementos * listaTamanho);
+    CasaTabuleiro* array = malloc(lista->tamanhoElementos * listaTamanho);
 
     for(size_t i = 0; i < listaTamanho; i++)
-        array[i] = *((CasaTabuleiro*)retornarElementoPorIndice(lista, i)->valor);
+        array[i] = *((CasaTabuleiro*)retornarElementoPorIndice(*lista, i)->valor);
 
     return array;
 }
 
 void adicionarNovoMovimento(ListaCasaTabuleiro *lista, CasaTabuleiro peca) {
-    if(listalen(*lista) == 1)
+    if(listaEstaVazia(lista))
         adicionarElementoPorIndice(*lista, &peca, 0);
     else
         adicionarElementoAoFinalDaLista(*lista, &peca);
@@ -52,6 +52,6 @@ size_t lenListaCasaTabuleiro(ListaCasaTabuleiro *lista) {
     else
     {
         puts("else0");
-        return listalen(*lista);
+        return listalen(lista);
     }
 }

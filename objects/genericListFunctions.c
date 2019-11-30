@@ -158,15 +158,16 @@ void apagarNo(No **no) {
     free(*no);
 }
 
-size_t listalen(Lista lista) {
+size_t listalen(Lista *lista) {
     size_t len = 0;
-    No* noAtual = *lista.inicio;
-    puts("listalen loop:");
+    No* noAtual = *lista->inicio;
+    puts("erro no inicio");
     while (noAtual != NULL)
     {
-        puts("loopando");
+        printf("%d\n", noAtual == NULL ? 1 : 0);
         noAtual = noAtual->proximo;
         len += 1;
     }
+    printf("len: %d\n", len);
     return len;
 }
