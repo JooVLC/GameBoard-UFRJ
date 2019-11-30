@@ -18,19 +18,19 @@ void limparBuffer(Nome nome) {
 int main(void)
 {
     Nome nomeBranco, nomePreto;
+    system(CLEAR);
 
     puts("Digite o nome do jogador branco: ");
     fgets(nomeBranco, NOME_LEN, stdin);
     limparBuffer(nomeBranco);
 
-    puts("Digite o nome do jogador branco: ");
+    puts("Digite o nome do jogador preto: ");
     fgets(nomePreto, NOME_LEN, stdin);
     limparBuffer(nomePreto);
 
     puts("Digite qualquer tecla para iniciar o jogo...");
     getchar();
 
-    printf("%s - %s\n", nomePreto, nomeBranco);
     iniciarJogoConsole(nomeBranco, nomePreto);
     //iniciarJogoGUI(nomeBranco, nomePreto);
 

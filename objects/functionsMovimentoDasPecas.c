@@ -1,3 +1,4 @@
+#include "../headers/includeLibrarys.h"
 #include "../headers/typesXadrez.h"
 #include "../headers/functionsXadrez.h"
 #include "../headers/listXadrez.h"
