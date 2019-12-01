@@ -2,11 +2,9 @@
 #include "../headers/typesXadrez.h"
 #include "../headers/functionsXadrez.h"
 
-Jogador criarJogador(Nome nomeJogador, CorPeca corJogador) {
-    Jogador jogador;
-    jogador.corDasPecas = corJogador;
-    strcpy(jogador.nome, nomeJogador);
-    return jogador;
+void criarJogador(Jogador* jogador, Nome nomeJogador, CorPeca corJogador) {
+    jogador->corDasPecas = corJogador;
+    strcpy(jogador->nome, nomeJogador);
 }
 
 Peca** criarPeoes(CorPeca corCriada) {
@@ -52,22 +50,30 @@ Peca** criarPecasEspeciais(CorPeca corCriada) {
     return pecas;
 }
 
-Jogo inicializarJogo(Nome nomeJogadorBranco, Nome nomeJogadorPreto) {
-    Jogo novoJogo;
+Jogo* inicializarJogo(Nome nomeJogadorBranco, Nome nomeJogadorPreto) {
+    Jogo *novoJogo = malloc(sizeof *novoJogo);
 
-    Jogador jogadorBranco = criarJogador(nomeJogadorBranco, BRANCO);
-    Jogador jogadorPreto = criarJogador(nomeJogadorPreto, PRETO);
+    criarJogador(&novoJogo->jogadores[0], nomeJogadorBranco, BRANCO);
+    criarJogador(&novoJogo->jogadores[1], nomeJogadorPreto, PRETO);
 
     //Jogador Branco vai primeiro:
-    novoJogo.jogadores[0] = jogadorBranco;
-    novoJogo.jogadores[1] = jogadorPreto;
-    novoJogo.corJogando = BRANCO;
-    novoJogo.turno = 1;
-    novoJogo.jogando = true;
-    inicializarTabuleiro(novoJogo.tabuleiro);
-    inicializarPecas(novoJogo.tabuleiro);
+    novoJogo->corJogando = BRANCO;
+    novoJogo->turno = 1;
+    novoJogo->jogando = true;
+    inicializarTabuleiro(novoJogo->tabuleiro);
+    inicializarPecas(novoJogo->tabuleiro);
 
     return novoJogo;
+}
+
+void apagarJogo(Jogo** jogo) {
+    for(int i = 0; i < QTD_CASAS_POR_COLUNA; i++) {
+        for(int j = 0; j < QTD_CASAS_POR_LINHA; j++) {
+            Peca *peca = (*jogo)->tabuleiro[i][j].peca;
+            free(peca);
+        }
+    }
+    free(*jogo);
 }
 
 void inicializarTabuleiro(Tabuleiro novoTabuleiro) {
@@ -134,9 +140,22 @@ void inicializarPecas(Tabuleiro novoTabuleiro) {
     free(outrasPecas);
 }
 
+void inverterTabuleiro(Tabuleiro tabuleiro) {
+    for(int i = 0; i < QTD_CASAS_POR_LINHA; i++) {
+        //j(de 0 ate x) e k(do final ate x) onde x e onde eles se encontram (metade do tabuleiro)
+        int metadeDoTabuleiro = QTD_CASAS_POR_COLUNA/2;
+        for(int j = 0, k = QTD_CASAS_POR_COLUNA - 1; k >= metadeDoTabuleiro && j < metadeDoTabuleiro; j++, k--) {
+            CasaTabuleiro temp = tabuleiro[j][i];
+            tabuleiro[j][i] = tabuleiro[k][i];
+            tabuleiro[k][i] = temp;
+        }
+    }
+}
+
 void proximoTurno(Jogo *jogo) {
     jogo->turno += 1;
     jogo->corJogando = !(jogo->corJogando);
+    inverterTabuleiro(jogo->tabuleiro);
 }
 
 Posicao converterPosicaoTelaParaCartesiano(Posicao posicaoTela) {

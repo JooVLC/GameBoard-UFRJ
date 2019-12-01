@@ -6,7 +6,9 @@
 #include "../headers/colors.h"
 
 void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
-    Jogo jogo = inicializarJogo(jogadorBranco, jogadorPreto);
+    Jogo **jogoPtr = malloc(sizeof *jogoPtr);
+    *jogoPtr = inicializarJogo(jogadorBranco, jogadorPreto);
+    Jogo jogo = **jogoPtr;
     while(jogo.jogando)
     {
         system(CLEAR);
@@ -17,7 +19,8 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
         printf("pedido feito - %d%d\n", posicaoMovimento.linha, posicaoMovimento.coluna);
         CasaTabuleiro pecaTentandoMover = jogo.tabuleiro[posicaoMovimento.linha][posicaoMovimento.coluna];
         puts("acesso correto array");
-        ListaCasaTabuleiro** movimentosPossiveisArray = movimentosPossiveis(pecaTentandoMover, jogo);
+        ListaCasaTabuleiro** movimentosPossiveisArray = malloc(sizeof *movimentosPossiveisArray);
+        *movimentosPossiveisArray = movimentosPossiveis(pecaTentandoMover, jogo);
         puts("passou");
         if((*movimentosPossiveisArray)->len == 0)
         {
@@ -42,6 +45,8 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
         apagarLista(movimentosPossiveisArray);
         free(movimentosPossiveisArray);
     }
+    apagarJogo(jogoPtr);
+    free(jogoPtr);
 }
 
 void printarTabuleiro(Tabuleiro tabuleiro, CasaTabuleiro casaMovida, CasaTabuleiro* casasPossiveis) {
@@ -147,18 +152,17 @@ Posicao pedirPecaMovidaJogador(void) {
 }
 
 CasaTabuleiro* pedirMovimentoJogador(CasaTabuleiro pecaMovida, ListaCasaTabuleiro *movimentos) {
-    size_t tamanhoLista = lenListaCasaTabuleiro(movimentos);
-
+    puts("");
     puts("\nDigite o número de um dos seguintes movimentos:");
-    for(size_t i = 0; i < tamanhoLista; i++)
+    for(size_t i = 0; i < movimentos->len; i++)
     {
-        CasaTabuleiro* novaPosicao = retornarMovimentoPeloIndice(movimentos, i);
+        CasaTabuleiro* novaPosicao = retornarElementoDaLista(movimentos, i)->data;
 
         int linhaAtual = pecaMovida.peca->posicao.linha;
-        int proximaLinha = novaPosicao->peca->posicao.linha;
+        int proximaLinha = novaPosicao->localizacao.linha;
 
         char colunaAtual = pecaMovida.peca->posicao.coluna + 'a';
-        char proximaColuna = novaPosicao->peca->posicao.coluna + 'a';
+        char proximaColuna = novaPosicao->localizacao.coluna + 'a';
 
         printf("\t%lu -> %d%c para %d%c\n", i + 1, linhaAtual, colunaAtual, proximaLinha, proximaColuna);
     }
@@ -166,7 +170,7 @@ CasaTabuleiro* pedirMovimentoJogador(CasaTabuleiro pecaMovida, ListaCasaTabuleir
     int numeroDigitado;
     scanf("%d", &numeroDigitado);
     getchar();
-    return retornarMovimentoPeloIndice(movimentos, numeroDigitado);
+    return retornarElementoDaLista(movimentos, numeroDigitado)->data;
 }
 
 void printc(const char *const str, const char *const color, bool corDeBackground) {

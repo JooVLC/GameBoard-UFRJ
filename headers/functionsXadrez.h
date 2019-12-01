@@ -11,7 +11,10 @@
 
     //FUNCOES DO JOGO 
         //Cria o jogo e retorna ele a partir dos nomes pegos do CMD
-        Jogo inicializarJogo(Nome nomeJogadorBranco, Nome nomeJogadorPreto);
+        Jogo* inicializarJogo(Nome nomeJogadorBranco, Nome nomeJogadorPreto);
+
+        //Apagar o jogo dando free em suas variaveis
+        void apagarJogo(Jogo** jogo);
 
         //Cria o tabuleiro e inicializa ele
         void inicializarTabuleiro(Tabuleiro novoTabuleiro);
@@ -26,7 +29,7 @@
         Peca** criarPecasEspeciais(CorPeca corCriada);
 
         //Cria um novo jogador a partir do seu nome e cor
-        Jogador criarJogador(Nome nomeJogador, CorPeca corJogador);
+        void criarJogador(Jogador* jogador, Nome nomeJogador, CorPeca corJogador);
 
         //Testa se houve xequemate, e caso houver, corPeca recebe a cor de quem
         //esta recebendo o xeque, caso não, retorna NULL
@@ -41,8 +44,8 @@
         //Funcao que transforma uma posicao relativa a tela 2D para o plano cartesiano
         Posicao converterPosicaoTelaParaCartesiano(Posicao posicaoTela);
 
-        //Funcao para desalocar jogo da heap
-        void terminarJogo(Jogo jogo);
+        //Funcao que inverte o tabuleiro para o proximo jogador
+        void inverterTabuleiro(Tabuleiro tabuleiro);
 
         void proximoTurno(Jogo *jogo);
     //endregion
