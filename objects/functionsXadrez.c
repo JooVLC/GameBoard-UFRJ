@@ -145,7 +145,18 @@ void inverterTabuleiro(Tabuleiro tabuleiro) {
         //j(de 0 ate x) e k(do final ate x) onde x e onde eles se encontram (metade do tabuleiro)
         int metadeDoTabuleiro = QTD_CASAS_POR_COLUNA/2;
         for(int j = 0, k = QTD_CASAS_POR_COLUNA - 1; k >= metadeDoTabuleiro && j < metadeDoTabuleiro; j++, k--) {
-            trocarPosicaoCasas(&tabuleiro[j][i], &tabuleiro[k][i]);
+            Posicao posTemp = tabuleiro[j][i].localizacao;
+            tabuleiro[j][i].localizacao = tabuleiro[k][i].localizacao;
+            tabuleiro[k][i].localizacao = posTemp;
+
+            CasaTabuleiro temp = tabuleiro[j][i];
+            tabuleiro[j][i] = tabuleiro[k][i];
+            tabuleiro[k][i] = temp;
+
+            if(tabuleiro[j][i].peca != NULL)
+                tabuleiro[j][i].peca->posicao = tabuleiro[j][i].localizacao;
+            if(tabuleiro[k][i].peca != NULL)
+                tabuleiro[k][i].peca->posicao = tabuleiro[k][i].localizacao;
         }
     }
 }

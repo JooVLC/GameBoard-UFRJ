@@ -15,16 +15,12 @@ ListaCasaTabuleiro** movimentosPossiveisPeao(CasaTabuleiro peca, Tabuleiro tabul
 
     //CASAS RELEVANTES AO PEAO (manual pela dificuldade do peão e pequena quantidade de movimentos)
     CasaTabuleiro **casasRelevantes = casasRelevantesAoPeao(tabuleiro, pecaLinhaAtual, pecaColunaAtual);
-    puts("lol");
-    printf("cor: %d %d\n", casasRelevantes[0]->cor, casasRelevantes[1]->cor);
     CasaTabuleiro *casaAcimaDoPeaoLinha = casasRelevantes[0];
     CasaTabuleiro *casaAcimaDoPeaoLinhaDireita = casasRelevantes[1];
     CasaTabuleiro *casaAcimaDoPeaoLinhaEsquerda = casasRelevantes[2];
 
-    puts("vai criar");
     ListaCasaTabuleiro** movimentosPossiveis = malloc(sizeof *movimentosPossiveis);
     criarLista(movimentosPossiveis, sizeof(CasaTabuleiro));
-    puts("criou");
 
     if( (turnoAtual == 1 && peca.peca->cor == BRANCO) || (turnoAtual == 2 && peca.peca->cor == PRETO) )
     {
@@ -32,46 +28,34 @@ ListaCasaTabuleiro** movimentosPossiveisPeao(CasaTabuleiro peca, Tabuleiro tabul
         {
             CasaTabuleiro *movimentoPeaoDuasCasas = malloc(sizeof *movimentoPeaoDuasCasas);
             *movimentoPeaoDuasCasas = tabuleiro[pecaLinhaAtual+2][pecaColunaAtual];
-            puts("vaiAdiconar");
             adicionarItemAoFinalDaLista(*movimentosPossiveis, movimentoPeaoDuasCasas); //erro aqui
-            puts("adicionou");
         }
     }
 
-    puts("if1 P");
     if(casaAcimaDoPeaoLinhaDireita != NULL && casaAcimaDoPeaoLinhaDireita->peca != NULL && casaAcimaDoPeaoLinhaDireita->peca->cor != peca.peca->cor)
         adicionarItemAoFinalDaLista(*movimentosPossiveis, casaAcimaDoPeaoLinhaDireita);
 
-    puts("if2 P");
-    printf("if2: %d\n", casaAcimaDoPeaoLinhaEsquerda == NULL);
     if(casaAcimaDoPeaoLinhaEsquerda != NULL && casaAcimaDoPeaoLinhaEsquerda->peca != NULL && casaAcimaDoPeaoLinhaEsquerda->peca->cor != peca.peca->cor)
         adicionarItemAoFinalDaLista(*movimentosPossiveis, casaAcimaDoPeaoLinhaEsquerda);
 
-    puts("if3 P");
     if(casaAcimaDoPeaoLinha != NULL && casaAcimaDoPeaoLinha->peca == NULL)
         adicionarItemAoFinalDaLista(*movimentosPossiveis, casaAcimaDoPeaoLinha);
     
     free(casasRelevantes);
-    //printf("peao:%d\n", (*(CasaTabuleiro*)retornarElementoPorIndice(**movimentosPossiveis, 0)->valor).localizacao.linha);
     return movimentosPossiveis;
 }
 
 CasaTabuleiro** casasRelevantesAoPeao(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual) {
-    printf("linha: %d - coluna: %d\n", pecaLinhaAtual, pecaColunaAtual);
-
     CasaTabuleiro *casaAcimaDoPeaoLinha = malloc(sizeof(CasaTabuleiro));
     CasaTabuleiro *casaAcimaDoPeaoLinhaDireita = malloc(sizeof(CasaTabuleiro));
-    CasaTabuleiro *casaAcimaDoPeaoLinhaEsquerda = malloc(sizeof(CasaTabuleiro));
-    puts("malloc aqui (P)");
+    CasaTabuleiro *casaAcimaDoPeaoLinhaEsquerda = malloc(sizeof(CasaTabuleiro));;
     if(pecaLinhaAtual + 1 < QTD_CASAS_POR_LINHA) {
-        puts("a");
         *casaAcimaDoPeaoLinha = tabuleiro[pecaLinhaAtual+1][pecaColunaAtual];
     }
     else {
         free(casaAcimaDoPeaoLinha);
         casaAcimaDoPeaoLinha = (void*)0;
     }
-    puts("ffffff");
 
     if(pecaLinhaAtual + 1 < QTD_CASAS_POR_LINHA && pecaColunaAtual + 1 < QTD_CASAS_POR_COLUNA) {
         *casaAcimaDoPeaoLinhaDireita = tabuleiro[pecaLinhaAtual+1][pecaColunaAtual+1];
@@ -81,22 +65,13 @@ CasaTabuleiro** casasRelevantesAoPeao(Tabuleiro tabuleiro, Coordenada pecaLinhaA
         casaAcimaDoPeaoLinhaDireita = (void*)0;
     }
 
-    puts("iffffff3");
     if((pecaLinhaAtual + 1) < QTD_CASAS_POR_LINHA && (pecaColunaAtual - 1) >= 0) {
-        puts("aqui náo");
         *casaAcimaDoPeaoLinhaEsquerda = tabuleiro[pecaLinhaAtual+1][pecaColunaAtual-1];
     }
     else {
-        puts("else33333");
         free(casaAcimaDoPeaoLinhaEsquerda);
         casaAcimaDoPeaoLinhaEsquerda = (void*)0;
     }
-
-    puts("quase acabando p");
-
-    //CasaTabuleiro *casaAcimaDoPeaoLinha = pecaLinhaAtual + 1 < QTD_CASAS_POR_LINHA ? &tabuleiro[pecaLinhaAtual+1][pecaColunaAtual] : NULL;
-    //CasaTabuleiro *casaAcimaDoPeaoLinhaDireita = pecaLinhaAtual + 1 < QTD_CASAS_POR_LINHA && pecaColunaAtual + 1 < QTD_CASAS_POR_COLUNA ? &tabuleiro[pecaLinhaAtual+1][pecaColunaAtual+1] : NULL;
-    //CasaTabuleiro *casaAcimaDoPeaoLinhaEsquerda = pecaLinhaAtual + 1 < QTD_CASAS_POR_LINHA && pecaColunaAtual - 1 >= 0 ? &tabuleiro[pecaLinhaAtual+1][pecaColunaAtual-1] : NULL;
 
     CasaTabuleiro** casasRelevantes = malloc(sizeof(CasaTabuleiro*) * MOVIMENTOS_POSSIVEIS_PEAO);
     casasRelevantes[0] = casaAcimaDoPeaoLinha;

@@ -140,8 +140,7 @@ Posicao pedirPecaMovidaJogador(void) {
     int linha;
     char coluna;
     puts("Digite a linha e coluna (%d %c):");
-    scanf("%d %c", &linha, &coluna);
-    getchar();
+    getPosicaoDoUsuario(&linha, &coluna);
 
     Posicao posicao;
     posicao.linha = linha;
@@ -151,7 +150,7 @@ Posicao pedirPecaMovidaJogador(void) {
 
 CasaTabuleiro* pedirMovimentoJogador(CasaTabuleiro pecaMovida, ListaCasaTabuleiro *movimentos) {
     puts("");
-    puts("\nDigite o número de um dos seguintes movimentos:");
+    puts("\nMovimentos possiveis:");
     Posicao posAtual = { pecaMovida.peca->posicao.linha, pecaMovida.peca->posicao.coluna };
     Posicao posAtualTela = converterPosicaoCartesianoParaTela(posAtual);
     for(size_t i = 0; i < movimentos->len; i++)
@@ -166,11 +165,62 @@ CasaTabuleiro* pedirMovimentoJogador(CasaTabuleiro pecaMovida, ListaCasaTabuleir
     }
 
     int numeroDigitado;
-    scanf("%d", &numeroDigitado);
-    getchar();
+    puts("Digite o numero do seu proximo movimento:");
+    getNumeroDoUsuario(&numeroDigitado, movimentos->len);
     return retornarElementoDaLista(movimentos, numeroDigitado - 1)->data;
 }
 
 void printc(const char *const str, const char *const color, bool corDeBackground) {
     printf("%s%s%s", color, str, corDeBackground ? "" : COLOR_RESTART);
+}
+
+void getPosicaoDoUsuario(int *linha, char *coluna) {
+    static const size_t LEN_DIGITACAO_MAX = 21;
+    char digitacao[LEN_DIGITACAO_MAX];
+    bool digitacaoCorreta = false;
+    while(!digitacaoCorreta) {
+        fgets(digitacao, LEN_DIGITACAO_MAX, stdin);
+        if(sscanf(digitacao, "%d %c\n", linha, coluna) == 2)
+        {
+            if(*linha < 1 || *linha > 8 || *coluna < 'a' || *coluna > 'h')
+                puts("Digite um linha/coluna valida!");
+            else
+                digitacaoCorreta = true;
+        }
+        else
+            puts("Digite no formato exigido!");
+    }
+    limparBuffer(digitacao, LEN_DIGITACAO_MAX);
+}
+
+void getNumeroDoUsuario(int *num, int maxNum) {
+    static const size_t LEN_DIGITACAO_MAX = 21;
+    char digitacao[LEN_DIGITACAO_MAX];
+    bool digitacaoCorreta = false;
+    while(!digitacaoCorreta) {
+        fgets(digitacao, LEN_DIGITACAO_MAX, stdin);
+        if(sscanf(digitacao, "%d\n", num) == 1)
+        {
+            if(*num < 1 || *num > maxNum)
+                puts("Digite no intervalo valido!");
+            else
+                digitacaoCorreta = true;
+        }
+        else
+            puts("Digite no formato exigido!");
+    }
+    limparBuffer(digitacao, LEN_DIGITACAO_MAX);
+}
+
+void limparBuffer(char str[], size_t tamanhoDesejado) {
+    size_t strLen = strlen(str);
+    if(strLen != tamanhoDesejado - 1)
+    {
+        str[tamanhoDesejado - 1] = 0;
+    }
+    else
+    {           
+        char c;
+        while((c = getchar()) && c != EOF && c != '\n');   
+    }
 }

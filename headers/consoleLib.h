@@ -28,4 +28,10 @@
     char letraDoTipoDaPeca(TipoPeca tipoPeca);
 
     void printc(const char *const str, const char *const color, bool corDeBackground);
+
+    void getPosicaoDoUsuario(int *linha, char *coluna);
+
+    void getNumeroDoUsuario(int *num, int maxNum);
+
+    void limparBuffer(char str[], size_t tamanhoDesejado);
 #endif
