@@ -53,12 +53,13 @@ void criarLista(Lista **listaPtr, TamanhoData tamanhoData) {
 
 void adicionarPrimeiroItemNaLista(Lista *lista, void* novoItem) {
     lista->inicio = malloc(sizeof *lista->inicio);
-    puts("b");
+    //puts("b");
     lista->inicio->proximo = NULL;
-    lista->inicio->data = malloc(lista->tamData);
-    puts("c");
-    memcpy(lista->inicio->data, novoItem, lista->tamData);
+    lista->inicio->data = novoItem;
+    //puts("c");
+    //memcpy(lista->inicio->data, novoItem, lista->tamData);
     lista->len += 1;
+    printf("len: %lu\n", lista->len);
 }
 
 void adicionarItemAoInicioDaLista(Lista *lista, void* novoItem) {
@@ -71,6 +72,7 @@ void adicionarItemAoInicioDaLista(Lista *lista, void* novoItem) {
     NoLista novoNo = criarNovoNo(novoItem, lista->tamData);
     novoNo->proximo = lista->inicio;
     lista->inicio = novoNo;
+    lista->len += 1;
 }
 
 void adicionarItemAoFinalDaLista(Lista *lista, void* novoItem) {
@@ -92,8 +94,7 @@ void adicionarItemAoFinalDaLista(Lista *lista, void* novoItem) {
 NoLista criarNovoNo(void *data, TamanhoData tamData) {
     NoLista novoNo = malloc(sizeof *novoNo);
     novoNo->proximo = NULL;
-    novoNo->data = malloc(tamData);
-    memcpy(novoNo->data, data, tamData); 
+    novoNo->data = data;
     return novoNo;   
 }
 
@@ -132,20 +133,17 @@ int main(void) {
     }
 
     puts("teste2");
-    adicionarItemAoInicioDaLista(*lista, v);
+    Teste *c = malloc(sizeof *v);
+    c->a = 'p';
+    c->x = 1;
+    c->y = 4;
+    adicionarItemAoFinalDaLista(*lista, c);
     for(ListaLen i = 0; i < (*lista)->len; i++) {
         printf("%c\n", ((Teste*)retornarElementoDaLista(*lista, i)->data)->a);
     }
 
-    puts("teste3");
-    free(v);
-    for(ListaLen i = 0; i < (*lista)->len; i++) {
-        printf("%c\n", ((Teste*)retornarElementoDaLista(*lista, i)->data)->a);
-    }
-    for(ListaLen i = 0; i < (*lista)->len; i++) {
-        printf("%c\n", ((Teste*)retornarElementoDaLista(*lista, i)->data)->a);
-    }
-
+    apagarLista(lista);
+    free(lista);
     puts("digite algo");
     getchar();
     return 0;
