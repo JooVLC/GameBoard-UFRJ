@@ -145,11 +145,26 @@ void inverterTabuleiro(Tabuleiro tabuleiro) {
         //j(de 0 ate x) e k(do final ate x) onde x e onde eles se encontram (metade do tabuleiro)
         int metadeDoTabuleiro = QTD_CASAS_POR_COLUNA/2;
         for(int j = 0, k = QTD_CASAS_POR_COLUNA - 1; k >= metadeDoTabuleiro && j < metadeDoTabuleiro; j++, k--) {
-            CasaTabuleiro temp = tabuleiro[j][i];
-            tabuleiro[j][i] = tabuleiro[k][i];
-            tabuleiro[k][i] = temp;
+            trocarPosicaoCasas(&tabuleiro[j][i], &tabuleiro[k][i]);
         }
     }
+}
+
+void trocarPosicaoCasas(CasaTabuleiro* casa1, CasaTabuleiro* casa2) {
+    Posicao posTemp = casa1->localizacao;
+    CorPeca corTemp = casa1->cor;
+    Peca* pecaTemp = casa1->peca;
+
+    casa1->localizacao = casa2->localizacao;
+    casa1->cor = casa2->cor;
+    if(casa1->peca != NULL) casa1->peca->posicao = casa2->localizacao;
+
+    casa2->localizacao = posTemp;
+    casa2->cor = corTemp;
+    if(casa2->peca != NULL) casa2->peca->posicao = posTemp;
+
+    casa1->peca = casa2->peca;
+    casa2->peca = pecaTemp;
 }
 
 void proximoTurno(Jogo *jogo) {
@@ -161,7 +176,7 @@ void proximoTurno(Jogo *jogo) {
 Posicao converterPosicaoTelaParaCartesiano(Posicao posicaoTela) {
     Posicao posicaoPlano;
 
-    posicaoPlano.linha = posicaoTela.linha + QTD_CASAS_POR_LINHA - (1 + 2 * posicaoTela.linha);
+    posicaoPlano.linha = QTD_CASAS_POR_COLUNA - posicaoPlano.linha;
     posicaoPlano.coluna = posicaoTela.coluna;
 
     return posicaoPlano;

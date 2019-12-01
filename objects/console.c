@@ -78,7 +78,7 @@ void printBordas(bool bordaSuperior) {
 }
 
 void printLinhaIndice(int linha, Tabuleiro tabuleiro, CasaTabuleiro casaMovida, ListaCasaTabuleiro* casasPossiveis) {
-    static const char *const COR_MOVIMENTO = YELHB;
+    static const char *const COR_MOVIMENTO = YELB;
     static const char *const COR_CASA_MOVIDA = REDB;
 
     printf("%d  |", QTD_CASAS_POR_COLUNA - linha);
@@ -144,7 +144,7 @@ Posicao pedirPecaMovidaJogador(void) {
     getchar();
 
     Posicao posicao;
-    posicao.linha = linha - 1;
+    posicao.linha = linha;
     posicao.coluna = coluna - 'a';
     return posicao;
 }

@@ -49,6 +49,8 @@
         //Funcao que inverte o tabuleiro para o proximo jogador
         void inverterTabuleiro(Tabuleiro tabuleiro);
 
+        void trocarPosicaoCasas(CasaTabuleiro* casa1, CasaTabuleiro* casa2);
+
         void proximoTurno(Jogo *jogo);
     //endregion
 
