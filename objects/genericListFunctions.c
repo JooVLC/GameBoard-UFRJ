@@ -179,6 +179,18 @@ size_t listalen(Lista *lista) {
 }
 */
 
+NoLista retornarElementoDaLista(Lista *lista, Indice indice) {
+    if(indice >= lista->len || indice < 0)
+        return NULL;
+
+    NoLista noAtual = lista->inicio;
+    for(ListaLen i = 0; i < indice; i++) {
+        noAtual = noAtual->proximo;
+    }
+
+    return noAtual;
+}
+
 void criarLista(Lista **listaPtr, TamanhoData tamanhoData) {
     *listaPtr = malloc(sizeof *listaPtr); //M
     (*listaPtr)->inicio = NULL;
@@ -187,15 +199,19 @@ void criarLista(Lista **listaPtr, TamanhoData tamanhoData) {
 }
 
 void adicionarPrimeiroItemNaLista(Lista *lista, void* novoItem) {
-    lista->inicio = malloc(sizeof *lista->inicio); //M
+    lista->inicio = malloc(sizeof *lista->inicio);
+    //puts("b");
     lista->inicio->proximo = NULL;
-    lista->inicio->data = malloc(lista->tamData);
-    memcpy(lista->inicio->data, novoItem, lista->tamData);
+    lista->inicio->data = novoItem;
+    //puts("c");
+    //memcpy(lista->inicio->data, novoItem, lista->tamData);
     lista->len += 1;
+    printf("len: %lu\n", lista->len);
 }
 
 void adicionarItemAoInicioDaLista(Lista *lista, void* novoItem) {
     if(lista->inicio == NULL) {
+        puts("primeiro item");
         adicionarPrimeiroItemNaLista(lista, novoItem);
         return;
     }
@@ -203,6 +219,7 @@ void adicionarItemAoInicioDaLista(Lista *lista, void* novoItem) {
     NoLista novoNo = criarNovoNo(novoItem, lista->tamData);
     novoNo->proximo = lista->inicio;
     lista->inicio = novoNo;
+    lista->len += 1;
 }
 
 void adicionarItemAoFinalDaLista(Lista *lista, void* novoItem) {
@@ -224,8 +241,7 @@ void adicionarItemAoFinalDaLista(Lista *lista, void* novoItem) {
 NoLista criarNovoNo(void *data, TamanhoData tamData) {
     NoLista novoNo = malloc(sizeof *novoNo);
     novoNo->proximo = NULL;
-    novoNo->data = malloc(tamData);
-    memcpy(novoNo->data, data, tamData); 
+    novoNo->data = data;
     return novoNo;   
 }
 
