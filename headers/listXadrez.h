@@ -5,7 +5,7 @@
     
     typedef Lista ListaCasaTabuleiro;
 
-    ListaCasaTabuleiro* criarListaCasasTabuleiro();
+    void criarListaCasasTabuleiro(ListaCasaTabuleiro **lista);
 
     CasaTabuleiro* ListaParaArrayDeCasaTabuleiro(ListaCasaTabuleiro *lista);
 

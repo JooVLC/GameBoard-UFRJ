@@ -2,10 +2,9 @@
 #include "../headers/genericList.h"
 #include "../headers/listXadrez.h"
 
-ListaCasaTabuleiro* criarListaCasasTabuleiro() {
-    Lista *listaCasas = malloc(sizeof(Lista));
-    criarListaDeTipoGenerico(&listaCasas, sizeof(CasaTabuleiro), NULL);
-    return listaCasas;
+void criarListaCasasTabuleiro(ListaCasaTabuleiro **lista) {
+    criarListaDeTipoGenerico(lista, sizeof(CasaTabuleiro), NULL);
+    printf("criando: %d\n", (*lista)->inicio->proximo == NULL);
 }
 
 CasaTabuleiro* ListaParaArrayDeCasaTabuleiro(ListaCasaTabuleiro *lista) {
@@ -44,8 +43,8 @@ CasaTabuleiro* retornarMovimentoPeloIndice(ListaCasaTabuleiro *lista, Indice ind
 
 size_t lenListaCasaTabuleiro(ListaCasaTabuleiro *lista) {
     puts("len error");
-    printf("prt == NULL ? R:%d\n", *lista->inicio == NULL ? 1 : 0);
-    if(*lista->inicio == NULL || (*lista->inicio)->valor == NULL) {
+    printf("lista.inicio.proximo == NULL ? R:%d\n", lista->inicio->proximo == NULL ? 1 : 0);
+    if(lista->inicio == NULL || lista->inicio->valor == NULL || lista->inicio->proximo == NULL) {
         puts("if0");
         return 0;
     }

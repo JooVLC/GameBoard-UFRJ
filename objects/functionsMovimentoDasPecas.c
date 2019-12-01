@@ -22,7 +22,8 @@ ListaCasaTabuleiro* movimentosPossiveisPeao(CasaTabuleiro peca, Tabuleiro tabule
     CasaTabuleiro *casaAcimaDoPeaoLinhaEsquerda = casasRelevantes[2];
 
     puts("vai criar");
-    ListaCasaTabuleiro* movimentosPossiveis = criarListaCasasTabuleiro();
+    ListaCasaTabuleiro** movimentosPossiveis = malloc(sizeof(ListaCasaTabuleiro*));
+    criarListaCasasTabuleiro(movimentosPossiveis);
     puts("criou");
 
     if( (turnoAtual == 1 && peca.peca->cor == BRANCO) || (turnoAtual == 2 && peca.peca->cor == PRETO) )
@@ -31,31 +32,72 @@ ListaCasaTabuleiro* movimentosPossiveisPeao(CasaTabuleiro peca, Tabuleiro tabule
         {
             CasaTabuleiro movimentoPeaoDuasCasas = tabuleiro[pecaLinhaAtual+2][pecaColunaAtual];
             puts("vaiAdiconar");
-            adicionarNovoMovimento(movimentosPossiveis, movimentoPeaoDuasCasas); //erro aqui
+            adicionarNovoMovimento(*movimentosPossiveis, movimentoPeaoDuasCasas); //erro aqui
             puts("adicionou");
         }
     }
 
+    puts("if1 P");
     if(casaAcimaDoPeaoLinhaDireita != NULL && casaAcimaDoPeaoLinhaDireita->peca != NULL && casaAcimaDoPeaoLinhaDireita->peca->cor != peca.peca->cor)
-        adicionarNovoMovimento(movimentosPossiveis, *casaAcimaDoPeaoLinhaDireita);
+        adicionarNovoMovimento(*movimentosPossiveis, *casaAcimaDoPeaoLinhaDireita);
 
+    puts("if2 P");
+    printf("if2: %d\n", casaAcimaDoPeaoLinhaEsquerda == ((void*)0));
     if(casaAcimaDoPeaoLinhaEsquerda != NULL && casaAcimaDoPeaoLinhaEsquerda->peca != NULL && casaAcimaDoPeaoLinhaEsquerda->peca->cor != peca.peca->cor)
-        adicionarNovoMovimento(movimentosPossiveis, *casaAcimaDoPeaoLinhaEsquerda);
+        adicionarNovoMovimento(*movimentosPossiveis, *casaAcimaDoPeaoLinhaEsquerda);
 
+    puts("if3 P");
     if(casaAcimaDoPeaoLinha != NULL && casaAcimaDoPeaoLinha->peca == NULL)
-        adicionarNovoMovimento(movimentosPossiveis, *casaAcimaDoPeaoLinha);
+        adicionarNovoMovimento(*movimentosPossiveis, *casaAcimaDoPeaoLinha);
     
     free(casasRelevantes);
-    printf("peao:%d\n", retornarElementoPorIndice(*movimentosPossiveis, 0));
-    return movimentosPossiveis;
+    printf("peao:%d\n", (*(CasaTabuleiro*)retornarElementoPorIndice(**movimentosPossiveis, 0)->valor).localizacao.linha);
+    ListaCasaTabuleiro* movimentosDaPeca = *movimentosPossiveis;
+    free(movimentosPossiveis);
+    return movimentosDaPeca;
 }
 
 CasaTabuleiro** casasRelevantesAoPeao(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual) {
-    CasaTabuleiro *casaAcimaDoPeaoLinha = pecaLinhaAtual + 1 < QTD_CASAS_POR_LINHA ? &tabuleiro[pecaLinhaAtual+1][pecaColunaAtual] : NULL;
-    CasaTabuleiro *casaAcimaDoPeaoLinhaDireita = pecaLinhaAtual + 1 < QTD_CASAS_POR_LINHA && pecaColunaAtual + 1 < QTD_CASAS_POR_COLUNA ? &tabuleiro[pecaLinhaAtual+1][pecaColunaAtual+1] : NULL;
-    CasaTabuleiro *casaAcimaDoPeaoLinhaEsquerda = pecaLinhaAtual + 1 < QTD_CASAS_POR_LINHA && pecaColunaAtual >= 0 ? &tabuleiro[pecaLinhaAtual+1][pecaColunaAtual-1] : NULL;
+    printf("linha: %d - coluna: %d\n", pecaLinhaAtual, pecaColunaAtual);
 
-    printf("coodernada: %d %d\n", pecaLinhaAtual, pecaColunaAtual);
+    CasaTabuleiro *casaAcimaDoPeaoLinha = malloc(sizeof(CasaTabuleiro));
+    CasaTabuleiro *casaAcimaDoPeaoLinhaDireita = malloc(sizeof(CasaTabuleiro));
+    CasaTabuleiro *casaAcimaDoPeaoLinhaEsquerda = malloc(sizeof(CasaTabuleiro));
+    puts("malloc aqui (P)");
+    if(pecaLinhaAtual + 1 < QTD_CASAS_POR_LINHA) {
+        puts("a");
+        *casaAcimaDoPeaoLinha = tabuleiro[pecaLinhaAtual+1][pecaColunaAtual];
+    }
+    else {
+        free(casaAcimaDoPeaoLinha);
+        casaAcimaDoPeaoLinha = (void*)0;
+    }
+    puts("ffffff");
+
+    if(pecaLinhaAtual + 1 < QTD_CASAS_POR_LINHA && pecaColunaAtual + 1 < QTD_CASAS_POR_COLUNA) {
+        *casaAcimaDoPeaoLinhaDireita = tabuleiro[pecaLinhaAtual+1][pecaColunaAtual+1];
+    }
+    else {
+        free(casaAcimaDoPeaoLinhaDireita);
+        casaAcimaDoPeaoLinhaDireita = (void*)0;
+    }
+
+    puts("iffffff3");
+    if((pecaLinhaAtual + 1) < QTD_CASAS_POR_LINHA && (pecaColunaAtual - 1) >= 0) {
+        puts("aqui náo");
+        *casaAcimaDoPeaoLinhaEsquerda = tabuleiro[pecaLinhaAtual+1][pecaColunaAtual-1];
+    }
+    else {
+        puts("else33333");
+        free(casaAcimaDoPeaoLinhaEsquerda);
+        casaAcimaDoPeaoLinhaEsquerda = (void*)0;
+    }
+
+    puts("quase acabando p");
+
+    //CasaTabuleiro *casaAcimaDoPeaoLinha = pecaLinhaAtual + 1 < QTD_CASAS_POR_LINHA ? &tabuleiro[pecaLinhaAtual+1][pecaColunaAtual] : ((void*)0);
+    //CasaTabuleiro *casaAcimaDoPeaoLinhaDireita = pecaLinhaAtual + 1 < QTD_CASAS_POR_LINHA && pecaColunaAtual + 1 < QTD_CASAS_POR_COLUNA ? &tabuleiro[pecaLinhaAtual+1][pecaColunaAtual+1] : ((void*)0);
+    //CasaTabuleiro *casaAcimaDoPeaoLinhaEsquerda = pecaLinhaAtual + 1 < QTD_CASAS_POR_LINHA && pecaColunaAtual - 1 >= 0 ? &tabuleiro[pecaLinhaAtual+1][pecaColunaAtual-1] : ((void*)0);
 
     CasaTabuleiro** casasRelevantes = malloc(sizeof(CasaTabuleiro*) * MOVIMENTOS_POSSIVEIS_PEAO);
     casasRelevantes[0] = casaAcimaDoPeaoLinha;
@@ -75,7 +117,8 @@ ListaCasaTabuleiro* movimentosPossiveisCavalo(CasaTabuleiro peca, Tabuleiro tabu
     Coordenada pecaColunaAtual = peca.peca->posicao.coluna;
 
     CasaTabuleiro **casasRelevantes = casasRelevantesAoCavalo(tabuleiro, pecaLinhaAtual, pecaColunaAtual);
-    ListaCasaTabuleiro* movimentosPossiveis = criarListaCasasTabuleiro();
+    ListaCasaTabuleiro** movimentosPossiveis = malloc(sizeof(ListaCasaTabuleiro*));
+    criarListaCasasTabuleiro(movimentosPossiveis);
 
     for(int i = 0; i < MOVIMENTOS_POSSIVEIS_CAVALO; i++)
     {
@@ -83,12 +126,14 @@ ListaCasaTabuleiro* movimentosPossiveisCavalo(CasaTabuleiro peca, Tabuleiro tabu
         {
             bool existePecaComMesmaCor = casasRelevantes[i]->peca != NULL && casasRelevantes[i]->peca->cor == peca.peca->cor;
             if(!existePecaComMesmaCor)
-                adicionarNovoMovimento(movimentosPossiveis, *casasRelevantes[i]);
+                adicionarNovoMovimento(*movimentosPossiveis, *casasRelevantes[i]);
         }
     }
 
     free(casasRelevantes);
-    return movimentosPossiveis;
+    ListaCasaTabuleiro* movimentosDaPeca = *movimentosPossiveis;
+    free(movimentosPossiveis);
+    return movimentosDaPeca;
 }
 
 CasaTabuleiro** casasRelevantesAoCavalo(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual) {
@@ -124,16 +169,19 @@ ListaCasaTabuleiro* movimentosPossiveisTorre(CasaTabuleiro peca, Tabuleiro tabul
     Coordenada pecaColunaAtual = peca.peca->posicao.coluna;
 
     CasaTabuleiro **casasRelevantes = casasRelevantesATorre(tabuleiro, pecaLinhaAtual, pecaColunaAtual);
-    ListaCasaTabuleiro* movimentosPossiveis = criarListaCasasTabuleiro();
+    ListaCasaTabuleiro** movimentosPossiveis = malloc(sizeof(ListaCasaTabuleiro*));
+    criarListaCasasTabuleiro(movimentosPossiveis);
 
     for(int i = 0; i < MOVIMENTOS_POSSIVEIS_TORRE; i++)
     {
         if(casasRelevantes[i] != NULL)
-            adicionarNovoMovimento(movimentosPossiveis, *casasRelevantes[i]);
+            adicionarNovoMovimento(*movimentosPossiveis, *casasRelevantes[i]);
     }
 
     free(casasRelevantes);
-    return movimentosPossiveis;
+    ListaCasaTabuleiro* movimentosDaPeca = *movimentosPossiveis;
+    free(movimentosPossiveis);
+    return movimentosDaPeca;
 }
 
 CasaTabuleiro** casasRelevantesATorre(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual) {
@@ -230,16 +278,19 @@ ListaCasaTabuleiro* movimentosPossiveisBispo(CasaTabuleiro peca, Tabuleiro tabul
     Coordenada pecaColunaAtual = peca.peca->posicao.coluna;
 
     CasaTabuleiro **casasRelevantes = casasRelevantesAoBispo(tabuleiro, pecaLinhaAtual, pecaColunaAtual);
-    ListaCasaTabuleiro* movimentosPossiveis = criarListaCasasTabuleiro();
+    ListaCasaTabuleiro** movimentosPossiveis = malloc(sizeof(ListaCasaTabuleiro*));
+    criarListaCasasTabuleiro(movimentosPossiveis);
 
     for(int i = 0; i < MOVIMENTOS_POSSIVEIS_BISPO; i++)
     {
         if(casasRelevantes[i] != NULL)
-            adicionarNovoMovimento(movimentosPossiveis, *casasRelevantes[i]);
+            adicionarNovoMovimento(*movimentosPossiveis, *casasRelevantes[i]);
     }
 
     free(casasRelevantes);
-    return movimentosPossiveis;
+    ListaCasaTabuleiro* movimentosDaPeca = *movimentosPossiveis;
+    free(movimentosPossiveis);
+    return movimentosDaPeca;
 }
 
 CasaTabuleiro** casasRelevantesAoBispo(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual) {
@@ -337,16 +388,19 @@ ListaCasaTabuleiro* movimentosPossiveisRainha(CasaTabuleiro peca, Tabuleiro tabu
     Coordenada pecaColunaAtual = peca.peca->posicao.coluna;
 
     CasaTabuleiro **casasRelevantes = casasRelevantesARainha(tabuleiro, pecaLinhaAtual, pecaColunaAtual);
-    ListaCasaTabuleiro* movimentosPossiveis = criarListaCasasTabuleiro();
+    ListaCasaTabuleiro** movimentosPossiveis = malloc(sizeof(ListaCasaTabuleiro*));
+    criarListaCasasTabuleiro(movimentosPossiveis);
 
     for(int i = 0; i < MOVIMENTOS_POSSIVEIS_RAINHA; i++)
     {
         if(casasRelevantes[i] != NULL)
-            adicionarNovoMovimento(movimentosPossiveis, *casasRelevantes[i]);
+            adicionarNovoMovimento(*movimentosPossiveis, *casasRelevantes[i]);
     }
 
     free(casasRelevantes);
-    return movimentosPossiveis;
+    ListaCasaTabuleiro* movimentosDaPeca = *movimentosPossiveis;
+    free(movimentosPossiveis);
+    return movimentosDaPeca;
 }
 
 CasaTabuleiro** casasRelevantesARainha(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual) {
@@ -378,7 +432,8 @@ ListaCasaTabuleiro* movimentosPossiveisRei(CasaTabuleiro peca, Tabuleiro tabulei
     Coordenada pecaColunaAtual = peca.peca->posicao.coluna;
 
     CasaTabuleiro **casasRelevantes = casasRelevantesAoRei(tabuleiro, pecaLinhaAtual, pecaColunaAtual);
-    ListaCasaTabuleiro *movimentosPossiveis = criarListaCasasTabuleiro();
+    ListaCasaTabuleiro** movimentosPossiveis = malloc(sizeof(ListaCasaTabuleiro*));
+    criarListaCasasTabuleiro(movimentosPossiveis);
 
     for(int i = 0; i < MOVIMENTOS_POSSIVEIS_REI; i++)
     {
@@ -386,12 +441,14 @@ ListaCasaTabuleiro* movimentosPossiveisRei(CasaTabuleiro peca, Tabuleiro tabulei
         {
             bool existePecaComMesmaCor = casasRelevantes[i]->peca != NULL && casasRelevantes[i]->peca->cor == peca.peca->cor;
             if(!existePecaComMesmaCor)
-                adicionarNovoMovimento(movimentosPossiveis, *casasRelevantes[i]);
+                adicionarNovoMovimento(*movimentosPossiveis, *casasRelevantes[i]);
         }
     }
 
     free(casasRelevantes);
-    return movimentosPossiveis;
+    ListaCasaTabuleiro* movimentosDaPeca = *movimentosPossiveis;
+    free(movimentosPossiveis);
+    return movimentosDaPeca;
 }
 
 CasaTabuleiro** casasRelevantesAoRei(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual) {

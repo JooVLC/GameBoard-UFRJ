@@ -11,7 +11,36 @@
         #include <stdbool.h>
     #endif
     
-    typedef struct No {
+typedef struct Data {
+    struct Data* proximo;
+    void* data;
+} Data;
+
+typedef Data *InicioLista;
+typedef Data *NoLista;
+typedef size_t ListaLen;
+typedef size_t TamanhoData;
+
+typedef struct Lista {
+    InicioLista inicio;
+    ListaLen len;
+    TamanhoData tamData;
+} Lista;
+
+void criarLista(Lista **listaPtr, TamanhoData tamanhoData);
+
+void adicionarPrimeiroItemNaLista(Lista *lista, void* novoItem);
+
+void adicionarItemAoInicioDaLista(Lista *lista, void* novoItem);
+
+void adicionarItemAoFinalDaLista(Lista *lista, void* novoItem);
+
+NoLista criarNovoNo(void *data, TamanhoData tamData);
+
+void apagarLista(Lista **listaPtr);
+
+
+    /*typedef struct No {
         void* valor;
         struct No* proximo;
     } No;
@@ -19,7 +48,7 @@
     typedef No* InicioLista;
 
     typedef struct {
-        InicioLista *inicio;
+        InicioLista inicio;
         size_t tamanhoElementos;
     } Lista;
 
@@ -47,5 +76,5 @@
 
     void apagarLista(Lista lista);
 
-    size_t listalen(Lista *lista);
+    size_t listalen(Lista *lista);*/
 #endif

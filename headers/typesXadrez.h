@@ -24,7 +24,7 @@
     #define MOVIMENTOS_POSSIVEIS_RAINHA 27
     #define MOVIMENTOS_POSSIVEIS_REI 8
 
-    typedef unsigned int Coordenada;
+    typedef int Coordenada;
 
     typedef struct {
         Coordenada linha, coluna;
