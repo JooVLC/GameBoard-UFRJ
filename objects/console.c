@@ -17,9 +17,9 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
         printf("pedido feito - %d%d\n", posicaoMovimento.linha, posicaoMovimento.coluna);
         CasaTabuleiro pecaTentandoMover = jogo.tabuleiro[posicaoMovimento.linha][posicaoMovimento.coluna];
         puts("acesso correto array");
-        ListaCasaTabuleiro* movimentosPossiveisArray = movimentosPossiveis(pecaTentandoMover, jogo);
+        ListaCasaTabuleiro** movimentosPossiveisArray = movimentosPossiveis(pecaTentandoMover, jogo);
         puts("passou");
-        if(movimentosPossiveisArray == NULL || listaEstaVazia(movimentosPossiveisArray))
+        if((*movimentosPossiveisArray)->len == 0)
         {
             puts("Peça não pode se mover ou a casa está vazia, tente outra casa...");
             getchar();
@@ -30,7 +30,7 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
         bool movimentoValido = false;
         CasaTabuleiro *movimento = NULL;
         while(!movimentoValido) {
-            movimento = pedirMovimentoJogador(pecaTentandoMover, movimentosPossiveisArray);
+            movimento = pedirMovimentoJogador(pecaTentandoMover, *movimentosPossiveisArray);
             if(movimento != NULL)
                 movimentoValido = true;
             else
@@ -39,7 +39,7 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
 
         moverPeca(pecaTentandoMover, jogo.tabuleiro, *movimento);
         proximoTurno(&jogo);
-        apagarLista(*movimentosPossiveisArray);
+        apagarLista(movimentosPossiveisArray);
         free(movimentosPossiveisArray);
     }
 }

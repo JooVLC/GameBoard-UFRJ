@@ -20,6 +20,7 @@ typedef Data *InicioLista;
 typedef Data *NoLista;
 typedef size_t ListaLen;
 typedef size_t TamanhoData;
+typedef size_t Indice;
 
 typedef struct Lista {
     InicioLista inicio;

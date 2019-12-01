@@ -9,7 +9,7 @@ Peao pode se mover duas casas no inicio do jogo (não necessita verificação po
 Peao pode se mover para comer um peao na diagonal direita
 Peao pode se mover para comer um peao na diagonal esquerda
 Peao pode se mover para frente (ate o final do board)*/
-ListaCasaTabuleiro* movimentosPossiveisPeao(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual) {
+ListaCasaTabuleiro** movimentosPossiveisPeao(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual) {
     Coordenada pecaLinhaAtual = peca.localizacao.linha;
     Coordenada pecaColunaAtual = peca.localizacao.coluna;
 
@@ -22,24 +22,26 @@ ListaCasaTabuleiro* movimentosPossiveisPeao(CasaTabuleiro peca, Tabuleiro tabule
     CasaTabuleiro *casaAcimaDoPeaoLinhaEsquerda = casasRelevantes[2];
 
     puts("vai criar");
-    ListaCasaTabuleiro** movimentosPossiveis = malloc(sizeof(ListaCasaTabuleiro*));
-    criarListaCasasTabuleiro(movimentosPossiveis);
+    ListaCasaTabuleiro** movimentosPossiveis = malloc(sizeof *movimentosPossiveis);
+    criarLista(movimentosPossiveis, sizeof(CasaTabuleiro));
     puts("criou");
 
     if( (turnoAtual == 1 && peca.peca->cor == BRANCO) || (turnoAtual == 2 && peca.peca->cor == PRETO) )
     {
         if(casaAcimaDoPeaoLinha != NULL && casaAcimaDoPeaoLinha->peca == NULL)
         {
-            CasaTabuleiro movimentoPeaoDuasCasas = tabuleiro[pecaLinhaAtual+2][pecaColunaAtual];
+            CasaTabuleiro *movimentoPeaoDuasCasas = malloc(sizeof *movimentoPeaoDuasCasas);
+            memcpy(movimentoPeaoDuasCasas, &tabuleiro[pecaLinhaAtual+2][pecaColunaAtual], sizeof *movimentoPeaoDuasCasas);
             puts("vaiAdiconar");
-            adicionarNovoMovimento(*movimentosPossiveis, movimentoPeaoDuasCasas); //erro aqui
+            adicionarItemAoFinalDaLista(*movimentosPossiveis, movimentoPeaoDuasCasas); //erro aqui
             puts("adicionou");
+            free(movimentoPeaoDuasCasas);
         }
     }
 
     puts("if1 P");
     if(casaAcimaDoPeaoLinhaDireita != NULL && casaAcimaDoPeaoLinhaDireita->peca != NULL && casaAcimaDoPeaoLinhaDireita->peca->cor != peca.peca->cor)
-        adicionarNovoMovimento(*movimentosPossiveis, *casaAcimaDoPeaoLinhaDireita);
+        adicionarItemAoFinalDaLista(*movimentosPossiveis, casaAcimaDoPeaoLinhaDireita);
 
     puts("if2 P");
     printf("if2: %d\n", casaAcimaDoPeaoLinhaEsquerda == ((void*)0));
@@ -51,10 +53,8 @@ ListaCasaTabuleiro* movimentosPossiveisPeao(CasaTabuleiro peca, Tabuleiro tabule
         adicionarNovoMovimento(*movimentosPossiveis, *casaAcimaDoPeaoLinha);
     
     free(casasRelevantes);
-    printf("peao:%d\n", (*(CasaTabuleiro*)retornarElementoPorIndice(**movimentosPossiveis, 0)->valor).localizacao.linha);
-    ListaCasaTabuleiro* movimentosDaPeca = *movimentosPossiveis;
-    free(movimentosPossiveis);
-    return movimentosDaPeca;
+    //printf("peao:%d\n", (*(CasaTabuleiro*)retornarElementoPorIndice(**movimentosPossiveis, 0)->valor).localizacao.linha);
+    return movimentosPossiveis;
 }
 
 CasaTabuleiro** casasRelevantesAoPeao(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual) {

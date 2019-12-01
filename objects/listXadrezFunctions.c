@@ -2,7 +2,7 @@
 #include "../headers/genericList.h"
 #include "../headers/listXadrez.h"
 
-void criarListaCasasTabuleiro(ListaCasaTabuleiro **lista) {
+/*void criarListaCasasTabuleiro(ListaCasaTabuleiro **lista) {
     criarListaDeTipoGenerico(lista, sizeof(CasaTabuleiro), NULL);
     printf("criando: %d\n", (*lista)->inicio->proximo == NULL);
 }
@@ -53,4 +53,4 @@ size_t lenListaCasaTabuleiro(ListaCasaTabuleiro *lista) {
         puts("else0");
         return listalen(lista);
     }
-}
+}*/

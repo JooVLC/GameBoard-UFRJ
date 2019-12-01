@@ -55,7 +55,7 @@
         ListaCasaTabuleiro* movimentosPossiveis(CasaTabuleiro peca, Jogo jogo);
 
         //funcao dos movimentos do peao
-        ListaCasaTabuleiro* movimentosPossiveisPeao(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual);
+        ListaCasaTabuleiro** movimentosPossiveisPeao(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual);
 
         //funcao que retorna os movimentos relevantes ao peao
         CasaTabuleiro** casasRelevantesAoPeao(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual);

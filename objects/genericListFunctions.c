@@ -1,5 +1,5 @@
 #include "../headers/includeLibrarys.h"
-//#include "../headers/genericList.h"
+#include "../headers/genericList.h"
 
 
 /*void criarListaDeTipoGenerico(Lista **novaLista, size_t tamanhoElemento, void* primeiroValor) {
@@ -179,22 +179,6 @@ size_t listalen(Lista *lista) {
 }
 */
 
-typedef struct Data {
-    struct Data* proximo;
-    void* data;
-} Data;
-
-typedef Data *InicioLista;
-typedef Data *NoLista;
-typedef size_t ListaLen;
-typedef size_t TamanhoData;
-
-typedef struct Lista {
-    InicioLista inicio;
-    ListaLen len;
-    TamanhoData tamData;
-} Lista;
-
 void criarLista(Lista **listaPtr, TamanhoData tamanhoData) {
     *listaPtr = malloc(sizeof *listaPtr); //M
     (*listaPtr)->inicio = NULL;
@@ -212,7 +196,7 @@ void adicionarPrimeiroItemNaLista(Lista *lista, void* novoItem) {
 
 void adicionarItemAoInicioDaLista(Lista *lista, void* novoItem) {
     if(lista->inicio == NULL) {
-        adicionarItemAoInicioDaListaNoInicio(lista, novoItem);
+        adicionarPrimeiroItemNaLista(lista, novoItem);
         return;
     }
 
