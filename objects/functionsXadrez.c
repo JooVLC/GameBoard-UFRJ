@@ -141,7 +141,12 @@ void inicializarPecas(Tabuleiro novoTabuleiro) {
 }
 
 void inverterTabuleiro(Tabuleiro tabuleiro) {
-    for(int i = 0; i < QTD_CASAS_POR_LINHA; i++) {
+    inverterLinhasTabuleiro(tabuleiro);
+    inverterColunasTabuleiro(tabuleiro);
+}
+
+void inverterLinhasTabuleiro(Tabuleiro tabuleiro) {
+        for(int i = 0; i < QTD_CASAS_POR_LINHA; i++) {
         //j(de 0 ate x) e k(do final ate x) onde x e onde eles se encontram (metade do tabuleiro)
         int metadeDoTabuleiro = QTD_CASAS_POR_COLUNA/2;
         for(int j = 0, k = QTD_CASAS_POR_COLUNA - 1; k >= metadeDoTabuleiro && j < metadeDoTabuleiro; j++, k--) {
@@ -161,21 +166,25 @@ void inverterTabuleiro(Tabuleiro tabuleiro) {
     }
 }
 
-void trocarPosicaoCasas(CasaTabuleiro* casa1, CasaTabuleiro* casa2) {
-    Posicao posTemp = casa1->localizacao;
-    CorPeca corTemp = casa1->cor;
-    Peca* pecaTemp = casa1->peca;
+void inverterColunasTabuleiro(Tabuleiro tabuleiro) {
+    for(int i = 0; i < QTD_CASAS_POR_COLUNA; i++) {
+        //j(de 0 ate x) e k(do final ate x) onde x e onde eles se encontram (metade do tabuleiro)
+        int metadeDoTabuleiro = QTD_CASAS_POR_LINHA/2;
+        for(int j = 0, k = QTD_CASAS_POR_LINHA - 1; k >= metadeDoTabuleiro && j < metadeDoTabuleiro; j++, k--) {
+            Posicao posTemp = tabuleiro[i][j].localizacao;
+            tabuleiro[i][j].localizacao = tabuleiro[i][k].localizacao;
+            tabuleiro[i][k].localizacao = posTemp;
 
-    casa1->localizacao = casa2->localizacao;
-    casa1->cor = casa2->cor;
-    if(casa1->peca != NULL) casa1->peca->posicao = casa2->localizacao;
+            CasaTabuleiro temp = tabuleiro[i][j];
+            tabuleiro[i][j] = tabuleiro[i][k];
+            tabuleiro[i][k] = temp;
 
-    casa2->localizacao = posTemp;
-    casa2->cor = corTemp;
-    if(casa2->peca != NULL) casa2->peca->posicao = posTemp;
-
-    casa1->peca = casa2->peca;
-    casa2->peca = pecaTemp;
+            if(tabuleiro[i][j].peca != NULL)
+                tabuleiro[i][j].peca->posicao = tabuleiro[i][j].localizacao;
+            if(tabuleiro[i][k].peca != NULL)
+                tabuleiro[i][k].peca->posicao = tabuleiro[i][k].localizacao;
+        }
+    }
 }
 
 void proximoTurno(Jogo *jogo) {
@@ -184,20 +193,20 @@ void proximoTurno(Jogo *jogo) {
     inverterTabuleiro(jogo->tabuleiro);
 }
 
-Posicao converterPosicaoTelaParaCartesiano(Posicao posicaoTela) {
+Posicao converterPosicaoTelaParaCartesiano(Posicao posicaoTela, CorPeca corTurno) {
     Posicao posicaoPlano;
 
-    posicaoPlano.linha = QTD_CASAS_POR_COLUNA - posicaoPlano.linha;
-    posicaoPlano.coluna = posicaoTela.coluna;
+    posicaoPlano.linha = corTurno == PRETO ? QTD_CASAS_POR_COLUNA - posicaoPlano.linha : posicaoTela.linha - 1;
+    posicaoPlano.coluna = corTurno == PRETO ? (QTD_CASAS_POR_LINHA - 1) - posicaoTela.coluna : posicaoTela.coluna;
 
     return posicaoPlano;
 }
 
-Posicao converterPosicaoCartesianoParaTela(Posicao posicaoCartesiano) {
+Posicao converterPosicaoCartesianoParaTela(Posicao posicaoCartesiano, CorPeca corTurno) {
     Posicao posicaoTela;
 
-    posicaoTela.linha = (QTD_CASAS_POR_COLUNA) - posicaoCartesiano.linha;
-    posicaoTela.coluna = posicaoCartesiano.coluna;
+    posicaoTela.linha = corTurno == PRETO ? QTD_CASAS_POR_COLUNA - posicaoCartesiano.linha : posicaoCartesiano.linha + 1;
+    posicaoTela.coluna = corTurno == PRETO ? (QTD_CASAS_POR_LINHA - 1) - posicaoCartesiano.coluna : posicaoCartesiano.coluna;
 
     return posicaoTela;
 }

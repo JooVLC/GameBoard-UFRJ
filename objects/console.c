@@ -13,9 +13,9 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
     {
         system(CLEAR);
         printf("Vez do jogador %s jogar!!!\n\n", jogo.jogadores[jogo.corJogando].nome);
-        printarTabuleiro(jogo.tabuleiro, jogo.tabuleiro[0][0], NULL);
+        printarTabuleiro(jogo.tabuleiro, jogo.tabuleiro[0][0], NULL, jogo.corJogando);
         
-        Posicao posicaoMovimento = converterPosicaoTelaParaCartesiano(pedirPecaMovidaJogador());
+        Posicao posicaoMovimento = converterPosicaoTelaParaCartesiano(pedirPecaMovidaJogador(), jogo.corJogando);
         CasaTabuleiro pecaTentandoMover = jogo.tabuleiro[posicaoMovimento.linha][posicaoMovimento.coluna];
         ListaCasaTabuleiro** movimentosPossiveisArray = malloc(sizeof *movimentosPossiveisArray);
         *movimentosPossiveisArray = movimentosPossiveis(pecaTentandoMover, jogo);
@@ -30,8 +30,8 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
         CasaTabuleiro *movimento = NULL;
         while(!movimentoValido) {
             system(CLEAR);
-            printarTabuleiro(jogo.tabuleiro, pecaTentandoMover, *movimentosPossiveisArray);
-            movimento = pedirMovimentoJogador(pecaTentandoMover, *movimentosPossiveisArray);
+            printarTabuleiro(jogo.tabuleiro, pecaTentandoMover, *movimentosPossiveisArray, jogo.corJogando);
+            movimento = pedirMovimentoJogador(pecaTentandoMover, *movimentosPossiveisArray, jogo.corJogando);
             if(movimento != NULL)
                 movimentoValido = true;
             else
@@ -47,22 +47,22 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
     free(jogoPtr);
 }
 
-void printarTabuleiro(Tabuleiro tabuleiro, CasaTabuleiro casaMovida, ListaCasaTabuleiro* casasPossiveis) {
-    printColunas();
+void printarTabuleiro(Tabuleiro tabuleiro, CasaTabuleiro casaMovida, ListaCasaTabuleiro* casasPossiveis, CorPeca corTurno) {
+    printColunas(corTurno);
     printBordas(true);
     for(int i = 1; i <= QTD_CASAS_POR_LINHA; i++) {
-        printLinhaIndice(QTD_CASAS_POR_COLUNA - i, tabuleiro, casaMovida, casasPossiveis);
+        printLinhaIndice(QTD_CASAS_POR_COLUNA - i, tabuleiro, casaMovida, casasPossiveis, corTurno);
     }
     printBordas(false);
     puts("");
 }
 
-void printColunas(void) {
-    char letra = 'a';
+void printColunas(CorPeca corTurno) {
+    char letra = corTurno == BRANCO ? 'a' : 'h';
     puts("");
     printf("    ");
     for(int i = 0; i < QTD_CASAS_POR_LINHA; i++)
-        printf("  %c  ", letra + i);
+        printf("  %c  ", corTurno == BRANCO ? letra + i : letra - i);
     puts("");
 }
 
@@ -77,11 +77,11 @@ void printBordas(bool bordaSuperior) {
     puts("*");
 }
 
-void printLinhaIndice(int linha, Tabuleiro tabuleiro, CasaTabuleiro casaMovida, ListaCasaTabuleiro* casasPossiveis) {
+void printLinhaIndice(int linha, Tabuleiro tabuleiro, CasaTabuleiro casaMovida, ListaCasaTabuleiro* casasPossiveis, CorPeca corTurno) {
     static const char *const COR_MOVIMENTO = YELB;
     static const char *const COR_CASA_MOVIDA = REDB;
 
-    printf("%d  |", QTD_CASAS_POR_COLUNA - linha);
+    printf("%d  |", corTurno == PRETO ? QTD_CASAS_POR_COLUNA - linha : linha + 1);
 
     for(int i = 0; i < QTD_CASAS_POR_LINHA; i++)
     {
@@ -148,16 +148,16 @@ Posicao pedirPecaMovidaJogador(void) {
     return posicao;
 }
 
-CasaTabuleiro* pedirMovimentoJogador(CasaTabuleiro pecaMovida, ListaCasaTabuleiro *movimentos) {
+CasaTabuleiro* pedirMovimentoJogador(CasaTabuleiro pecaMovida, ListaCasaTabuleiro *movimentos, CorPeca corTurno) {
     puts("");
     puts("\nMovimentos possiveis:");
     Posicao posAtual = { pecaMovida.peca->posicao.linha, pecaMovida.peca->posicao.coluna };
-    Posicao posAtualTela = converterPosicaoCartesianoParaTela(posAtual);
+    Posicao posAtualTela = converterPosicaoCartesianoParaTela(posAtual, corTurno);
     for(size_t i = 0; i < movimentos->len; i++)
     {
         CasaTabuleiro* novaPosicao = retornarElementoDaLista(movimentos, i)->data;
         Posicao posProxima = { novaPosicao->localizacao.linha, novaPosicao->localizacao.coluna };
-        Posicao posProximaTela = converterPosicaoCartesianoParaTela(posProxima);
+        Posicao posProximaTela = converterPosicaoCartesianoParaTela(posProxima, corTurno);
 
         printf("\t%lu -> %d%c para %d%c\n", i + 1, 
             posAtualTela.linha, posAtualTela.coluna+'a',

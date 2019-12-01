@@ -42,14 +42,16 @@
         bool pecaImpedindoXequeMate(CasaTabuleiro pecaTestada, Tabuleiro tabuleiro);
 
         //Funcao que transforma uma posicao relativa a tela 2D para o plano cartesiano
-        Posicao converterPosicaoTelaParaCartesiano(Posicao posicaoTela);
+        Posicao converterPosicaoTelaParaCartesiano(Posicao posicaoTela, CorPeca corTurno);
 
-        Posicao converterPosicaoCartesianoParaTela(Posicao posicaoCartesiano);
+        Posicao converterPosicaoCartesianoParaTela(Posicao posicaoCartesiano, CorPeca corTurno);
 
         //Funcao que inverte o tabuleiro para o proximo jogador
         void inverterTabuleiro(Tabuleiro tabuleiro);
 
-        void trocarPosicaoCasas(CasaTabuleiro* casa1, CasaTabuleiro* casa2);
+        void inverterColunasTabuleiro(Tabuleiro tabuleiro);
+
+        void inverterLinhasTabuleiro(Tabuleiro tabuleiro);
 
         void proximoTurno(Jogo *jogo);
     //endregion

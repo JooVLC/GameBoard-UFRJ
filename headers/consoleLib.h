@@ -13,17 +13,17 @@
 
     void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto);
 
-    void printarTabuleiro(Tabuleiro tabuleiro, CasaTabuleiro casaMovida, ListaCasaTabuleiro* casasPossiveis);
+    void printarTabuleiro(Tabuleiro tabuleiro, CasaTabuleiro casaMovida, ListaCasaTabuleiro* casasPossiveis, CorPeca corTurno);
 
-    void printColunas(void);
+    void printColunas(CorPeca corTurno);
 
     void printBordas(bool bordaSuperior);
 
-    void printLinhaIndice(int indice, Tabuleiro tabuleiro, CasaTabuleiro casaMovida, ListaCasaTabuleiro* casasPossiveis);
+    void printLinhaIndice(int indice, Tabuleiro tabuleiro, CasaTabuleiro casaMovida, ListaCasaTabuleiro* casasPossiveis, CorPeca corTurno);
 
     Posicao pedirPecaMovidaJogador(void);
 
-    CasaTabuleiro* pedirMovimentoJogador(CasaTabuleiro pecaMovida, ListaCasaTabuleiro *movimentos);
+    CasaTabuleiro* pedirMovimentoJogador(CasaTabuleiro pecaMovida, ListaCasaTabuleiro *movimentos, CorPeca corTurno);
 
     char letraDoTipoDaPeca(TipoPeca tipoPeca);
 
