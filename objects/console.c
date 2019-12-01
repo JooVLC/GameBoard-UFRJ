@@ -47,7 +47,7 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
         }
 
         moverPeca(pecaTentandoMover, jogo.tabuleiro, *movimento);
-        proximoTurno(&jogo);
+        proximoTurno(*jogoPtr);
         apagarLista(movimentosPossiveisArray);
         free(movimentosPossiveisArray);
     }
@@ -101,7 +101,7 @@ void printLinhaIndice(int linha, Tabuleiro tabuleiro, CasaTabuleiro casaMovida, 
         char pecaNaTela = peca.peca == NULL ? ' ' : letraDoTipoDaPeca(peca.peca->tipo);
         char pecaNaTelaString[] = { pecaNaTela, '\0' };
 
-        const char *const corDaCasa = pintarCasaMovida ? COR_CASA_MOVIDA : (pintarCasaComoMovimento ? COR_MOVIMENTO : (peca.cor == BRANCO ? WHTHB : BLKHB));
+        const char *const corDaCasa = pintarCasaMovida ? COR_CASA_MOVIDA : (pintarCasaComoMovimento ? COR_MOVIMENTO : (peca.cor == BRANCO ? "": BLKB));
         const char *const corDaPeca = peca.peca != NULL ? (peca.peca->cor == BRANCO ? BWHT : BBLK) : corDaCasa;
         bool corIgualCasaPeca = peca.peca != NULL && peca.cor != peca.peca->cor;
 

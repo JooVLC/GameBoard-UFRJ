@@ -70,31 +70,31 @@
         CasaTabuleiro** casasRelevantesAoPeao(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual);
 
         //funcao dos movimentos do cavalo
-        ListaCasaTabuleiro* movimentosPossiveisCavalo(CasaTabuleiro peca, Tabuleiro tabuleiro);
+        ListaCasaTabuleiro** movimentosPossiveisCavalo(CasaTabuleiro peca, Tabuleiro tabuleiro);
 
         //funcao que retorna os movimentos relevantes ao cavalo
         CasaTabuleiro** casasRelevantesAoCavalo(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual);
 
         //funcao dos movimentos da torre
-        ListaCasaTabuleiro* movimentosPossiveisTorre(CasaTabuleiro peca, Tabuleiro tabuleiro);
+        ListaCasaTabuleiro** movimentosPossiveisTorre(CasaTabuleiro peca, Tabuleiro tabuleiro);
 
         //funcao que retorna os movimentos relevantes a torre
         CasaTabuleiro** casasRelevantesATorre(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual);
 
         //funcao dos movimentos do bispo
-        ListaCasaTabuleiro* movimentosPossiveisBispo(CasaTabuleiro peca, Tabuleiro tabuleiro);
+        ListaCasaTabuleiro** movimentosPossiveisBispo(CasaTabuleiro peca, Tabuleiro tabuleiro);
 
         //funcao que retorna os movimentos relevantes ao bispo
         CasaTabuleiro** casasRelevantesAoBispo(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual);
 
         //funcao dos movimentos da rainha
-        ListaCasaTabuleiro* movimentosPossiveisRainha(CasaTabuleiro peca, Tabuleiro tabuleiro);
+        ListaCasaTabuleiro** movimentosPossiveisRainha(CasaTabuleiro peca, Tabuleiro tabuleiro);
 
         //funcao que retorna os movimentos relevantes a rainha
         CasaTabuleiro** casasRelevantesARainha(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual);
 
         //funcao dos movimentos do rei
-        ListaCasaTabuleiro* movimentosPossiveisRei(CasaTabuleiro peca, Tabuleiro tabuleiro);
+        ListaCasaTabuleiro** movimentosPossiveisRei(CasaTabuleiro peca, Tabuleiro tabuleiro);
 
         //funcao que retorna os movimentos relevantes ao rei
         CasaTabuleiro** casasRelevantesAoRei(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual);

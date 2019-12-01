@@ -143,6 +143,7 @@ void inicializarPecas(Tabuleiro novoTabuleiro) {
 void inverterTabuleiro(Tabuleiro tabuleiro) {
     inverterLinhasTabuleiro(tabuleiro);
     inverterColunasTabuleiro(tabuleiro);
+    puts("aqui");
 }
 
 void inverterLinhasTabuleiro(Tabuleiro tabuleiro) {
@@ -188,9 +189,13 @@ void inverterColunasTabuleiro(Tabuleiro tabuleiro) {
 }
 
 void proximoTurno(Jogo *jogo) {
+    puts("aqui");
+    printf("C:%d - T:%d\n", jogo->corJogando, jogo->turno);
     jogo->turno += 1;
     jogo->corJogando = !(jogo->corJogando);
     inverterTabuleiro(jogo->tabuleiro);
+    printf("C:%d - T:%d\n", jogo->corJogando, jogo->turno);
+    getchar();
 }
 
 Posicao converterPosicaoTelaParaCartesiano(Posicao posicaoTela, CorPeca corTurno) {
