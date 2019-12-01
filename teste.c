@@ -52,15 +52,18 @@ void criarLista(Lista **listaPtr, TamanhoData tamanhoData) {
 }
 
 void adicionarPrimeiroItemNaLista(Lista *lista, void* novoItem) {
-    lista->inicio = malloc(sizeof *lista->inicio); //M
+    lista->inicio = malloc(sizeof *lista->inicio);
+    puts("b");
     lista->inicio->proximo = NULL;
     lista->inicio->data = malloc(lista->tamData);
+    puts("c");
     memcpy(lista->inicio->data, novoItem, lista->tamData);
     lista->len += 1;
 }
 
 void adicionarItemAoInicioDaLista(Lista *lista, void* novoItem) {
     if(lista->inicio == NULL) {
+        puts("primeiro item");
         adicionarPrimeiroItemNaLista(lista, novoItem);
         return;
     }
