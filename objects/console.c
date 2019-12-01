@@ -25,8 +25,7 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
             continue;
         }
 
-        ListaCasaTabuleiro** movimentosPossiveisArray = malloc(sizeof *movimentosPossiveisArray);
-        *movimentosPossiveisArray = movimentosPossiveis(pecaTentandoMover, jogo);
+        ListaCasaTabuleiro** movimentosPossiveisArray = movimentosPossiveis(pecaTentandoMover, jogo);
         if((*movimentosPossiveisArray)->len == 0)
         {
             puts("Peça não pode se mover ou a casa está vazia, tente outra casa...");
@@ -46,10 +45,15 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
                 puts("Digite um dos movimentos válidos por favor");
         }
 
-        moverPeca(pecaTentandoMover, jogo.tabuleiro, *movimento);
-        proximoTurno(*jogoPtr);
+        moverPeca(pecaTentandoMover, jogo.tabuleiro, *movimento); //erro
+        proximoTurno(&jogo); //erro
+        printarTabuleiro(jogo.tabuleiro, pecaTentandoMover, NULL, jogo.corJogando);
+        getchar();
+        puts("111");
         apagarLista(movimentosPossiveisArray);
+        puts("aqui");
         free(movimentosPossiveisArray);
+        puts("aaa");
     }
     apagarJogo(jogoPtr);
     free(jogoPtr);

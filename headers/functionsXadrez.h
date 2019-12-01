@@ -61,7 +61,7 @@
         void moverPeca(CasaTabuleiro pecaMovida, Tabuleiro tabuleiro, CasaTabuleiro novaPosicao);
 
         //funcao que retorna todas os movimentos possiveis
-        ListaCasaTabuleiro* movimentosPossiveis(CasaTabuleiro peca, Jogo jogo);
+        ListaCasaTabuleiro** movimentosPossiveis(CasaTabuleiro peca, Jogo jogo);
 
         //funcao dos movimentos do peao
         ListaCasaTabuleiro** movimentosPossiveisPeao(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual);
