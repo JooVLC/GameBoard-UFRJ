@@ -17,11 +17,19 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
         
         Posicao posicaoMovimento = converterPosicaoTelaParaCartesiano(pedirPecaMovidaJogador(), jogo.corJogando);
         CasaTabuleiro pecaTentandoMover = jogo.tabuleiro[posicaoMovimento.linha][posicaoMovimento.coluna];
+
         ListaCasaTabuleiro** movimentosPossiveisArray = malloc(sizeof *movimentosPossiveisArray);
         *movimentosPossiveisArray = movimentosPossiveis(pecaTentandoMover, jogo);
         if((*movimentosPossiveisArray)->len == 0)
         {
             puts("Peça não pode se mover ou a casa está vazia, tente outra casa...");
+            getchar();
+            continue;
+        }
+
+        if(pecaTentandoMover.peca != NULL && pecaTentandoMover.peca->cor != jogo.corJogando)
+        {
+            puts("Peça de cor diferenta da sua, tente outra casa...");
             getchar();
             continue;
         }
