@@ -166,3 +166,12 @@ Posicao converterPosicaoTelaParaCartesiano(Posicao posicaoTela) {
 
     return posicaoPlano;
 }
+
+Posicao converterPosicaoCartesianoParaTela(Posicao posicaoCartesiano) {
+    Posicao posicaoTela;
+
+    posicaoTela.linha = (QTD_CASAS_POR_COLUNA) - posicaoCartesiano.linha;
+    posicaoTela.coluna = posicaoCartesiano.coluna;
+
+    return posicaoTela;
+}

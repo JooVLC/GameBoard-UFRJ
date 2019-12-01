@@ -44,6 +44,8 @@
         //Funcao que transforma uma posicao relativa a tela 2D para o plano cartesiano
         Posicao converterPosicaoTelaParaCartesiano(Posicao posicaoTela);
 
+        Posicao converterPosicaoCartesianoParaTela(Posicao posicaoCartesiano);
+
         //Funcao que inverte o tabuleiro para o proximo jogador
         void inverterTabuleiro(Tabuleiro tabuleiro);
 
@@ -95,5 +97,7 @@
 
         //função que verifica os movimentos que deixariam o rei em cheque
         void filtrarCasasPossiveisAoRei(CasaTabuleiro** casasPossiveis, Tabuleiro tabuleiro, Turno turnoAtual);
+
+        bool movimentoExisteEmTalPosicao(int linha, int coluna, ListaCasaTabuleiro* lista); 
     //endregion
 #endif

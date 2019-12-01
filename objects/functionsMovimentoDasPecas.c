@@ -516,3 +516,15 @@ ListaCasaTabuleiro* movimentosPossiveis(CasaTabuleiro peca, Jogo jogo) {
 /*void filtrarCasasPossiveisAoRei(CasaTabuleiro** casasPossiveis, Tabuleiro tabuleiro, Turno turnoAtual) {
 
 }*/
+
+bool movimentoExisteEmTalPosicao(int linha, int coluna, ListaCasaTabuleiro* lista) {
+    bool movimentoExiste = false;
+
+    for(int i = 0; i < lista->len; i++) {
+        CasaTabuleiro *casaAtual = retornarElementoDaLista(lista, i)->data;
+        if(casaAtual->localizacao.linha == linha && casaAtual->localizacao.coluna == coluna)
+            movimentoExiste = true;
+    }
+
+    return movimentoExiste;
+}

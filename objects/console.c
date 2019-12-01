@@ -16,23 +16,21 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
         printarTabuleiro(jogo.tabuleiro, jogo.tabuleiro[0][0], NULL);
         
         Posicao posicaoMovimento = converterPosicaoTelaParaCartesiano(pedirPecaMovidaJogador());
-        printf("pedido feito - %d%d\n", posicaoMovimento.linha, posicaoMovimento.coluna);
         CasaTabuleiro pecaTentandoMover = jogo.tabuleiro[posicaoMovimento.linha][posicaoMovimento.coluna];
-        puts("acesso correto array");
         ListaCasaTabuleiro** movimentosPossiveisArray = malloc(sizeof *movimentosPossiveisArray);
         *movimentosPossiveisArray = movimentosPossiveis(pecaTentandoMover, jogo);
-        puts("passou");
         if((*movimentosPossiveisArray)->len == 0)
         {
             puts("Peça não pode se mover ou a casa está vazia, tente outra casa...");
             getchar();
             continue;
         }
-        puts("passou2");
 
         bool movimentoValido = false;
         CasaTabuleiro *movimento = NULL;
         while(!movimentoValido) {
+            system(CLEAR);
+            printarTabuleiro(jogo.tabuleiro, pecaTentandoMover, *movimentosPossiveisArray);
             movimento = pedirMovimentoJogador(pecaTentandoMover, *movimentosPossiveisArray);
             if(movimento != NULL)
                 movimentoValido = true;
@@ -49,7 +47,7 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
     free(jogoPtr);
 }
 
-void printarTabuleiro(Tabuleiro tabuleiro, CasaTabuleiro casaMovida, CasaTabuleiro* casasPossiveis) {
+void printarTabuleiro(Tabuleiro tabuleiro, CasaTabuleiro casaMovida, ListaCasaTabuleiro* casasPossiveis) {
     printColunas();
     printBordas(true);
     for(int i = 1; i <= QTD_CASAS_POR_LINHA; i++) {
@@ -79,7 +77,7 @@ void printBordas(bool bordaSuperior) {
     puts("*");
 }
 
-void printLinhaIndice(int linha, Tabuleiro tabuleiro, CasaTabuleiro casaMovida, CasaTabuleiro* casasPossiveis) {
+void printLinhaIndice(int linha, Tabuleiro tabuleiro, CasaTabuleiro casaMovida, ListaCasaTabuleiro* casasPossiveis) {
     static const char *const COR_MOVIMENTO = YELHB;
     static const char *const COR_CASA_MOVIDA = REDB;
 
@@ -89,7 +87,7 @@ void printLinhaIndice(int linha, Tabuleiro tabuleiro, CasaTabuleiro casaMovida, 
     {
         CasaTabuleiro peca = tabuleiro[linha][i];
 
-        bool pintarCasaComoMovimento = casasPossiveis != NULL;
+        bool pintarCasaComoMovimento = casasPossiveis != NULL && movimentoExisteEmTalPosicao(linha, i, casasPossiveis);
         bool pintarCasaMovida = casasPossiveis != NULL && casaMovida.localizacao.linha == linha && casaMovida.localizacao.coluna == i;
 
         char pecaNaTela = peca.peca == NULL ? ' ' : letraDoTipoDaPeca(peca.peca->tipo);
@@ -154,17 +152,17 @@ Posicao pedirPecaMovidaJogador(void) {
 CasaTabuleiro* pedirMovimentoJogador(CasaTabuleiro pecaMovida, ListaCasaTabuleiro *movimentos) {
     puts("");
     puts("\nDigite o número de um dos seguintes movimentos:");
+    Posicao posAtual = { pecaMovida.peca->posicao.linha, pecaMovida.peca->posicao.coluna };
+    Posicao posAtualTela = converterPosicaoCartesianoParaTela(posAtual);
     for(size_t i = 0; i < movimentos->len; i++)
     {
         CasaTabuleiro* novaPosicao = retornarElementoDaLista(movimentos, i)->data;
+        Posicao posProxima = { novaPosicao->localizacao.linha, novaPosicao->localizacao.coluna };
+        Posicao posProximaTela = converterPosicaoCartesianoParaTela(posProxima);
 
-        int linhaAtual = pecaMovida.peca->posicao.linha;
-        int proximaLinha = novaPosicao->localizacao.linha;
-
-        char colunaAtual = pecaMovida.peca->posicao.coluna + 'a';
-        char proximaColuna = novaPosicao->localizacao.coluna + 'a';
-
-        printf("\t%lu -> %d%c para %d%c\n", i + 1, linhaAtual, colunaAtual, proximaLinha, proximaColuna);
+        printf("\t%lu -> %d%c para %d%c\n", i + 1, 
+            posAtualTela.linha, posAtualTela.coluna+'a',
+            posProximaTela.linha, posProximaTela.coluna+'a');
     }
 
     int numeroDigitado;
