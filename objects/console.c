@@ -18,18 +18,18 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
         Posicao posicaoMovimento = converterPosicaoTelaParaCartesiano(pedirPecaMovidaJogador(), jogo.corJogando);
         CasaTabuleiro pecaTentandoMover = jogo.tabuleiro[posicaoMovimento.linha][posicaoMovimento.coluna];
 
+        if(pecaTentandoMover.peca != NULL && pecaTentandoMover.peca->cor != jogo.corJogando)
+        {
+            puts("Peça de cor diferenta da sua, tente outra casa...");
+            getchar();
+            continue;
+        }
+
         ListaCasaTabuleiro** movimentosPossiveisArray = malloc(sizeof *movimentosPossiveisArray);
         *movimentosPossiveisArray = movimentosPossiveis(pecaTentandoMover, jogo);
         if((*movimentosPossiveisArray)->len == 0)
         {
             puts("Peça não pode se mover ou a casa está vazia, tente outra casa...");
-            getchar();
-            continue;
-        }
-
-        if(pecaTentandoMover.peca != NULL && pecaTentandoMover.peca->cor != jogo.corJogando)
-        {
-            puts("Peça de cor diferenta da sua, tente outra casa...");
             getchar();
             continue;
         }
@@ -147,7 +147,7 @@ char letraDoTipoDaPeca(TipoPeca tipoPeca) {
 Posicao pedirPecaMovidaJogador(void) {
     int linha;
     char coluna;
-    puts("Digite a linha e coluna (%d %c):");
+    puts("Digite a linha e coluna (%d%c):");
     getPosicaoDoUsuario(&linha, &coluna);
 
     Posicao posicao;
@@ -188,7 +188,7 @@ void getPosicaoDoUsuario(int *linha, char *coluna) {
     bool digitacaoCorreta = false;
     while(!digitacaoCorreta) {
         fgets(digitacao, LEN_DIGITACAO_MAX, stdin);
-        if(sscanf(digitacao, "%d %c\n", linha, coluna) == 2)
+        if(sscanf(digitacao, "%d%c\n", linha, coluna) == 2)
         {
             if(*linha < 1 || *linha > 8 || *coluna < 'a' || *coluna > 'h')
                 puts("Digite um linha/coluna valida!");
