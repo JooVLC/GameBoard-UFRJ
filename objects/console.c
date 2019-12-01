@@ -170,7 +170,7 @@ CasaTabuleiro* pedirMovimentoJogador(CasaTabuleiro pecaMovida, ListaCasaTabuleir
     int numeroDigitado;
     scanf("%d", &numeroDigitado);
     getchar();
-    return retornarElementoDaLista(movimentos, numeroDigitado)->data;
+    return retornarElementoDaLista(movimentos, numeroDigitado - 1)->data;
 }
 
 void printc(const char *const str, const char *const color, bool corDeBackground) {
