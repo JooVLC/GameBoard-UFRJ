@@ -299,3 +299,4 @@ Lista** retornarTodosAsPecasDeOutraCor(CorPeca corJogando, Tabuleiro tabuleiro) 
     }
     return listaPecas;
 }
+
