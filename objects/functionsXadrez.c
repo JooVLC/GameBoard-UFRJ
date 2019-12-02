@@ -281,7 +281,7 @@ bool xequemate(Jogo jogo) {
     if(qtdMovimentosAchados >= MOVIMENTOS_POSSIVEIS_REI)
         return true;
     else
-        false;
+        return false;
 }
 
 Lista** retornarTodosAsPecasDeOutraCor(CorPeca corJogando, Tabuleiro tabuleiro) {

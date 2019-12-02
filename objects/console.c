@@ -13,12 +13,12 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
     while(jogo.jogando)
     {
         system(CLEAR);
-        bool xequeMateDessaCor = xequemate(jogo);
+        /*bool xequeMateDessaCor = xequemate(jogo);
 
         if(xequeMateDessaCor) {
             corVitoriosa = determinarVencedorAposXequeMate(&jogo);
             continue;
-        }
+        }*/
 
         printf("Vez do jogador %s jogar!!!\n\n", jogo.jogadores[jogo.corJogando].nome);
         printarTabuleiro(jogo.tabuleiro, jogo.tabuleiro[0][0], NULL, jogo.corJogando);

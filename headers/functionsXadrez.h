@@ -13,6 +13,8 @@
         //Cria o jogo e retorna ele a partir dos nomes pegos do CMD
         Jogo* inicializarJogo(Nome nomeJogadorBranco, Nome nomeJogadorPreto);
 
+        CorPeca determinarVencedorAposXequeMate(Jogo *jogo);
+
         //Apagar o jogo dando free em suas variaveis
         void apagarJogo(Jogo** jogo);
 
@@ -30,16 +32,6 @@
 
         //Cria um novo jogador a partir do seu nome e cor
         void criarJogador(Jogador* jogador, Nome nomeJogador, CorPeca corJogador);
-
-        //Testa se houve xequemate, e caso houver, corPeca recebe a cor de quem
-        //esta recebendo o xeque, caso não, retorna NULL
-        bool xequeMate(Tabuleiro tabuleiro, CorPeca *corRecebendoCheque);
-
-        //Verifica se uma peca esta em cheque em determinado tabuleiro
-        bool pecaEstaEmXeque(CasaTabuleiro pecaTestada, Tabuleiro tabuleiro);
-
-        //Verifica se a peca esta impedindo um xequemate
-        bool pecaImpedindoXequeMate(CasaTabuleiro pecaTestada, Tabuleiro tabuleiro);
 
         //Funcao que transforma uma posicao relativa a tela 2D para o plano cartesiano
         Posicao converterPosicaoTelaParaCartesiano(Posicao posicaoTela, CorPeca corTurno);
