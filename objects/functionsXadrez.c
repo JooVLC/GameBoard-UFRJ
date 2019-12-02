@@ -7,6 +7,11 @@ void criarJogador(Jogador* jogador, Nome nomeJogador, CorPeca corJogador) {
     strcpy(jogador->nome, nomeJogador);
 }
 
+CorPeca determinarVencedorAposXequeMate(Jogo *jogo) {
+    jogo->jogando = false;
+    return jogo->corJogando;
+}
+
 Peca** criarPeoes(CorPeca corCriada) {
     static const int QTD_PEOES = QTD_CASAS_POR_COLUNA;
     Peca** peoes = malloc(sizeof(Peca*) * QTD_PEOES);
@@ -214,4 +219,83 @@ Posicao converterPosicaoCartesianoParaTela(Posicao posicaoCartesiano, CorPeca co
     posicaoTela.coluna = corTurno == PRETO ? (QTD_CASAS_POR_LINHA - 1) - posicaoCartesiano.coluna : posicaoCartesiano.coluna;
 
     return posicaoTela;
+}
+
+void acharPecaNoTabuleiro(Posicao* posicao, Tabuleiro tabuleiro, CorPeca corPeca, TipoPeca tipoPeca) {
+    for(int linha = 0; linha < QTD_CASAS_POR_COLUNA; linha++) {
+        for(int coluna = 0; coluna < QTD_CASAS_POR_LINHA; coluna++) {
+            if(tabuleiro[linha][coluna].peca != NULL) {
+                Peca *peca = tabuleiro[linha][coluna].peca;
+                if(peca->cor == corPeca && peca->tipo == tipoPeca) {
+                    posicao->linha = linha;
+                    posicao->coluna = coluna;
+                    return;
+                }
+            }
+        }
+    }
+}
+
+bool xequemate(Jogo jogo) {
+    Posicao posicao;
+    acharPecaNoTabuleiro(&posicao, jogo.tabuleiro, jogo.corJogando, REI);
+    Lista** movimentosRei = movimentosPossiveis(jogo.tabuleiro[posicao.linha][posicao.coluna], jogo);
+
+    if(movimentosRei == NULL)
+        return false;
+
+    Lista** listaTodosMovimentosDaOutraCor = malloc(sizeof *listaTodosMovimentosDaOutraCor);
+    criarLista(listaTodosMovimentosDaOutraCor, sizeof(CasaTabuleiro));
+    Lista **listaTodasAsPecasDaOutraCor = retornarTodosAsPecasDeOutraCor(jogo.corJogando, jogo.tabuleiro);
+
+    int qtdMovimentosAchados = 0;
+    Posicao posicoesJaEncontradas[MOVIMENTOS_POSSIVEIS_REI];
+    for(int i = 0; i < (*listaTodasAsPecasDaOutraCor)->len; i++) {
+        CasaTabuleiro *pecaOutraCor = retornarElementoDaLista(*listaTodasAsPecasDaOutraCor, i)->data;
+        Lista** listaMovimentosPecaOutraCor = movimentosPossiveis(*pecaOutraCor, jogo);
+
+        if(listaTodosMovimentosDaOutraCor == NULL)
+            continue;
+        
+        for(int j = 0; j < (*listaMovimentosPecaOutraCor)->len; j++)
+        {
+            CasaTabuleiro *pecaOutraCorMovimentoPossivel = retornarElementoDaLista(*listaMovimentosPecaOutraCor, j)->data;
+            for(int k = 0; k < (*movimentosRei)->len; k++) {
+                CasaTabuleiro* reiMovimentosPossivel = retornarElementoDaLista(*movimentosRei, k)->data;
+                if(reiMovimentosPossivel->localizacao.linha == pecaOutraCorMovimentoPossivel->localizacao.linha && reiMovimentosPossivel->localizacao.coluna == pecaOutraCorMovimentoPossivel->localizacao.coluna) {
+                    bool jaTestouEsseCara = false;
+                    for(int l = 0; l < qtdMovimentosAchados; i++) {
+                        if(reiMovimentosPossivel->localizacao.linha == posicoesJaEncontradas[l].linha && reiMovimentosPossivel->localizacao.coluna == posicoesJaEncontradas[l].coluna) {
+                            jaTestouEsseCara = true;
+                        }
+                    }
+                    if(!jaTestouEsseCara) {
+                        posicoesJaEncontradas[qtdMovimentosAchados] = reiMovimentosPossivel->localizacao;
+                        qtdMovimentosAchados++;
+                    }
+                }
+            }
+        }
+    }
+
+    if(qtdMovimentosAchados >= MOVIMENTOS_POSSIVEIS_REI)
+        return true;
+    else
+        false;
+}
+
+Lista** retornarTodosAsPecasDeOutraCor(CorPeca corJogando, Tabuleiro tabuleiro) {
+    Lista** listaPecas = malloc(sizeof *listaPecas);
+    criarLista(listaPecas, sizeof(CasaTabuleiro));
+
+    for(int linha = 0; linha < QTD_CASAS_POR_COLUNA; linha++) {
+        for(int coluna = 0; coluna < QTD_CASAS_POR_LINHA; coluna++) {
+            if(tabuleiro[linha][coluna].peca != NULL && tabuleiro[linha][coluna].peca->cor != corJogando) {
+                CasaTabuleiro *casaOutraCor = malloc(sizeof *casaOutraCor);
+                *casaOutraCor = tabuleiro[linha][coluna];
+                adicionarItemAoFinalDaLista(*listaPecas, casaOutraCor);
+            }
+        }
+    }
+    return listaPecas;
 }

@@ -9,14 +9,24 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
     Jogo **jogoPtr = malloc(sizeof *jogoPtr);
     *jogoPtr = inicializarJogo(jogadorBranco, jogadorPreto);
     Jogo jogo = **jogoPtr;
+    CorPeca corVitoriosa;
     while(jogo.jogando)
     {
         system(CLEAR);
+        bool xequeMateDessaCor = xequemate(jogo);
+
+        if(xequeMateDessaCor) {
+            corVitoriosa = determinarVencedorAposXequeMate(&jogo);
+            continue;
+        }
+
         printf("Vez do jogador %s jogar!!!\n\n", jogo.jogadores[jogo.corJogando].nome);
         printarTabuleiro(jogo.tabuleiro, jogo.tabuleiro[0][0], NULL, jogo.corJogando);
         
         Posicao posicaoMovimento = converterPosicaoTelaParaCartesiano(pedirPecaMovidaJogador(), jogo.corJogando);
         CasaTabuleiro pecaTentandoMover = jogo.tabuleiro[posicaoMovimento.linha][posicaoMovimento.coluna];
+        puts("array acesso");
+        getchar();
 
         if(pecaTentandoMover.peca != NULL && pecaTentandoMover.peca->cor != jogo.corJogando)
         {
@@ -26,7 +36,7 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
         }
 
         ListaCasaTabuleiro** movimentosPossiveisArray = movimentosPossiveis(pecaTentandoMover, jogo);
-        if((*movimentosPossiveisArray)->len == 0)
+        if(movimentosPossiveisArray == NULL || (*movimentosPossiveisArray)->len == 0)
         {
             puts("Peça não pode se mover ou a casa está vazia, tente outra casa...");
             getchar();
@@ -47,16 +57,16 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
 
         moverPeca(pecaTentandoMover, jogo.tabuleiro, *movimento); //erro
         proximoTurno(&jogo); //erro
-        printarTabuleiro(jogo.tabuleiro, pecaTentandoMover, NULL, jogo.corJogando);
-        getchar();
         puts("111");
         apagarLista(movimentosPossiveisArray);
         puts("aqui");
         free(movimentosPossiveisArray);
         puts("aaa");
+        getchar();
     }
     apagarJogo(jogoPtr);
     free(jogoPtr);
+    printf("o jogador %s venceu!!!\n", corVitoriosa == BRANCO ? "branco" : "preto");
 }
 
 void printarTabuleiro(Tabuleiro tabuleiro, CasaTabuleiro casaMovida, ListaCasaTabuleiro* casasPossiveis, CorPeca corTurno) {

@@ -23,11 +23,8 @@ void criarLista(Lista **listaPtr, TamanhoData tamanhoData) {
 
 void adicionarPrimeiroItemNaLista(Lista *lista, void* novoItem) {
     lista->inicio = malloc(sizeof *lista->inicio);
-    //puts("b");
     lista->inicio->proximo = NULL;
     lista->inicio->data = novoItem;
-    //puts("c");
-    //memcpy(lista->inicio->data, novoItem, lista->tamData);
     lista->len += 1;
     printf("len: %lu\n", lista->len);
 }

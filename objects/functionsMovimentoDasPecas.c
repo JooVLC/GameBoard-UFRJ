@@ -170,14 +170,12 @@ ListaCasaTabuleiro** movimentosPossiveisTorre(CasaTabuleiro peca, Tabuleiro tabu
     for(int i = 0; i < MOVIMENTOS_POSSIVEIS_TORRE; i++)
     {
         if(casasRelevantes[i] != NULL) { 
-            CasaTabuleiro* movimentoNovo = malloc(sizeof *movimentoNovo);
-            *movimentoNovo = *casasRelevantes[i];
-            adicionarItemAoFinalDaLista(*movimentosPossiveis, movimentoNovo);
+            //CasaTabuleiro* movimentoNovo = malloc(sizeof *movimentoNovo);
+            //*movimentoNovo = *casasRelevantes[i];
+            adicionarItemAoFinalDaLista(*movimentosPossiveis, casasRelevantes[i]);
         }
     }
 
-    for(int i = 0; i < MOVIMENTOS_POSSIVEIS_TORRE; i++)
-        free(casasRelevantes[i]);
     free(casasRelevantes);
     return movimentosPossiveis;
 }
@@ -201,7 +199,7 @@ CasaTabuleiro** casasRelevantesATorre(Tabuleiro tabuleiro, Coordenada pecaLinhaA
         else   
             casasRelevantes[index] = casaPossivelParaMoverTorre;
 
-        if(casaPossivelParaMoverTorre->peca != NULL)//Se achar alguma peça pare
+        if(casasRelevantes[index] != NULL && casaPossivelParaMoverTorre->peca != NULL)//Se achar alguma peça pare
         {
             encontrouPeca = true;
             if(casaPossivelParaMoverTorre->peca->cor == tabuleiro[pecaLinhaAtual][pecaColunaAtual].peca->cor) {
@@ -225,7 +223,7 @@ CasaTabuleiro** casasRelevantesATorre(Tabuleiro tabuleiro, Coordenada pecaLinhaA
         else   
             casasRelevantes[index] = casaPossivelParaMoverTorre;
 
-        if(casaPossivelParaMoverTorre->peca != NULL) //Se achar alguma peça pare
+        if(casasRelevantes[index] != NULL && casaPossivelParaMoverTorre->peca != NULL) //Se achar alguma peça pare
         {
             encontrouPeca = true;
             if(casaPossivelParaMoverTorre->peca->cor == tabuleiro[pecaLinhaAtual][pecaColunaAtual].peca->cor) {
@@ -249,7 +247,7 @@ CasaTabuleiro** casasRelevantesATorre(Tabuleiro tabuleiro, Coordenada pecaLinhaA
         else   
             casasRelevantes[index] = casaPossivelParaMoverTorre;
 
-        if(casaPossivelParaMoverTorre->peca != NULL) //Se achar alguma peça pare
+        if(casasRelevantes[index] != NULL && casaPossivelParaMoverTorre->peca != NULL) //Se achar alguma peça pare
         {
             encontrouPeca = true;
             if(casaPossivelParaMoverTorre->peca->cor == tabuleiro[pecaLinhaAtual][pecaColunaAtual].peca->cor) {
@@ -273,7 +271,7 @@ CasaTabuleiro** casasRelevantesATorre(Tabuleiro tabuleiro, Coordenada pecaLinhaA
         else   
             casasRelevantes[index] = casaPossivelParaMoverTorre;
 
-        if(casaPossivelParaMoverTorre->peca != NULL) //Se achar alguma peça pare
+        if(casasRelevantes[index] != NULL && casaPossivelParaMoverTorre->peca != NULL) //Se achar alguma peça pare
         {
             encontrouPeca = true;
             if(casaPossivelParaMoverTorre->peca->cor == tabuleiro[pecaLinhaAtual][pecaColunaAtual].peca->cor) {
@@ -283,6 +281,7 @@ CasaTabuleiro** casasRelevantesATorre(Tabuleiro tabuleiro, Coordenada pecaLinhaA
         }
     }
 
+    puts("tower");
     return casasRelevantes;
 }
 

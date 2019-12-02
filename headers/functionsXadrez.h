@@ -46,6 +46,12 @@
 
         Posicao converterPosicaoCartesianoParaTela(Posicao posicaoCartesiano, CorPeca corTurno);
 
+        Lista** retornarTodosAsPecasDeOutraCor(CorPeca corJogando, Tabuleiro tabuleiro);
+
+        void acharPecaNoTabuleiro(Posicao* posicao, Tabuleiro tabuleiro, CorPeca corPeca, TipoPeca tipoPeca);
+
+        bool xequemate(Jogo jogo);
+
         //Funcao que inverte o tabuleiro para o proximo jogador
         void inverterTabuleiro(Tabuleiro tabuleiro);
 
