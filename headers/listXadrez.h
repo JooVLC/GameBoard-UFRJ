@@ -5,7 +5,7 @@
     
     typedef Lista ListaCasaTabuleiro;
 
-    ListaCasaTabuleiro* criarListaCasasTabuleiro();
+    /*void criarListaCasasTabuleiro(ListaCasaTabuleiro **lista);
 
     CasaTabuleiro* ListaParaArrayDeCasaTabuleiro(ListaCasaTabuleiro *lista);
 
@@ -15,5 +15,5 @@
 
     CasaTabuleiro* retornarMovimentoPeloIndice(ListaCasaTabuleiro *lista, Indice indice);
 
-    size_t lenListaCasaTabuleiro(ListaCasaTabuleiro *lista);
+    size_t lenListaCasaTabuleiro(ListaCasaTabuleiro *lista);*/
 #endif

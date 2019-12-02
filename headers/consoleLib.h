@@ -13,19 +13,25 @@
 
     void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto);
 
-    void printarTabuleiro(Tabuleiro tabuleiro, CasaTabuleiro casaMovida, CasaTabuleiro* casasPossiveis);
+    void printarTabuleiro(Tabuleiro tabuleiro, CasaTabuleiro casaMovida, ListaCasaTabuleiro* casasPossiveis, CorPeca corTurno);
 
-    void printColunas(void);
+    void printColunas(CorPeca corTurno);
 
     void printBordas(bool bordaSuperior);
 
-    void printLinhaIndice(int indice, Tabuleiro tabuleiro, CasaTabuleiro casaMovida, CasaTabuleiro* casasPossiveis);
+    void printLinhaIndice(int indice, Tabuleiro tabuleiro, CasaTabuleiro casaMovida, ListaCasaTabuleiro* casasPossiveis, CorPeca corTurno);
 
     Posicao pedirPecaMovidaJogador(void);
 
-    CasaTabuleiro* pedirMovimentoJogador(CasaTabuleiro pecaMovida, ListaCasaTabuleiro *movimentos);
+    CasaTabuleiro* pedirMovimentoJogador(CasaTabuleiro pecaMovida, ListaCasaTabuleiro *movimentos, CorPeca corTurno);
 
     char letraDoTipoDaPeca(TipoPeca tipoPeca);
 
     void printc(const char *const str, const char *const color, bool corDeBackground);
+
+    void getPosicaoDoUsuario(int *linha, char *coluna);
+
+    void getNumeroDoUsuario(int *num, int maxNum);
+
+    void limparBuffer(char str[], size_t tamanhoDesejado);
 #endif

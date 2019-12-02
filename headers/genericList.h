@@ -1,51 +1,35 @@
 #ifndef LISTA_GENERICA
     #define LISTA_GENERICA 1
-
-    #ifndef INCLUDE_STDLIB
-        #define INCLUDE_STDLIB 1
-        #include <stdlib.h>
-    #endif
-
-    #ifndef INCLUDE_STDBOOL
-        #define INCLUDE_STDBOOL 1
-        #include <stdbool.h>
-    #endif
+    #include "./includeLibrarys.h"
     
-    typedef struct No {
-        void* valor;
-        struct No* proximo;
-    } No;
+    typedef struct Data {
+        struct Data* proximo;
+        void* data;
+    } Data;
 
-    typedef No* InicioLista;
+    typedef Data *InicioLista;
+    typedef Data *NoLista;
+    typedef size_t ListaLen;
+    typedef size_t TamanhoData;
+    typedef size_t Indice;
 
-    typedef struct {
-        InicioLista *inicio;
-        size_t tamanhoElementos;
+    typedef struct Lista {
+        InicioLista inicio;
+        ListaLen len;
+        TamanhoData tamData;
     } Lista;
 
-    typedef unsigned int Indice;
+    void criarLista(Lista **listaPtr, TamanhoData tamanhoData);
 
-    void criarListaDeTipoGenerico(Lista **novaLista, size_t tamanhoElemento, void* primeiroValor);
+    void adicionarPrimeiroItemNaLista(Lista *lista, void* novoItem);
 
-    No* retornarElementoPorIndice(Lista lista, Indice indice);
+    void adicionarItemAoInicioDaLista(Lista *lista, void* novoItem);
 
-    No* retornarElementoPorValor(Lista lista, void *valor);
+    void adicionarItemAoFinalDaLista(Lista *lista, void* novoItem);
 
-    No* adicionarElementoAoFinalDaLista(Lista lista, void* novoValor);
+    NoLista criarNovoNo(void *data, TamanhoData tamData);
 
-    No* adicionarElementoAoInicioDaLista(Lista lista, void* novoValor);
+    NoLista retornarElementoDaLista(Lista *lista, Indice indice);
 
-    No* adicionarElementoPorIndice(Lista lista, void* novoValor, Indice indice);
-
-    No* adicionarElementoPorValor(Lista lista, void* novoValor, void* valor);
-
-    void removerElementoDaListaPorValor(Lista lista, void* valor);
-
-    void removerElementoDaListaPorIndice(Lista lista, Indice indice);
-
-    void apagarNo(No **no);
-
-    void apagarLista(Lista lista);
-
-    size_t listalen(Lista *lista);
+    void apagarLista(Lista **listaPtr);
 #endif

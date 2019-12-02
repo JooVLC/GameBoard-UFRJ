@@ -11,7 +11,12 @@
 
     //FUNCOES DO JOGO 
         //Cria o jogo e retorna ele a partir dos nomes pegos do CMD
-        Jogo inicializarJogo(Nome nomeJogadorBranco, Nome nomeJogadorPreto);
+        Jogo* inicializarJogo(Nome nomeJogadorBranco, Nome nomeJogadorPreto);
+
+        CorPeca determinarVencedorAposXequeMate(Jogo *jogo);
+
+        //Apagar o jogo dando free em suas variaveis
+        void apagarJogo(Jogo** jogo);
 
         //Cria o tabuleiro e inicializa ele
         void inicializarTabuleiro(Tabuleiro novoTabuleiro);
@@ -26,23 +31,25 @@
         Peca** criarPecasEspeciais(CorPeca corCriada);
 
         //Cria um novo jogador a partir do seu nome e cor
-        Jogador criarJogador(Nome nomeJogador, CorPeca corJogador);
-
-        //Testa se houve xequemate, e caso houver, corPeca recebe a cor de quem
-        //esta recebendo o xeque, caso não, retorna NULL
-        bool xequeMate(Tabuleiro tabuleiro, CorPeca *corRecebendoCheque);
-
-        //Verifica se uma peca esta em cheque em determinado tabuleiro
-        bool pecaEstaEmXeque(CasaTabuleiro pecaTestada, Tabuleiro tabuleiro);
-
-        //Verifica se a peca esta impedindo um xequemate
-        bool pecaImpedindoXequeMate(CasaTabuleiro pecaTestada, Tabuleiro tabuleiro);
+        void criarJogador(Jogador* jogador, Nome nomeJogador, CorPeca corJogador);
 
         //Funcao que transforma uma posicao relativa a tela 2D para o plano cartesiano
-        Posicao converterPosicaoTelaParaCartesiano(Posicao posicaoTela);
+        Posicao converterPosicaoTelaParaCartesiano(Posicao posicaoTela, CorPeca corTurno);
 
-        //Funcao para desalocar jogo da heap
-        void terminarJogo(Jogo jogo);
+        Posicao converterPosicaoCartesianoParaTela(Posicao posicaoCartesiano, CorPeca corTurno);
+
+        Lista** retornarTodosAsPecasDeOutraCor(CorPeca corJogando, Tabuleiro tabuleiro);
+
+        void acharPecaNoTabuleiro(Posicao* posicao, Tabuleiro tabuleiro, CorPeca corPeca, TipoPeca tipoPeca);
+
+        bool xequemate(Jogo jogo);
+
+        //Funcao que inverte o tabuleiro para o proximo jogador
+        void inverterTabuleiro(Tabuleiro tabuleiro);
+
+        void inverterColunasTabuleiro(Tabuleiro tabuleiro);
+
+        void inverterLinhasTabuleiro(Tabuleiro tabuleiro);
 
         void proximoTurno(Jogo *jogo);
     //endregion
@@ -52,45 +59,47 @@
         void moverPeca(CasaTabuleiro pecaMovida, Tabuleiro tabuleiro, CasaTabuleiro novaPosicao);
 
         //funcao que retorna todas os movimentos possiveis
-        ListaCasaTabuleiro* movimentosPossiveis(CasaTabuleiro peca, Jogo jogo);
+        ListaCasaTabuleiro** movimentosPossiveis(CasaTabuleiro peca, Jogo jogo);
 
         //funcao dos movimentos do peao
-        ListaCasaTabuleiro* movimentosPossiveisPeao(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual);
+        ListaCasaTabuleiro** movimentosPossiveisPeao(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual);
 
         //funcao que retorna os movimentos relevantes ao peao
         CasaTabuleiro** casasRelevantesAoPeao(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual);
 
         //funcao dos movimentos do cavalo
-        ListaCasaTabuleiro* movimentosPossiveisCavalo(CasaTabuleiro peca, Tabuleiro tabuleiro);
+        ListaCasaTabuleiro** movimentosPossiveisCavalo(CasaTabuleiro peca, Tabuleiro tabuleiro);
 
         //funcao que retorna os movimentos relevantes ao cavalo
         CasaTabuleiro** casasRelevantesAoCavalo(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual);
 
         //funcao dos movimentos da torre
-        ListaCasaTabuleiro* movimentosPossiveisTorre(CasaTabuleiro peca, Tabuleiro tabuleiro);
+        ListaCasaTabuleiro** movimentosPossiveisTorre(CasaTabuleiro peca, Tabuleiro tabuleiro);
 
         //funcao que retorna os movimentos relevantes a torre
         CasaTabuleiro** casasRelevantesATorre(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual);
 
         //funcao dos movimentos do bispo
-        ListaCasaTabuleiro* movimentosPossiveisBispo(CasaTabuleiro peca, Tabuleiro tabuleiro);
+        ListaCasaTabuleiro** movimentosPossiveisBispo(CasaTabuleiro peca, Tabuleiro tabuleiro);
 
         //funcao que retorna os movimentos relevantes ao bispo
         CasaTabuleiro** casasRelevantesAoBispo(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual);
 
         //funcao dos movimentos da rainha
-        ListaCasaTabuleiro* movimentosPossiveisRainha(CasaTabuleiro peca, Tabuleiro tabuleiro);
+        ListaCasaTabuleiro** movimentosPossiveisRainha(CasaTabuleiro peca, Tabuleiro tabuleiro);
 
         //funcao que retorna os movimentos relevantes a rainha
         CasaTabuleiro** casasRelevantesARainha(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual);
 
         //funcao dos movimentos do rei
-        ListaCasaTabuleiro* movimentosPossiveisRei(CasaTabuleiro peca, Tabuleiro tabuleiro);
+        ListaCasaTabuleiro** movimentosPossiveisRei(CasaTabuleiro peca, Tabuleiro tabuleiro);
 
         //funcao que retorna os movimentos relevantes ao rei
         CasaTabuleiro** casasRelevantesAoRei(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual);
 
         //função que verifica os movimentos que deixariam o rei em cheque
         void filtrarCasasPossiveisAoRei(CasaTabuleiro** casasPossiveis, Tabuleiro tabuleiro, Turno turnoAtual);
+
+        bool movimentoExisteEmTalPosicao(int linha, int coluna, ListaCasaTabuleiro* lista); 
     //endregion
 #endif

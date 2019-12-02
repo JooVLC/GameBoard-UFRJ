@@ -2,19 +2,6 @@
 #include "./headers/typesXadrez.h"
 #include "./headers/consoleLib.h"
 
-void limparBuffer(Nome nome) {
-    size_t nomeLen = strlen(nome);
-    if(nomeLen != NOME_LEN - 1)
-    {
-        nome[nomeLen-1] = 0;
-    }
-    else
-    {           
-        char c;
-        while((c = getchar()) && c != EOF && c != '\n');   
-    }
-}
-
 int main(void)
 {
     Nome nomeBranco, nomePreto;
@@ -22,11 +9,11 @@ int main(void)
 
     puts("Digite o nome do jogador branco: ");
     fgets(nomeBranco, NOME_LEN, stdin);
-    limparBuffer(nomeBranco);
+    limparBuffer(nomeBranco, NOME_LEN);
 
     puts("Digite o nome do jogador preto: ");
     fgets(nomePreto, NOME_LEN, stdin);
-    limparBuffer(nomePreto);
+    limparBuffer(nomePreto, NOME_LEN);
 
     puts("Digite qualquer tecla para iniciar o jogo...");
     getchar();

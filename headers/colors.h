@@ -72,4 +72,6 @@
     #define BHMAG "\033[1;95m"
     #define BHCYN "\033[1;96m"
     #define BHWHT "\033[1;97m"
+
+    #define NULL_COLOR ""
 #endif

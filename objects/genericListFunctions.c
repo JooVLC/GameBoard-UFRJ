@@ -2,172 +2,80 @@
 #include "../headers/genericList.h"
 
 
-void criarListaDeTipoGenerico(Lista **novaLista, size_t tamanhoElemento, void* primeiroValor) {
-    InicioLista inicio = malloc(sizeof(No));
-    inicio->proximo = NULL;
-    if(primeiroValor != NULL)
-    {
-        inicio->valor = malloc(tamanhoElemento);
-        memmove(inicio->valor, primeiroValor, tamanhoElemento);
-    }
-    else
-        inicio->valor = NULL;
+NoLista retornarElementoDaLista(Lista *lista, Indice indice) {
+    if(indice >= lista->len || indice < 0)
+        return NULL;
 
-    (*novaLista)->tamanhoElementos = tamanhoElemento;
-    (*novaLista)->inicio = &inicio;
-}
-
-No* retornarElementoPorIndice(Lista lista, Indice indice) {
-    Indice count = 0;
-    No* noAtual = *lista.inicio;
-    while (noAtual != NULL)
-    {
-        if(count == indice) break;
-        count += 1;
+    NoLista noAtual = lista->inicio;
+    for(ListaLen i = 0; i < indice; i++) {
         noAtual = noAtual->proximo;
     }
-    //noAtual representa o buscado
-
-    return noAtual;;
-}
-
-No* retornarElementoPorValor(Lista lista, void *valor) {
-    No* noAtual = *lista.inicio;
-    while (noAtual != NULL)
-    {
-        if(noAtual->valor == valor) break;
-        noAtual = noAtual->proximo;
-    }
-    //noAtual representa o buscado
 
     return noAtual;
 }
 
-No* adicionarElementoAoFinalDaLista(Lista lista, void* novoValor) {
-    No *novoNo = malloc(sizeof(No));
-    novoNo->valor = malloc(lista.tamanhoElementos);
-    memmove(novoNo->valor, novoValor, lista.tamanhoElementos);
-    novoNo->proximo = NULL;
+void criarLista(Lista **listaPtr, TamanhoData tamanhoData) {
+    *listaPtr = malloc(sizeof *listaPtr); //M
+    (*listaPtr)->inicio = NULL;
+    (*listaPtr)->len = 0u;
+    (*listaPtr)->tamData = tamanhoData;
+}
 
-    No* noAtual = *lista.inicio;
-    while(noAtual->proximo != NULL) noAtual = noAtual->proximo;
+void adicionarPrimeiroItemNaLista(Lista *lista, void* novoItem) {
+    lista->inicio = malloc(sizeof *lista->inicio);
+    lista->inicio->proximo = NULL;
+    lista->inicio->data = novoItem;
+    lista->len += 1;
+    printf("len: %lu\n", lista->len);
+}
 
+void adicionarItemAoInicioDaLista(Lista *lista, void* novoItem) {
+    if(lista->inicio == NULL) {
+        puts("primeiro item");
+        adicionarPrimeiroItemNaLista(lista, novoItem);
+        return;
+    }
+
+    NoLista novoNo = criarNovoNo(novoItem, lista->tamData);
+    novoNo->proximo = lista->inicio;
+    lista->inicio = novoNo;
+    lista->len += 1;
+}
+
+void adicionarItemAoFinalDaLista(Lista *lista, void* novoItem) {
+    if(lista->inicio == NULL) {
+        adicionarPrimeiroItemNaLista(lista, novoItem);
+        return;
+    }
+
+    NoLista noAtual = lista->inicio;
+    for(ListaLen i = 0u; i < (lista->len - 1); i++) {
+        noAtual = noAtual->proximo;
+    }
+
+    NoLista novoNo = criarNovoNo(novoItem, lista->tamData);
     noAtual->proximo = novoNo;
-    return novoNo;
+    lista->len += 1;
 }
 
-No* adicionarElementoAoInicioDaLista(Lista lista, void* novoValor) {
-    No *novoNo = (No*)malloc(sizeof(No));
-    novoNo->valor = malloc(lista.tamanhoElementos);
-    memmove(novoNo->valor, novoValor, lista.tamanhoElementos);
-    novoNo->proximo = *lista.inicio;
-
-    *lista.inicio = novoNo;
-    return novoNo;
+NoLista criarNovoNo(void *data, TamanhoData tamData) {
+    NoLista novoNo = malloc(sizeof *novoNo);
+    novoNo->proximo = NULL;
+    novoNo->data = data;
+    return novoNo;   
 }
 
-No* adicionarElementoPorIndice(Lista lista, void* novoValor, Indice indice) {
-    No* noAlterado = retornarElementoPorIndice(lista, indice);
-
-    if(noAlterado == NULL)
-        return NULL;
-    
-    free(noAlterado->valor);
-    noAlterado->valor = malloc(lista.tamanhoElementos);
-    memmove(noAlterado->valor, novoValor, lista.tamanhoElementos);
-    return noAlterado;
-}
-
-No* adicionarElementoPorValor(Lista lista, void* novoValor, void* valor) {
-    No* noAlterado = retornarElementoPorValor(lista, valor);
-
-    if(noAlterado == NULL)
-        return NULL;
-    
-    free(noAlterado->valor);
-    noAlterado->valor = malloc(lista.tamanhoElementos);
-    memmove(noAlterado->valor, novoValor, lista.tamanhoElementos);
-    return noAlterado;
-}
-
-void removerElementoDaListaPorValor(Lista lista, void* valor) {
-    if((*lista.inicio)->valor == valor)
-    {
-        *lista.inicio = (*lista.inicio)->proximo;
+void apagarLista(Lista **listaPtr) {
+    NoLista noAtual = (*listaPtr)->inicio;
+    for(ListaLen i = 0u; i < (*listaPtr)->len; i++) {
+        NoLista proximoNo = noAtual->proximo;
+        puts("data");
+        free(noAtual->data);
+        puts("no");
+        free(noAtual);
+        puts("freedado");
+        noAtual = proximoNo;
     }
-    else
-    {
-        No* noAtual = *lista.inicio;
-        while(noAtual != NULL)
-        {
-            if(noAtual->valor == valor) break;
-            noAtual = noAtual->proximo;
-        }
-        //noAtual representa o nó anterior ao excluido
 
-        //se houver um nó indice-1 && se houver um proximo nó...
-        if(noAtual != NULL && noAtual->proximo != NULL)
-        {
-            No* noApagado = noAtual->proximo;
-            noAtual->proximo = noApagado->proximo;
-            apagarNo(&noApagado);
-        }
-    }
-}
-
-void removerElementoDaListaPorIndice(Lista lista, Indice indice) {
-    if(indice == 0)
-    {
-        *lista.inicio = (*lista.inicio)->proximo;
-    }
-    else
-    {
-        Indice count = 0;
-        No* noAtual = *lista.inicio;
-        while(noAtual != NULL)
-        {
-            count += 1;
-            if(count == indice) break;
-            noAtual = noAtual->proximo;
-        }
-        //noAtual representa o nó anterior ao excluido
-
-        //se houver um nó indice-1 && se houver um proximo nó...
-        if(noAtual != NULL && noAtual->proximo != NULL)
-        {
-            No* noApagado = noAtual->proximo;
-            noAtual->proximo = noApagado->proximo;
-            apagarNo(&noApagado);
-        }
-    }
-}
-
-void apagarLista(Lista lista) {
-    No* noAtual = *lista.inicio;
-    lista.inicio = NULL;
-
-    while(noAtual->proximo != NULL) {
-        No* temp = noAtual;
-        noAtual = noAtual->proximo;
-        apagarNo(&temp);
-    }
-}
-
-void apagarNo(No **no) {
-    free((*no)->valor);
-    free(*no);
-}
-
-size_t listalen(Lista *lista) {
-    size_t len = 0;
-    No* noAtual = *lista->inicio;
-    puts("erro no inicio");
-    while (noAtual != NULL)
-    {
-        noAtual = noAtual->proximo;
-        printf("%d\n", noAtual == NULL ? 1 : 0);
-        len += 1;
-    }
-    printf("len: %d\n", len);
-    return len;
+    free(*listaPtr);
 }
