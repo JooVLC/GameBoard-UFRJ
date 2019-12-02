@@ -36,7 +36,7 @@ void adicionarItemAoInicioDaLista(Lista *lista, void* novoItem) {
         return;
     }
 
-    NoLista novoNo = criarNovoNo(novoItem, lista->tamData);
+    NoLista novoNo = criarNovoNo(novoItem/*, lista->tamData*/);
     novoNo->proximo = lista->inicio;
     lista->inicio = novoNo;
     lista->len += 1;
@@ -53,12 +53,12 @@ void adicionarItemAoFinalDaLista(Lista *lista, void* novoItem) {
         noAtual = noAtual->proximo;
     }
 
-    NoLista novoNo = criarNovoNo(novoItem, lista->tamData);
+    NoLista novoNo = criarNovoNo(novoItem/*, lista->tamData*/);
     noAtual->proximo = novoNo;
     lista->len += 1;
 }
 
-NoLista criarNovoNo(void *data, TamanhoData tamData) {
+NoLista criarNovoNo(void *data/*, TamanhoData tamData*/) {
     NoLista novoNo = malloc(sizeof *novoNo);
     novoNo->proximo = NULL;
     novoNo->data = data;

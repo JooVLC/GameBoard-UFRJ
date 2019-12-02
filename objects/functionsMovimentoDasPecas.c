@@ -9,7 +9,7 @@ Peao pode se mover duas casas no inicio do jogo (não necessita verificação po
 Peao pode se mover para comer um peao na diagonal direita
 Peao pode se mover para comer um peao na diagonal esquerda
 Peao pode se mover para frente (ate o final do board)*/
-ListaCasaTabuleiro** movimentosPossiveisPeao(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual) {
+ListaCasaTabuleiro** movimentosPossiveisPeao(CasaTabuleiro peca, Tabuleiro tabuleiro) {
     Coordenada pecaLinhaAtual = peca.localizacao.linha;
     Coordenada pecaColunaAtual = peca.localizacao.coluna;
 
@@ -41,7 +41,7 @@ ListaCasaTabuleiro** movimentosPossiveisPeao(CasaTabuleiro peca, Tabuleiro tabul
     if(casaAcimaDoPeaoLinha != NULL && casaAcimaDoPeaoLinha->peca == NULL)
         adicionarItemAoFinalDaLista(*movimentosPossiveis, casaAcimaDoPeaoLinha);
     
-    printLista(*movimentosPossiveis, "peaoLista");
+    //printLista(*movimentosPossiveis, "peaoLista");
     free(casasRelevantes);
     return movimentosPossiveis;
 }
@@ -151,7 +151,7 @@ CasaTabuleiro** casasRelevantesAoCavalo(Tabuleiro tabuleiro, Coordenada pecaLinh
             casasRelevantes[i] = NULL;
         }
     }
-    printArray(casasRelevantes, "casas relevantes cavalo", MOVIMENTOS_POSSIVEIS_REI);
+    //printArray(casasRelevantes, "casas relevantes cavalo", MOVIMENTOS_POSSIVEIS_REI);
     return casasRelevantes;
 }
 
@@ -306,7 +306,7 @@ ListaCasaTabuleiro** movimentosPossiveisBispo(CasaTabuleiro peca, Tabuleiro tabu
         if(casasRelevantes[i] != NULL)
             adicionarItemAoFinalDaLista(*movimentosPossiveis, casasRelevantes[i]);
     }
-    printLista(*movimentosPossiveis, "peaoLista");
+    //printLista(*movimentosPossiveis, "peaoLista");
 
     //for(int i = 0; i < MOVIMENTOS_POSSIVEIS_BISPO; i++)
     //    free(casasRelevantes[i]);
@@ -539,7 +539,7 @@ CasaTabuleiro** casasRelevantesAoRei(Tabuleiro tabuleiro, Coordenada pecaLinhaAt
         }
     }
     
-    printArray(casasRelevantes, "casas relevantes rei", MOVIMENTOS_POSSIVEIS_REI);
+    //printArray(casasRelevantes, "casas relevantes rei", MOVIMENTOS_POSSIVEIS_REI);
     return casasRelevantes;
 }
 
@@ -563,7 +563,7 @@ ListaCasaTabuleiro** movimentosPossiveis(CasaTabuleiro peca, Jogo jogo) {
     switch (peca.peca->tipo)
     {
         case PEAO:
-            movimentosPossiveisPeca = movimentosPossiveisPeao(peca, jogo.tabuleiro, jogo.turno);
+            movimentosPossiveisPeca = movimentosPossiveisPeao(peca, jogo.tabuleiro);
             break;
         case CAVALO:
             movimentosPossiveisPeca = movimentosPossiveisCavalo(peca, jogo.tabuleiro);
@@ -593,7 +593,7 @@ ListaCasaTabuleiro** movimentosPossiveis(CasaTabuleiro peca, Jogo jogo) {
 bool movimentoExisteEmTalPosicao(int linha, int coluna, ListaCasaTabuleiro* lista) {
     bool movimentoExiste = false;
 
-    for(int i = 0; i < lista->len; i++) {
+    for(size_t i = 0; i < lista->len; i++) {
         CasaTabuleiro *casaAtual = retornarElementoDaLista(lista, i)->data;
         if(casaAtual->localizacao.linha == linha && casaAtual->localizacao.coluna == coluna)
             movimentoExiste = true;

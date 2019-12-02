@@ -117,7 +117,6 @@ void printLinhaIndice(int linha, Tabuleiro tabuleiro, CasaTabuleiro casaMovida, 
 
         const char *const corDaCasa = pintarCasaMovida ? COR_CASA_MOVIDA : (pintarCasaComoMovimento ? COR_MOVIMENTO : (peca.cor == BRANCO ? NULL_COLOR : BLKB));
         const char *const corDaPeca = peca.peca != NULL ? (peca.peca->cor == BRANCO ? BWHT : BBLK) : corDaCasa;
-        bool corIgualCasaPeca = peca.peca != NULL && peca.cor != peca.peca->cor;
 
         printc("  ", corDaCasa, false);
         printc("", corDaCasa, true);
@@ -197,7 +196,6 @@ void printc(const char *const str, const char *const color, bool corDeBackground
 }
 
 void getPosicaoDoUsuario(int *linha, char *coluna) {
-    static const size_t LEN_DIGITACAO_MAX = 21;
     char digitacao[LEN_DIGITACAO_MAX];
     bool digitacaoCorreta = false;
     while(!digitacaoCorreta) {
@@ -216,7 +214,6 @@ void getPosicaoDoUsuario(int *linha, char *coluna) {
 }
 
 void getNumeroDoUsuario(int *num, int maxNum) {
-    static const size_t LEN_DIGITACAO_MAX = 21;
     char digitacao[LEN_DIGITACAO_MAX];
     bool digitacaoCorreta = false;
     while(!digitacaoCorreta) {

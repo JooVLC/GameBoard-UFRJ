@@ -248,23 +248,23 @@ bool xequemate(Jogo jogo) {
     criarLista(listaTodosMovimentosDaOutraCor, sizeof(CasaTabuleiro));
     Lista **listaTodasAsPecasDaOutraCor = retornarTodosAsPecasDeOutraCor(jogo.corJogando, jogo.tabuleiro);
 
-    int qtdMovimentosAchados = 0;
+    size_t qtdMovimentosAchados = 0;
     Posicao posicoesJaEncontradas[(*movimentosRei)->len];
-    for(int i = 0; i < (*listaTodasAsPecasDaOutraCor)->len; i++) {
+    for(size_t i = 0; i < (*listaTodasAsPecasDaOutraCor)->len; i++) {
         CasaTabuleiro *pecaOutraCor = retornarElementoDaLista(*listaTodasAsPecasDaOutraCor, i)->data;
         Lista** listaMovimentosPecaOutraCor = movimentosPossiveis(*pecaOutraCor, jogo);
 
         if(listaTodosMovimentosDaOutraCor == NULL)
             continue;
         
-        for(int j = 0; j < (*listaMovimentosPecaOutraCor)->len; j++)
+        for(size_t j = 0; j < (*listaMovimentosPecaOutraCor)->len; j++)
         {
             CasaTabuleiro *pecaOutraCorMovimentoPossivel = retornarElementoDaLista(*listaMovimentosPecaOutraCor, j)->data;
-            for(int k = 0; k < (*movimentosRei)->len; k++) {
+            for(size_t k = 0; k < (*movimentosRei)->len; k++) {
                 CasaTabuleiro* reiMovimentosPossivel = retornarElementoDaLista(*movimentosRei, k)->data;
                 if(reiMovimentosPossivel->localizacao.linha == pecaOutraCorMovimentoPossivel->localizacao.linha && reiMovimentosPossivel->localizacao.coluna == pecaOutraCorMovimentoPossivel->localizacao.coluna) {
                     bool jaTestouEsseCara = false;
-                    for(int l = 0; l < qtdMovimentosAchados; i++) {
+                    for(size_t l = 0; l < qtdMovimentosAchados; l++) {
                         if(reiMovimentosPossivel->localizacao.linha == posicoesJaEncontradas[l].linha && reiMovimentosPossivel->localizacao.coluna == posicoesJaEncontradas[l].coluna) {
                             jaTestouEsseCara = true;
                         }
