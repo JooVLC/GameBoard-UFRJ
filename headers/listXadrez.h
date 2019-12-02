@@ -5,6 +5,10 @@
     
     typedef Lista ListaCasaTabuleiro;
 
+    void printLista(Lista *lista, char nomeLista[]);
+
+    void printArray(CasaTabuleiro **lista, char nomeLista[], int len);
+
     /*void criarListaCasasTabuleiro(ListaCasaTabuleiro **lista);
 
     CasaTabuleiro* ListaParaArrayDeCasaTabuleiro(ListaCasaTabuleiro *lista);

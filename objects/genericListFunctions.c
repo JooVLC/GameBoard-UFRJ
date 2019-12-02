@@ -70,7 +70,7 @@ void apagarLista(Lista **listaPtr) {
     for(ListaLen i = 0u; i < (*listaPtr)->len; i++) {
         NoLista proximoNo = noAtual->proximo;
         puts("data");
-        free(noAtual->data);
+        //free(noAtual->data);
         puts("no");
         free(noAtual);
         puts("freedado");
