@@ -54,3 +54,47 @@ size_t lenListaCasaTabuleiro(ListaCasaTabuleiro *lista) {
         return listalen(lista);
     }
 }*/
+
+void printLista(Lista *lista, char nomeLista[]) {
+    printf("imprimindo lista: %s - tam: %d\n", nomeLista, lista != NULL ? lista->len : 0);
+    for(int i = 0; i < lista->len; i++) {
+        printf("id: %d - ", i);
+        CasaTabuleiro* e = retornarElementoDaLista(lista, i)->data;
+        if(e == NULL) 
+            continue;
+        printf("coord: %d %d\t", e->localizacao.linha, e->localizacao.coluna);
+        printf("corCasa: %s\t", e->cor == BRANCO ? "B" : "P");
+        printf("pecaNull: %s\t", e->peca == NULL ? "TRUE" : "FALSE");
+        if(e->peca != NULL)
+        {
+            printf("Peca:  ");
+            printf("coord: %d %d\t", e->peca->posicao.linha, e->peca->posicao.coluna);
+            printf("tipo: %d - cor: %s\t", e->peca->tipo, e->cor == BRANCO ? "B" : "P");
+        }
+        puts("\n");
+    }
+    puts("fim");
+    getchar();
+}
+
+void printArray(CasaTabuleiro **lista, char nomeLista[], int len) {
+    printf("imprimindo lista: %s - tam: %d\n", nomeLista, len);
+    for(int i = 0; i < len; i++) {
+        puts("\n");
+        CasaTabuleiro* e = lista[i];
+        printf("id: %d - ", i);
+        if(e == NULL) 
+            continue;
+        printf("coord: %d %d\t", e->localizacao.linha, e->localizacao.coluna);
+        printf("corCasa: %s\t", e->cor == BRANCO ? "B" : "P");
+        printf("pecaNull: %s\t", e->peca == NULL ? "TRUE" : "FALSE");
+        if(e->peca != NULL)
+        {
+            printf("Peca:  ");
+            printf("coord: %d %d\t", e->peca->posicao.linha, e->peca->posicao.coluna);
+            printf("tipo: %d - cor: %s\t", e->peca->tipo, e->cor == BRANCO ? "B" : "P");
+        }
+    }
+    puts("fim");
+    getchar();
+}

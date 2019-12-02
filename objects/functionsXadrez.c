@@ -9,7 +9,7 @@ void criarJogador(Jogador* jogador, Nome nomeJogador, CorPeca corJogador) {
 
 CorPeca determinarVencedorAposXequeMate(Jogo *jogo) {
     jogo->jogando = false;
-    return jogo->corJogando;
+    return !jogo->corJogando;
 }
 
 Peca** criarPeoes(CorPeca corCriada) {
@@ -241,7 +241,7 @@ bool xequemate(Jogo jogo) {
     acharPecaNoTabuleiro(&posicao, jogo.tabuleiro, jogo.corJogando, REI);
     Lista** movimentosRei = movimentosPossiveis(jogo.tabuleiro[posicao.linha][posicao.coluna], jogo);
 
-    if(movimentosRei == NULL)
+    if(movimentosRei == NULL || (*movimentosRei)->len == 0)
         return false;
 
     Lista** listaTodosMovimentosDaOutraCor = malloc(sizeof *listaTodosMovimentosDaOutraCor);
@@ -249,7 +249,7 @@ bool xequemate(Jogo jogo) {
     Lista **listaTodasAsPecasDaOutraCor = retornarTodosAsPecasDeOutraCor(jogo.corJogando, jogo.tabuleiro);
 
     int qtdMovimentosAchados = 0;
-    Posicao posicoesJaEncontradas[MOVIMENTOS_POSSIVEIS_REI];
+    Posicao posicoesJaEncontradas[(*movimentosRei)->len];
     for(int i = 0; i < (*listaTodasAsPecasDaOutraCor)->len; i++) {
         CasaTabuleiro *pecaOutraCor = retornarElementoDaLista(*listaTodasAsPecasDaOutraCor, i)->data;
         Lista** listaMovimentosPecaOutraCor = movimentosPossiveis(*pecaOutraCor, jogo);
@@ -278,7 +278,7 @@ bool xequemate(Jogo jogo) {
         }
     }
 
-    if(qtdMovimentosAchados >= MOVIMENTOS_POSSIVEIS_REI)
+    if(qtdMovimentosAchados >= (*movimentosRei)->len)
         return true;
     else
         return false;
