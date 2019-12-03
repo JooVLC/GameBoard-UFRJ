@@ -246,13 +246,20 @@ bool xequeAgora(Jogo jogo) {
     acharPecaNoTabuleiro(&posicao, jogo.tabuleiro, !jogo.corJogando, REI);
     Lista **listaTodasAsPecasDessaCor = retornarTodosAsPecasDeOutraCor(!jogo.corJogando, jogo.tabuleiro);
 
+    if(listaTodasAsPecasDessaCor == NULL)
+        return false;
+
     for(size_t i = 0; i < (*listaTodasAsPecasDessaCor)->len; i++)
     {
         CasaTabuleiro *pecaDessaCor = retornarElementoDaLista(*listaTodasAsPecasDessaCor, i)->data;
-        Lista** listaMovimentosPeca= movimentosPossiveis(*pecaDessaCor, jogo);
+        Lista** listaMovimentosPeca = movimentosPossiveis(*pecaDessaCor, jogo);
+
+        if(listaMovimentosPeca == NULL)
+            continue;
+
         for(size_t j = 0; j < (*listaMovimentosPeca)->len; j++)
         {
-            CasaTabuleiro* movimento = retornarElementoDaLista(*listaMovimentosPeca, i)->data;
+            CasaTabuleiro* movimento = retornarElementoDaLista(*listaMovimentosPeca, j)->data;
             if(posicao.linha == movimento->localizacao.linha && posicao.coluna == movimento->localizacao.coluna)
                 return true;
         }
@@ -312,6 +319,9 @@ bool xequemate(Jogo jogo) {
 bool empate(Jogo jogo) {
     Lista **listaTodasAsPecasDaOutraCor = retornarTodosAsPecasDeOutraCor(jogo.corJogando, jogo.tabuleiro);
     Lista **listaTodasAsPecasDessaCor = retornarTodosAsPecasDeOutraCor(!jogo.corJogando, jogo.tabuleiro);
+
+    if(listaTodasAsPecasDaOutraCor == NULL || listaTodasAsPecasDessaCor == NULL)
+        return false;
 
     if((*listaTodasAsPecasDaOutraCor)->len == 1 && (*listaTodasAsPecasDessaCor)->len == 2) {
         CasaTabuleiro* reiProvavelOutraCor = retornarElementoDaLista(*listaTodasAsPecasDaOutraCor, 0)->data;
@@ -391,6 +401,9 @@ bool empate(Jogo jogo) {
 }
 
 Lista** retornarTodosAsPecasDeOutraCor(CorPeca corJogando, Tabuleiro tabuleiro) {
+    if(corJogando == EMPATE)
+       { puts("errrrr"); getchar(); }
+
     Lista** listaPecas = malloc(sizeof *listaPecas);
     criarLista(listaPecas, sizeof(CasaTabuleiro));
 

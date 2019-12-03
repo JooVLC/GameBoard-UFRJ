@@ -22,6 +22,7 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
             corVitoriosa = determinarVencedorAposXequeAgora(&jogo);
             continue;
         }
+        puts("aqui");
         if(xequemate(jogo)) {
             corVitoriosa = determinarVencedorAposXequeMate(&jogo);
             continue;
