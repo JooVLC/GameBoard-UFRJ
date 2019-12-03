@@ -241,7 +241,7 @@ CasaTabuleiro** casasRelevantesATorre(Tabuleiro tabuleiro, Coordenada pecaLinhaA
     for(int i = pecaLinhaAtual + 1; i < QTD_CASAS_POR_LINHA; i++, index++)
     {
         CasaTabuleiro* casaPossivelParaMoverTorre = malloc(sizeof *casaPossivelParaMoverTorre);
-        *casaPossivelParaMoverTorre = tabuleiro[i][pecaLinhaAtual];
+        *casaPossivelParaMoverTorre = tabuleiro[i][pecaColunaAtual];
         
         if(encontrouPeca) {
             casasRelevantes[index] = NULL;
@@ -265,7 +265,7 @@ CasaTabuleiro** casasRelevantesATorre(Tabuleiro tabuleiro, Coordenada pecaLinhaA
     for(int i = pecaLinhaAtual - 1; i >= 0; i--, index++)
     {
         CasaTabuleiro* casaPossivelParaMoverTorre = malloc(sizeof *casaPossivelParaMoverTorre);
-        *casaPossivelParaMoverTorre = tabuleiro[i][pecaLinhaAtual];
+        *casaPossivelParaMoverTorre = tabuleiro[i][pecaColunaAtual];
         
         if(encontrouPeca) {
             casasRelevantes[index] = NULL;
