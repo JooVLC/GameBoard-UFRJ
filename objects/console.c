@@ -70,7 +70,7 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
                 puts("Digite um dos movimentos válidos por favor");
         }
 
-        moverPeca(pecaTentandoMover, jogo.tabuleiro, *movimento); //erro
+        moverPeca(pecaTentandoMover, jogo.tabuleiro, *movimento, jogo.corJogando); //erro
         proximoTurno(&jogo); //erro
         apagarLista(movimentosPossiveisArray);
         free(movimentosPossiveisArray);

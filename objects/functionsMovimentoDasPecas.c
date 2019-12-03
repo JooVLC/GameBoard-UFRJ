@@ -537,7 +537,7 @@ CasaTabuleiro** casasRelevantesAoRei(Tabuleiro tabuleiro, Coordenada pecaLinhaAt
     return casasRelevantes;
 }
 
-void moverPeca(CasaTabuleiro pecaMovida, Tabuleiro tabuleiro, CasaTabuleiro novaPosicao) {
+void moverPeca(CasaTabuleiro pecaMovida, Tabuleiro tabuleiro, CasaTabuleiro novaPosicao, CorPeca corJogando) {
     if(novaPosicao.peca != NULL && pecaMovida.peca->cor == novaPosicao.peca->cor)
         return;
 
@@ -548,10 +548,11 @@ void moverPeca(CasaTabuleiro pecaMovida, Tabuleiro tabuleiro, CasaTabuleiro nova
     //free(novaPosicao.peca); //talvez apague dps (depende de como Peca *peca é criada)
 
     if(pecaMovida.peca->tipo == PEAO && pecaMovida.localizacao.linha == 1 && novaPosicao.localizacao.linha == 3) {
-        tabuleiro[0][0].peca = malloc(sizeof(CasaTabuleiro));
-        tabuleiro[0][0].peca->tipo = getTipoPelaColuna(novaPosicao.localizacao.coluna);
-        tabuleiro[0][0].peca->cor = BRANCO;
-        tabuleiro[0][0].peca->posicao = tabuleiro[0][0].localizacao;
+        tabuleiro[0][novaPosicao.localizacao.coluna].peca = malloc(sizeof(CasaTabuleiro));
+        tabuleiro[0][novaPosicao.localizacao.coluna].peca->tipo = getTipoPelaColuna(novaPosicao.localizacao.coluna);
+        tabuleiro[0][novaPosicao.localizacao.coluna].peca->tipo = getTipoPelaColuna(novaPosicao.localizacao.coluna);
+        tabuleiro[0][novaPosicao.localizacao.coluna].peca->cor = corJogando;
+        tabuleiro[0][novaPosicao.localizacao.coluna].peca->posicao = tabuleiro[0][novaPosicao.localizacao.coluna].localizacao;
 
         tabuleiro[1][0].peca = NULL;
         return;

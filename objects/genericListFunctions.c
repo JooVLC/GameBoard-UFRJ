@@ -3,7 +3,7 @@
 
 
 NoLista retornarElementoDaLista(Lista *lista, Indice indice) {
-    if(indice >= lista->len || indice < 0)
+    if(indice >= lista->len)
         return NULL;
 
     NoLista noAtual = lista->inicio;

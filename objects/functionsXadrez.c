@@ -211,7 +211,7 @@ void proximoTurno(Jogo *jogo) {
 Posicao converterPosicaoTelaParaCartesiano(Posicao posicaoTela, CorPeca corTurno) {
     Posicao posicaoPlano;
 
-    posicaoPlano.linha = corTurno == PRETO ? QTD_CASAS_POR_COLUNA - posicaoPlano.linha : posicaoTela.linha - 1;
+    posicaoPlano.linha = corTurno == PRETO ? QTD_CASAS_POR_COLUNA - posicaoTela.linha : posicaoTela.linha - 1;
     posicaoPlano.coluna = corTurno == PRETO ? (QTD_CASAS_POR_LINHA - 1) - posicaoTela.coluna : posicaoTela.coluna;
 
     return posicaoPlano;
