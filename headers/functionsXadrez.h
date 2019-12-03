@@ -15,6 +15,8 @@
 
         CorPeca determinarVencedorAposXequeMate(Jogo *jogo);
 
+        CorPeca empatar(Jogo *jogo);
+
         //Apagar o jogo dando free em suas variaveis
         void apagarJogo(Jogo** jogo);
 
@@ -43,6 +45,8 @@
         void acharPecaNoTabuleiro(Posicao* posicao, Tabuleiro tabuleiro, CorPeca corPeca, TipoPeca tipoPeca);
 
         bool xequemate(Jogo jogo);
+
+        bool empate(Jogo jogo);
 
         bool xequeAgora(Jogo jogo);
 

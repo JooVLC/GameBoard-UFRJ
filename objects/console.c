@@ -15,6 +15,11 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
         system(CLEAR);
         bool xequeMateDessaCor = xequemate(jogo) || xequeAgora(jogo);
 
+        if(empate(jogo)) {
+            corVitoriosa = empatar(&jogo);
+            continue;
+        }
+
         if(xequeAgora(jogo)) {
             corVitoriosa = determinarVencedorAposXequeAgora(&jogo);
             continue;
@@ -62,11 +67,14 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
         proximoTurno(&jogo); //erro
         apagarLista(movimentosPossiveisArray);
         free(movimentosPossiveisArray);
-        getchar();
+        //getchar();
     }
     apagarJogo(jogoPtr);
     free(jogoPtr);
-    printf("o jogador %s venceu!!!\n", corVitoriosa == BRANCO ? "branco" : "preto");
+    if(corVitoriosa != EMPATE)
+        printf("o jogador %s venceu!!!\n", corVitoriosa == BRANCO ? "branco" : "preto");
+    else
+        puts("O jogo empatou...");
 }
 
 void printarTabuleiro(Tabuleiro tabuleiro, CasaTabuleiro casaMovida, ListaCasaTabuleiro* casasPossiveis, CorPeca corTurno) {

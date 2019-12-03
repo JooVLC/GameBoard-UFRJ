@@ -17,6 +17,11 @@ CorPeca determinarVencedorAposXequeAgora(Jogo *jogo) {
     return jogo->corJogando;
 }
 
+CorPeca empatar(Jogo *jogo) {
+    jogo->jogando = false;
+    return EMPATE;
+}
+
 Peca** criarPeoes(CorPeca corCriada) {
     static const int QTD_PEOES = QTD_CASAS_POR_COLUNA;
     Peca** peoes = malloc(sizeof(Peca*) * QTD_PEOES);
@@ -302,6 +307,85 @@ bool xequemate(Jogo jogo) {
         return true;
     else
         return false;
+}
+
+bool empate(Jogo jogo) {
+    Lista **listaTodasAsPecasDaOutraCor = retornarTodosAsPecasDeOutraCor(jogo.corJogando, jogo.tabuleiro);
+    Lista **listaTodasAsPecasDessaCor = retornarTodosAsPecasDeOutraCor(!jogo.corJogando, jogo.tabuleiro);
+
+    if((*listaTodasAsPecasDaOutraCor)->len == 1 && (*listaTodasAsPecasDessaCor)->len == 2) {
+        CasaTabuleiro* reiProvavelOutraCor = retornarElementoDaLista(*listaTodasAsPecasDaOutraCor, 0)->data;
+        CasaTabuleiro* cavaloOuBispoProvavelDessaCor = retornarElementoDaLista(*listaTodasAsPecasDessaCor, 0)->data;
+        CasaTabuleiro* reiProvavelDessaCor = retornarElementoDaLista(*listaTodasAsPecasDessaCor, 1)->data;
+
+        if(reiProvavelDessaCor->peca->tipo == REI && (cavaloOuBispoProvavelDessaCor->peca->tipo == BISPO || cavaloOuBispoProvavelDessaCor->peca->tipo == CAVALO)) {
+            if(reiProvavelDessaCor == REI)
+                return true;
+        }
+        if(cavaloOuBispoProvavelDessaCor->peca->tipo == REI && (reiProvavelDessaCor->peca->tipo == BISPO || reiProvavelDessaCor->peca->tipo == CAVALO)) {
+            if(reiProvavelDessaCor == REI)
+                return true;
+        }
+    }
+
+    if((*listaTodasAsPecasDaOutraCor)->len == 2 && (*listaTodasAsPecasDessaCor)->len == 1) {
+        CasaTabuleiro* reiProvavelOutraCor = retornarElementoDaLista(*listaTodasAsPecasDessaCor, 0)->data;
+        CasaTabuleiro* cavaloOuBispoProvavelDessaCor = retornarElementoDaLista(*listaTodasAsPecasDaOutraCor, 0)->data;
+        CasaTabuleiro* reiProvavelDessaCor = retornarElementoDaLista(*listaTodasAsPecasDaOutraCor, 1)->data;
+
+        if(reiProvavelDessaCor->peca->tipo == REI && (cavaloOuBispoProvavelDessaCor->peca->tipo == BISPO || cavaloOuBispoProvavelDessaCor->peca->tipo == CAVALO)) {
+            if(reiProvavelDessaCor == REI)
+                return true;
+        }
+        if(cavaloOuBispoProvavelDessaCor->peca->tipo == REI && (reiProvavelDessaCor->peca->tipo == BISPO || reiProvavelDessaCor->peca->tipo == CAVALO)) {
+            if(reiProvavelDessaCor == REI)
+                return true;
+        }
+    }
+
+    if((*listaTodasAsPecasDaOutraCor)->len == 3 && (*listaTodasAsPecasDessaCor)->len == 1) {
+        CasaTabuleiro* reiProvavelOutraCor = retornarElementoDaLista(*listaTodasAsPecasDessaCor, 0)->data;
+        CasaTabuleiro* cavalo1DessaCor = retornarElementoDaLista(*listaTodasAsPecasDaOutraCor, 0)->data;
+        CasaTabuleiro* cavalo2DessaCor = retornarElementoDaLista(*listaTodasAsPecasDaOutraCor, 1)->data;
+        CasaTabuleiro* reiProvavelDessaCor = retornarElementoDaLista(*listaTodasAsPecasDaOutraCor, 2)->data;
+
+        if(reiProvavelDessaCor->peca->tipo == REI && cavalo1DessaCor->peca->tipo == CAVALO && cavalo2DessaCor->peca->tipo == CAVALO) {
+            if(reiProvavelDessaCor == REI)
+                return true;
+        }
+
+        if(cavalo1DessaCor->peca->tipo == REI && reiProvavelDessaCor->peca->tipo == CAVALO && cavalo2DessaCor->peca->tipo == CAVALO) {
+            if(reiProvavelDessaCor == REI)
+                return true;
+        }
+
+        if(cavalo2DessaCor->peca->tipo == REI && cavalo1DessaCor->peca->tipo == CAVALO && cavalo1DessaCor->peca->tipo == CAVALO) {
+            if(reiProvavelDessaCor == REI)
+                return true;
+        }
+    }
+
+    if((*listaTodasAsPecasDaOutraCor)->len == 1 && (*listaTodasAsPecasDessaCor)->len == 3) {
+        CasaTabuleiro* reiProvavelOutraCor = retornarElementoDaLista(*listaTodasAsPecasDaOutraCor, 0)->data;
+        CasaTabuleiro* cavalo1DessaCor = retornarElementoDaLista(*listaTodasAsPecasDessaCor, 0)->data;
+        CasaTabuleiro* cavalo2DessaCor = retornarElementoDaLista(*listaTodasAsPecasDessaCor, 1)->data;
+        CasaTabuleiro* reiProvavelDessaCor = retornarElementoDaLista(*listaTodasAsPecasDessaCor, 2)->data;
+
+        if(reiProvavelDessaCor->peca->tipo == REI && cavalo1DessaCor->peca->tipo == CAVALO && cavalo2DessaCor->peca->tipo == CAVALO) {
+            if(reiProvavelDessaCor == REI)
+                return true;
+        }
+
+        if(cavalo1DessaCor->peca->tipo == REI && reiProvavelDessaCor->peca->tipo == CAVALO && cavalo2DessaCor->peca->tipo == CAVALO) {
+            if(reiProvavelDessaCor == REI)
+                return true;
+        }
+
+        if(cavalo2DessaCor->peca->tipo == REI && cavalo1DessaCor->peca->tipo == CAVALO && cavalo1DessaCor->peca->tipo == CAVALO) {
+            if(reiProvavelDessaCor == REI)
+                return true;
+        }
+    }
 }
 
 Lista** retornarTodosAsPecasDeOutraCor(CorPeca corJogando, Tabuleiro tabuleiro) {

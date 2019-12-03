@@ -32,7 +32,8 @@
 
     typedef enum { 
         BRANCO = 0, 
-        PRETO = 1 
+        PRETO = 1,
+        EMPATE = 2, 
     } CorPeca;
 
     typedef enum { 
