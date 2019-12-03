@@ -44,7 +44,8 @@ CasaTabuleiro* retornarMovimentoPeloIndice(ListaCasaTabuleiro *lista, Indice ind
 size_t lenListaCasaTabuleiro(ListaCasaTabuleiro *lista) {
     puts("len error");
     printf("lista.inicio.proximo == NULL ? R:%d\n", lista->inicio->proximo == NULL ? 1 : 0);
-    if(lista->inicio == NULL || lista->inicio->valor == NULL || lista->inicio->proximo == NULL) {
+    if(lista->inicio == NULL || 
+    lista->inicio->valor == NULL || lista->inicio->proximo == NULL) {
         puts("if0");
         return 0;
     }
@@ -55,9 +56,9 @@ size_t lenListaCasaTabuleiro(ListaCasaTabuleiro *lista) {
     }
 }*/
 
-void printLista(Lista *lista, char nomeLista[]) {
-    printf("imprimindo lista: %s - tam: %d\n", nomeLista, lista != NULL ? lista->len : 0);
-    for(int i = 0; i < lista->len; i++) {
+/*void printLista(Lista *lista, char nomeLista[]) {
+    printf("imprimindo lista: %s - tam: %lu\n", nomeLista, lista != NULL ? lista->len : 0);
+    for(size_t i = 0; i < lista->len; i++) {
         printf("id: %d - ", i);
         CasaTabuleiro* e = retornarElementoDaLista(lista, i)->data;
         if(e == NULL) 
@@ -78,8 +79,8 @@ void printLista(Lista *lista, char nomeLista[]) {
 }
 
 void printArray(CasaTabuleiro **lista, char nomeLista[], int len) {
-    printf("imprimindo lista: %s - tam: %d\n", nomeLista, len);
-    for(int i = 0; i < len; i++) {
+    printf("imprimindo lista: %s - tam: %lu\n", nomeLista, len);
+    for(size_t i = 0; i < len; i++) {
         puts("\n");
         CasaTabuleiro* e = lista[i];
         printf("id: %d - ", i);
@@ -97,4 +98,5 @@ void printArray(CasaTabuleiro **lista, char nomeLista[], int len) {
     }
     puts("fim");
     getchar();
-}
+}*/
+

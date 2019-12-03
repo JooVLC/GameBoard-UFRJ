@@ -12,6 +12,16 @@ CorPeca determinarVencedorAposXequeMate(Jogo *jogo) {
     return !jogo->corJogando;
 }
 
+CorPeca determinarVencedorAposXequeAgora(Jogo *jogo) {
+    jogo->jogando = false;
+    return jogo->corJogando;
+}
+
+CorPeca empatar(Jogo *jogo) {
+    jogo->jogando = false;
+    return EMPATE;
+}
+
 Peca** criarPeoes(CorPeca corCriada) {
     static const int QTD_PEOES = QTD_CASAS_POR_COLUNA;
     Peca** peoes = malloc(sizeof(Peca*) * QTD_PEOES);
@@ -148,7 +158,6 @@ void inicializarPecas(Tabuleiro novoTabuleiro) {
 void inverterTabuleiro(Tabuleiro tabuleiro) {
     inverterLinhasTabuleiro(tabuleiro);
     inverterColunasTabuleiro(tabuleiro);
-    puts("aqui");
 }
 
 void inverterLinhasTabuleiro(Tabuleiro tabuleiro) {
@@ -194,13 +203,9 @@ void inverterColunasTabuleiro(Tabuleiro tabuleiro) {
 }
 
 void proximoTurno(Jogo *jogo) {
-    puts("aqui");
-    printf("C:%d - T:%d\n", jogo->corJogando, jogo->turno);
     jogo->turno += 1;
     jogo->corJogando = !(jogo->corJogando);
     inverterTabuleiro(jogo->tabuleiro);
-    printf("C:%d - T:%d\n", jogo->corJogando, jogo->turno);
-    getchar();
 }
 
 Posicao converterPosicaoTelaParaCartesiano(Posicao posicaoTela, CorPeca corTurno) {
@@ -236,6 +241,33 @@ void acharPecaNoTabuleiro(Posicao* posicao, Tabuleiro tabuleiro, CorPeca corPeca
     }
 }
 
+bool xequeAgora(Jogo jogo) {
+    Posicao posicao;
+    acharPecaNoTabuleiro(&posicao, jogo.tabuleiro, !jogo.corJogando, REI);
+    Lista **listaTodasAsPecasDessaCor = retornarTodosAsPecasDeOutraCor(!jogo.corJogando, jogo.tabuleiro);
+
+    if(listaTodasAsPecasDessaCor == NULL)
+        return false;
+
+    for(size_t i = 0; i < (*listaTodasAsPecasDessaCor)->len; i++)
+    {
+        CasaTabuleiro *pecaDessaCor = retornarElementoDaLista(*listaTodasAsPecasDessaCor, i)->data;
+        Lista** listaMovimentosPeca = movimentosPossiveis(*pecaDessaCor, jogo);
+
+        if(listaMovimentosPeca == NULL)
+            continue;
+
+        for(size_t j = 0; j < (*listaMovimentosPeca)->len; j++)
+        {
+            CasaTabuleiro* movimento = retornarElementoDaLista(*listaMovimentosPeca, j)->data;
+            if(posicao.linha == movimento->localizacao.linha && posicao.coluna == movimento->localizacao.coluna)
+                return true;
+        }
+    }
+
+    return false;
+}
+
 bool xequemate(Jogo jogo) {
     Posicao posicao;
     acharPecaNoTabuleiro(&posicao, jogo.tabuleiro, jogo.corJogando, REI);
@@ -248,23 +280,23 @@ bool xequemate(Jogo jogo) {
     criarLista(listaTodosMovimentosDaOutraCor, sizeof(CasaTabuleiro));
     Lista **listaTodasAsPecasDaOutraCor = retornarTodosAsPecasDeOutraCor(jogo.corJogando, jogo.tabuleiro);
 
-    int qtdMovimentosAchados = 0;
+    size_t qtdMovimentosAchados = 0;
     Posicao posicoesJaEncontradas[(*movimentosRei)->len];
-    for(int i = 0; i < (*listaTodasAsPecasDaOutraCor)->len; i++) {
+    for(size_t i = 0; i < (*listaTodasAsPecasDaOutraCor)->len; i++) {
         CasaTabuleiro *pecaOutraCor = retornarElementoDaLista(*listaTodasAsPecasDaOutraCor, i)->data;
         Lista** listaMovimentosPecaOutraCor = movimentosPossiveis(*pecaOutraCor, jogo);
 
         if(listaTodosMovimentosDaOutraCor == NULL)
             continue;
         
-        for(int j = 0; j < (*listaMovimentosPecaOutraCor)->len; j++)
+        for(size_t j = 0; j < (*listaMovimentosPecaOutraCor)->len; j++)
         {
             CasaTabuleiro *pecaOutraCorMovimentoPossivel = retornarElementoDaLista(*listaMovimentosPecaOutraCor, j)->data;
-            for(int k = 0; k < (*movimentosRei)->len; k++) {
+            for(size_t k = 0; k < (*movimentosRei)->len; k++) {
                 CasaTabuleiro* reiMovimentosPossivel = retornarElementoDaLista(*movimentosRei, k)->data;
                 if(reiMovimentosPossivel->localizacao.linha == pecaOutraCorMovimentoPossivel->localizacao.linha && reiMovimentosPossivel->localizacao.coluna == pecaOutraCorMovimentoPossivel->localizacao.coluna) {
                     bool jaTestouEsseCara = false;
-                    for(int l = 0; l < qtdMovimentosAchados; i++) {
+                    for(size_t l = 0; l < qtdMovimentosAchados; l++) {
                         if(reiMovimentosPossivel->localizacao.linha == posicoesJaEncontradas[l].linha && reiMovimentosPossivel->localizacao.coluna == posicoesJaEncontradas[l].coluna) {
                             jaTestouEsseCara = true;
                         }
@@ -284,7 +316,94 @@ bool xequemate(Jogo jogo) {
         return false;
 }
 
+bool empate(Jogo jogo) {
+    Lista **listaTodasAsPecasDaOutraCor = retornarTodosAsPecasDeOutraCor(jogo.corJogando, jogo.tabuleiro);
+    Lista **listaTodasAsPecasDessaCor = retornarTodosAsPecasDeOutraCor(!jogo.corJogando, jogo.tabuleiro);
+
+    if(listaTodasAsPecasDaOutraCor == NULL || listaTodasAsPecasDessaCor == NULL)
+        return false;
+
+    if((*listaTodasAsPecasDaOutraCor)->len == 1 && (*listaTodasAsPecasDessaCor)->len == 2) {
+        CasaTabuleiro* reiProvavelOutraCor = retornarElementoDaLista(*listaTodasAsPecasDaOutraCor, 0)->data;
+        CasaTabuleiro* cavaloOuBispoProvavelDessaCor = retornarElementoDaLista(*listaTodasAsPecasDessaCor, 0)->data;
+        CasaTabuleiro* reiProvavelDessaCor = retornarElementoDaLista(*listaTodasAsPecasDessaCor, 1)->data;
+
+        if(reiProvavelDessaCor->peca->tipo == REI && (cavaloOuBispoProvavelDessaCor->peca->tipo == BISPO || cavaloOuBispoProvavelDessaCor->peca->tipo == CAVALO)) {
+            if(reiProvavelOutraCor->peca->tipo == REI)
+                return true;
+        }
+        if(cavaloOuBispoProvavelDessaCor->peca->tipo == REI && (reiProvavelDessaCor->peca->tipo == BISPO || reiProvavelDessaCor->peca->tipo == CAVALO)) {
+            if(reiProvavelOutraCor->peca->tipo == REI)
+                return true;
+        }
+    }
+
+    if((*listaTodasAsPecasDaOutraCor)->len == 2 && (*listaTodasAsPecasDessaCor)->len == 1) {
+        CasaTabuleiro* reiProvavelOutraCor = retornarElementoDaLista(*listaTodasAsPecasDessaCor, 0)->data;
+        CasaTabuleiro* cavaloOuBispoProvavelDessaCor = retornarElementoDaLista(*listaTodasAsPecasDaOutraCor, 0)->data;
+        CasaTabuleiro* reiProvavelDessaCor = retornarElementoDaLista(*listaTodasAsPecasDaOutraCor, 1)->data;
+
+        if(reiProvavelDessaCor->peca->tipo == REI && (cavaloOuBispoProvavelDessaCor->peca->tipo == BISPO || cavaloOuBispoProvavelDessaCor->peca->tipo == CAVALO)) {
+            if(reiProvavelOutraCor->peca->tipo == REI)
+                return true;
+        }
+        if(cavaloOuBispoProvavelDessaCor->peca->tipo == REI && (reiProvavelDessaCor->peca->tipo == BISPO || reiProvavelDessaCor->peca->tipo == CAVALO)) {
+            if(reiProvavelOutraCor->peca->tipo == REI)
+                return true;
+        }
+    }
+
+    if((*listaTodasAsPecasDaOutraCor)->len == 3 && (*listaTodasAsPecasDessaCor)->len == 1) {
+        CasaTabuleiro* reiProvavelOutraCor = retornarElementoDaLista(*listaTodasAsPecasDessaCor, 0)->data;
+        CasaTabuleiro* cavalo1DessaCor = retornarElementoDaLista(*listaTodasAsPecasDaOutraCor, 0)->data;
+        CasaTabuleiro* cavalo2DessaCor = retornarElementoDaLista(*listaTodasAsPecasDaOutraCor, 1)->data;
+        CasaTabuleiro* reiProvavelDessaCor = retornarElementoDaLista(*listaTodasAsPecasDaOutraCor, 2)->data;
+
+        if(reiProvavelDessaCor->peca->tipo == REI && cavalo1DessaCor->peca->tipo == CAVALO && cavalo2DessaCor->peca->tipo == CAVALO) {
+            if(reiProvavelOutraCor->peca->tipo == REI)
+                return true;
+        }
+
+        if(cavalo1DessaCor->peca->tipo == REI && reiProvavelDessaCor->peca->tipo == CAVALO && cavalo2DessaCor->peca->tipo == CAVALO) {
+            if(reiProvavelOutraCor->peca->tipo == REI)
+                return true;
+        }
+
+        if(cavalo2DessaCor->peca->tipo == REI && cavalo1DessaCor->peca->tipo == CAVALO && cavalo1DessaCor->peca->tipo == CAVALO) {
+            if(reiProvavelOutraCor->peca->tipo == REI)
+                return true;
+        }
+    }
+
+    if((*listaTodasAsPecasDaOutraCor)->len == 1 && (*listaTodasAsPecasDessaCor)->len == 3) {
+        CasaTabuleiro* reiProvavelOutraCor = retornarElementoDaLista(*listaTodasAsPecasDaOutraCor, 0)->data;
+        CasaTabuleiro* cavalo1DessaCor = retornarElementoDaLista(*listaTodasAsPecasDessaCor, 0)->data;
+        CasaTabuleiro* cavalo2DessaCor = retornarElementoDaLista(*listaTodasAsPecasDessaCor, 1)->data;
+        CasaTabuleiro* reiProvavelDessaCor = retornarElementoDaLista(*listaTodasAsPecasDessaCor, 2)->data;
+
+        if(reiProvavelDessaCor->peca->tipo == REI && cavalo1DessaCor->peca->tipo == CAVALO && cavalo2DessaCor->peca->tipo == CAVALO) {
+            if(reiProvavelOutraCor->peca->tipo == REI)
+                return true;
+        }
+
+        if(cavalo1DessaCor->peca->tipo == REI && reiProvavelDessaCor->peca->tipo == CAVALO && cavalo2DessaCor->peca->tipo == CAVALO) {
+            if(reiProvavelOutraCor->peca->tipo == REI)
+                return true;
+        }
+
+        if(cavalo2DessaCor->peca->tipo == REI && cavalo1DessaCor->peca->tipo == CAVALO && cavalo1DessaCor->peca->tipo == CAVALO) {
+            if(reiProvavelOutraCor->peca->tipo == REI)
+                return true;
+        }
+    }
+
+    return false;
+}
+
 Lista** retornarTodosAsPecasDeOutraCor(CorPeca corJogando, Tabuleiro tabuleiro) {
+    if(corJogando == EMPATE)
+       { puts("errrrr"); getchar(); }
+
     Lista** listaPecas = malloc(sizeof *listaPecas);
     criarLista(listaPecas, sizeof(CasaTabuleiro));
 
@@ -298,5 +417,44 @@ Lista** retornarTodosAsPecasDeOutraCor(CorPeca corJogando, Tabuleiro tabuleiro) 
         }
     }
     return listaPecas;
+}
+
+TipoPeca getTipoPelaColuna(Coordenada coluna) {
+    switch (coluna)
+    {
+    case 0:
+        return TORRE;
+    case 1:
+        return CAVALO;
+    case 2:
+        return BISPO;
+    case 3:
+        return RAINHA;
+    case 4:
+        return REI;
+    case 5:
+        return BISPO;
+    case 6:
+        return CAVALO; 
+    default:
+        return PEAO;
+        break;
+    }
+}
+
+void converterPeaoParaOutraPeca(Tabuleiro tabuleiro, Posicao posPeao, TipoPeca novoTipo) {
+    tabuleiro[posPeao.linha][posPeao.coluna].peca->tipo = novoTipo;
+}
+
+Posicao* peaoEvoluiu(Jogo jogo) {
+    Lista** allPecas = retornarTodosAsPecasDeOutraCor(!jogo.corJogando, jogo.tabuleiro);
+    Posicao* posicao = NULL;
+    for(size_t i = 0; i < (*allPecas)->len; i++) {
+        CasaTabuleiro* peca = retornarElementoDaLista(*allPecas, i)->data;
+        if(peca->peca->tipo == PEAO && peca->localizacao.linha == 7)
+            *posicao = peca->localizacao;
+    }
+
+    return posicao;
 }
 

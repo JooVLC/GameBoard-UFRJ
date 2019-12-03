@@ -13,11 +13,27 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
     while(jogo.jogando)
     {
         system(CLEAR);
-        bool xequeMateDessaCor = xequemate(jogo);
+        if(empate(jogo)) {
+            corVitoriosa = empatar(&jogo);
+            continue;
+        }
 
-        if(xequeMateDessaCor) {
+        if(xequeAgora(jogo)) {
+            corVitoriosa = determinarVencedorAposXequeAgora(&jogo);
+            continue;
+        }
+
+        if(xequemate(jogo)) {
             corVitoriosa = determinarVencedorAposXequeMate(&jogo);
             continue;
+        }
+
+        Posicao *posicao;
+        if( (posicao = peaoEvoluiu(jogo)) != NULL)
+        {
+            TipoPeca tipoNovo = pedirNovoTipoPeao();
+            converterPeaoParaOutraPeca(jogo.tabuleiro, *posicao, tipoNovo);
+
         }
 
         printf("Vez do jogador %s jogar!!!\n\n", jogo.jogadores[jogo.corJogando].nome);
@@ -25,7 +41,6 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
         
         Posicao posicaoMovimento = converterPosicaoTelaParaCartesiano(pedirPecaMovidaJogador(), jogo.corJogando);
         CasaTabuleiro pecaTentandoMover = jogo.tabuleiro[posicaoMovimento.linha][posicaoMovimento.coluna];
-        puts("array acesso");
         getchar();
 
         if(pecaTentandoMover.peca != NULL && pecaTentandoMover.peca->cor != jogo.corJogando)
@@ -57,16 +72,16 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
 
         moverPeca(pecaTentandoMover, jogo.tabuleiro, *movimento); //erro
         proximoTurno(&jogo); //erro
-        puts("111");
         apagarLista(movimentosPossiveisArray);
-        puts("aqui");
         free(movimentosPossiveisArray);
-        puts("aaa");
-        getchar();
+        //getchar();
     }
     apagarJogo(jogoPtr);
     free(jogoPtr);
-    printf("o jogador %s venceu!!!\n", corVitoriosa == BRANCO ? "branco" : "preto");
+    if(corVitoriosa != EMPATE)
+        printf("o jogador %s venceu!!!\n", corVitoriosa == BRANCO ? "branco" : "preto");
+    else
+        puts("O jogo empatou...");
 }
 
 void printarTabuleiro(Tabuleiro tabuleiro, CasaTabuleiro casaMovida, ListaCasaTabuleiro* casasPossiveis, CorPeca corTurno) {
@@ -117,7 +132,6 @@ void printLinhaIndice(int linha, Tabuleiro tabuleiro, CasaTabuleiro casaMovida, 
 
         const char *const corDaCasa = pintarCasaMovida ? COR_CASA_MOVIDA : (pintarCasaComoMovimento ? COR_MOVIMENTO : (peca.cor == BRANCO ? NULL_COLOR : BLKB));
         const char *const corDaPeca = peca.peca != NULL ? (peca.peca->cor == BRANCO ? BWHT : BBLK) : corDaCasa;
-        bool corIgualCasaPeca = peca.peca != NULL && peca.cor != peca.peca->cor;
 
         printc("  ", corDaCasa, false);
         printc("", corDaCasa, true);
@@ -171,8 +185,6 @@ Posicao pedirPecaMovidaJogador(void) {
 }
 
 CasaTabuleiro* pedirMovimentoJogador(CasaTabuleiro pecaMovida, ListaCasaTabuleiro *movimentos, CorPeca corTurno) {
-    puts("");
-    puts("\nMovimentos possiveis:");
     Posicao posAtual = { pecaMovida.peca->posicao.linha, pecaMovida.peca->posicao.coluna };
     Posicao posAtualTela = converterPosicaoCartesianoParaTela(posAtual, corTurno);
     for(size_t i = 0; i < movimentos->len; i++)
@@ -197,7 +209,6 @@ void printc(const char *const str, const char *const color, bool corDeBackground
 }
 
 void getPosicaoDoUsuario(int *linha, char *coluna) {
-    static const size_t LEN_DIGITACAO_MAX = 21;
     char digitacao[LEN_DIGITACAO_MAX];
     bool digitacaoCorreta = false;
     while(!digitacaoCorreta) {
@@ -216,7 +227,6 @@ void getPosicaoDoUsuario(int *linha, char *coluna) {
 }
 
 void getNumeroDoUsuario(int *num, int maxNum) {
-    static const size_t LEN_DIGITACAO_MAX = 21;
     char digitacao[LEN_DIGITACAO_MAX];
     bool digitacaoCorreta = false;
     while(!digitacaoCorreta) {
@@ -236,13 +246,24 @@ void getNumeroDoUsuario(int *num, int maxNum) {
 
 void limparBuffer(char str[], size_t tamanhoDesejado) {
     size_t strLen = strlen(str);
-    if(strLen != tamanhoDesejado - 1)
-    {
-        str[tamanhoDesejado - 1] = 0;
+    if(strLen != tamanhoDesejado - 1) {
+        str[strLen-1] = 0;
     }
-    else
-    {           
+    else {           
         char c;
         while((c = getchar()) && c != EOF && c != '\n');   
     }
+}
+
+TipoPeca pedirNovoTipoPeao(void) {
+    puts("Digite o novo tipo do peao:");
+    printf("1 - TORRE\n");
+    printf("2 - CAVALO\n");
+    printf("3 - BISPO\n");
+    printf("4 - RAINHA\n");
+
+    int number;
+    getNumeroDoUsuario(&number, 4);
+
+    return getTipoPelaColuna(number - 1);
 }

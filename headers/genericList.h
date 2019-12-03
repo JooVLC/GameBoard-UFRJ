@@ -27,7 +27,7 @@
 
     void adicionarItemAoFinalDaLista(Lista *lista, void* novoItem);
 
-    NoLista criarNovoNo(void *data, TamanhoData tamData);
+    NoLista criarNovoNo(void *data/*, TamanhoData tamData*/);
 
     NoLista retornarElementoDaLista(Lista *lista, Indice indice);
 

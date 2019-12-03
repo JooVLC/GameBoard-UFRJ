@@ -13,7 +13,15 @@
         //Cria o jogo e retorna ele a partir dos nomes pegos do CMD
         Jogo* inicializarJogo(Nome nomeJogadorBranco, Nome nomeJogadorPreto);
 
+        void converterPeaoParaOutraPeca(Tabuleiro tabuleiro, Posicao posPeao, TipoPeca novoTipo);
+        
+        TipoPeca getTipoPelaColuna(Coordenada coluna);
+
         CorPeca determinarVencedorAposXequeMate(Jogo *jogo);
+
+        CorPeca determinarVencedorAposXequeAgora(Jogo *jogo);
+
+        CorPeca empatar(Jogo *jogo);
 
         //Apagar o jogo dando free em suas variaveis
         void apagarJogo(Jogo** jogo);
@@ -44,6 +52,10 @@
 
         bool xequemate(Jogo jogo);
 
+        bool empate(Jogo jogo);
+
+        bool xequeAgora(Jogo jogo);
+
         //Funcao que inverte o tabuleiro para o proximo jogador
         void inverterTabuleiro(Tabuleiro tabuleiro);
 
@@ -62,7 +74,7 @@
         ListaCasaTabuleiro** movimentosPossiveis(CasaTabuleiro peca, Jogo jogo);
 
         //funcao dos movimentos do peao
-        ListaCasaTabuleiro** movimentosPossiveisPeao(CasaTabuleiro peca, Tabuleiro tabuleiro, Turno turnoAtual);
+        ListaCasaTabuleiro** movimentosPossiveisPeao(CasaTabuleiro peca, Tabuleiro tabuleiro);
 
         //funcao que retorna os movimentos relevantes ao peao
         CasaTabuleiro** casasRelevantesAoPeao(Tabuleiro tabuleiro, Coordenada pecaLinhaAtual, Coordenada pecaColunaAtual);
@@ -101,5 +113,7 @@
         void filtrarCasasPossiveisAoRei(CasaTabuleiro** casasPossiveis, Tabuleiro tabuleiro, Turno turnoAtual);
 
         bool movimentoExisteEmTalPosicao(int linha, int coluna, ListaCasaTabuleiro* lista); 
+        
+        Posicao* peaoEvoluiu(Jogo jogo);
     //endregion
 #endif
