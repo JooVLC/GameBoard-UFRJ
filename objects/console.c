@@ -25,7 +25,6 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
         
         Posicao posicaoMovimento = converterPosicaoTelaParaCartesiano(pedirPecaMovidaJogador(), jogo.corJogando);
         CasaTabuleiro pecaTentandoMover = jogo.tabuleiro[posicaoMovimento.linha][posicaoMovimento.coluna];
-        puts("array acesso");
         getchar();
 
         if(pecaTentandoMover.peca != NULL && pecaTentandoMover.peca->cor != jogo.corJogando)
@@ -57,11 +56,8 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
 
         moverPeca(pecaTentandoMover, jogo.tabuleiro, *movimento); //erro
         proximoTurno(&jogo); //erro
-        puts("111");
         apagarLista(movimentosPossiveisArray);
-        puts("aqui");
         free(movimentosPossiveisArray);
-        puts("aaa");
         getchar();
     }
     apagarJogo(jogoPtr);
@@ -170,8 +166,6 @@ Posicao pedirPecaMovidaJogador(void) {
 }
 
 CasaTabuleiro* pedirMovimentoJogador(CasaTabuleiro pecaMovida, ListaCasaTabuleiro *movimentos, CorPeca corTurno) {
-    puts("");
-    puts("\nMovimentos possiveis:");
     Posicao posAtual = { pecaMovida.peca->posicao.linha, pecaMovida.peca->posicao.coluna };
     Posicao posAtualTela = converterPosicaoCartesianoParaTela(posAtual, corTurno);
     for(size_t i = 0; i < movimentos->len; i++)

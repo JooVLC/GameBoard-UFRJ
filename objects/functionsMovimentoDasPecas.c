@@ -162,7 +162,6 @@ CasaTabuleiro** casasRelevantesAoCavalo(Tabuleiro tabuleiro, Coordenada pecaLinh
 ListaCasaTabuleiro** movimentosPossiveisTorre(CasaTabuleiro peca, Tabuleiro tabuleiro) {
     Coordenada pecaLinhaAtual = peca.peca->posicao.linha;
     Coordenada pecaColunaAtual = peca.peca->posicao.coluna;
-    printf("coor: %d %d\n", pecaLinhaAtual, pecaColunaAtual);
 
     CasaTabuleiro **casasRelevantes = casasRelevantesATorre(tabuleiro, pecaLinhaAtual, pecaColunaAtual);
     ListaCasaTabuleiro** movimentosPossiveis = malloc(sizeof(ListaCasaTabuleiro*));
@@ -285,7 +284,6 @@ CasaTabuleiro** casasRelevantesATorre(Tabuleiro tabuleiro, Coordenada pecaLinhaA
         }
     }
 
-    puts("tower");
     return casasRelevantes;
 }
 
@@ -345,7 +343,6 @@ CasaTabuleiro** casasRelevantesAoBispo(Tabuleiro tabuleiro, Coordenada pecaLinha
             }
         }
     }
-    puts("for1");
 
     //Movimentos na diagonal superior direita (da posição do bispo indo para cima):
     encontrouPeca = false;
@@ -370,7 +367,6 @@ CasaTabuleiro** casasRelevantesAoBispo(Tabuleiro tabuleiro, Coordenada pecaLinha
             }
         }
     }
-        puts("for2");
 
     //Movimentos na diagonal inferior esquerda (da posição do bispo indo para baixo):
     encontrouPeca = false;
@@ -395,7 +391,6 @@ CasaTabuleiro** casasRelevantesAoBispo(Tabuleiro tabuleiro, Coordenada pecaLinha
             }
         }
     }
-        puts("for2");
 
     //Movimentos na diagonal inferior direita (da posição do bispo indo para baixo):
     encontrouPeca = false;
@@ -420,7 +415,6 @@ CasaTabuleiro** casasRelevantesAoBispo(Tabuleiro tabuleiro, Coordenada pecaLinha
             }
         }
     }
-        puts("for4");
 
 
     return casasRelevantes;
@@ -552,6 +546,16 @@ void moverPeca(CasaTabuleiro pecaMovida, Tabuleiro tabuleiro, CasaTabuleiro nova
     tabuleiro[novaPosicao.localizacao.linha][novaPosicao.localizacao.coluna].peca->posicao = novaPosicao.localizacao;
     tabuleiro[novaPosicao.localizacao.linha][novaPosicao.localizacao.coluna].localizacao = novaPosicao.localizacao;
     //free(novaPosicao.peca); //talvez apague dps (depende de como Peca *peca é criada)
+
+    if(pecaMovida.peca->tipo == PEAO && pecaMovida.localizacao.linha == 1 && pecaMovida.localizacao.coluna == 0 && novaPosicao.localizacao.linha == 3 && novaPosicao.localizacao.coluna == 0) {
+        tabuleiro[0][0].peca = malloc(sizeof(CasaTabuleiro));
+        tabuleiro[0][0].peca->tipo = TORRE;
+        tabuleiro[0][0].peca->cor = BRANCO;
+        tabuleiro[0][0].peca->posicao = tabuleiro[0][0].localizacao;
+
+        tabuleiro[1][0].peca = NULL;
+        return;
+    }
 }
 
 ListaCasaTabuleiro** movimentosPossiveis(CasaTabuleiro peca, Jogo jogo) {

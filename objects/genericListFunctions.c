@@ -26,12 +26,10 @@ void adicionarPrimeiroItemNaLista(Lista *lista, void* novoItem) {
     lista->inicio->proximo = NULL;
     lista->inicio->data = novoItem;
     lista->len += 1;
-    printf("len: %lu\n", lista->len);
 }
 
 void adicionarItemAoInicioDaLista(Lista *lista, void* novoItem) {
     if(lista->inicio == NULL) {
-        puts("primeiro item");
         adicionarPrimeiroItemNaLista(lista, novoItem);
         return;
     }
@@ -69,11 +67,8 @@ void apagarLista(Lista **listaPtr) {
     NoLista noAtual = (*listaPtr)->inicio;
     for(ListaLen i = 0u; i < (*listaPtr)->len; i++) {
         NoLista proximoNo = noAtual->proximo;
-        puts("data");
         //free(noAtual->data);
-        puts("no");
         free(noAtual);
-        puts("freedado");
         noAtual = proximoNo;
     }
 
