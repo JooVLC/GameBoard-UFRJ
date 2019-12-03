@@ -22,10 +22,18 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
             corVitoriosa = determinarVencedorAposXequeAgora(&jogo);
             continue;
         }
-        puts("aqui");
+
         if(xequemate(jogo)) {
             corVitoriosa = determinarVencedorAposXequeMate(&jogo);
             continue;
+        }
+
+        Posicao *posicao;
+        if( (posicao = peaoEvoluiu(jogo)) != NULL)
+        {
+            TipoPeca tipoNovo = pedirNovoTipoPeao();
+            converterPeaoParaOutraPeca(jogo.tabuleiro, *posicao, tipoNovo);
+
         }
 
         printf("Vez do jogador %s jogar!!!\n\n", jogo.jogadores[jogo.corJogando].nome);
@@ -245,4 +253,17 @@ void limparBuffer(char str[], size_t tamanhoDesejado) {
         char c;
         while((c = getchar()) && c != EOF && c != '\n');   
     }
+}
+
+TipoPeca pedirNovoTipoPeao(void) {
+    puts("Digite o novo tipo do peao:");
+    printf("1 - TORRE\n");
+    printf("2 - CAVALO\n");
+    printf("3 - BISPO\n");
+    printf("4 - RAINHA\n");
+
+    int number;
+    getNumeroDoUsuario(&number, 4);
+
+    return getTipoPelaColuna(number - 1);
 }

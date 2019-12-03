@@ -419,3 +419,42 @@ Lista** retornarTodosAsPecasDeOutraCor(CorPeca corJogando, Tabuleiro tabuleiro) 
     return listaPecas;
 }
 
+TipoPeca getTipoPelaColuna(Coordenada coluna) {
+    switch (coluna)
+    {
+    case 0:
+        return TORRE;
+    case 1:
+        return CAVALO;
+    case 2:
+        return BISPO;
+    case 3:
+        return RAINHA;
+    case 4:
+        return REI;
+    case 5:
+        return BISPO;
+    case 6:
+        return CAVALO; 
+    default:
+        return PEAO;
+        break;
+    }
+}
+
+void converterPeaoParaOutraPeca(Tabuleiro tabuleiro, Posicao posPeao, TipoPeca novoTipo) {
+    tabuleiro[posPeao.linha][posPeao.coluna].peca->tipo = novoTipo;
+}
+
+Posicao* peaoEvoluiu(Jogo jogo) {
+    Lista** allPecas = retornarTodosAsPecasDeOutraCor(!jogo.corJogando, jogo.tabuleiro);
+    Posicao* posicao = NULL;
+    for(size_t i = 0; i < (*allPecas)->len; i++) {
+        CasaTabuleiro* peca = retornarElementoDaLista(*allPecas, i)->data;
+        if(peca->peca->tipo == PEAO && peca->localizacao.linha == 7)
+            *posicao = peca->localizacao;
+    }
+
+    return posicao;
+}
+

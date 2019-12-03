@@ -11,6 +11,8 @@
         #define CLEAR "clear"
     #endif
 
+    TipoPeca pedirNovoTipoPeao(void);
+
     void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto);
 
     void printarTabuleiro(Tabuleiro tabuleiro, CasaTabuleiro casaMovida, ListaCasaTabuleiro* casasPossiveis, CorPeca corTurno);

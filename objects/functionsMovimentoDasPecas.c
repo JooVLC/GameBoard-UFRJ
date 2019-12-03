@@ -547,9 +547,9 @@ void moverPeca(CasaTabuleiro pecaMovida, Tabuleiro tabuleiro, CasaTabuleiro nova
     tabuleiro[novaPosicao.localizacao.linha][novaPosicao.localizacao.coluna].localizacao = novaPosicao.localizacao;
     //free(novaPosicao.peca); //talvez apague dps (depende de como Peca *peca é criada)
 
-    if(pecaMovida.peca->tipo == PEAO && pecaMovida.localizacao.linha == 1 && pecaMovida.localizacao.coluna == 0 && novaPosicao.localizacao.linha == 3 && novaPosicao.localizacao.coluna == 0) {
+    if(pecaMovida.peca->tipo == PEAO && pecaMovida.localizacao.linha == 1 && novaPosicao.localizacao.linha == 3) {
         tabuleiro[0][0].peca = malloc(sizeof(CasaTabuleiro));
-        tabuleiro[0][0].peca->tipo = TORRE;
+        tabuleiro[0][0].peca->tipo = getTipoPelaColuna(novaPosicao.localizacao.coluna);
         tabuleiro[0][0].peca->cor = BRANCO;
         tabuleiro[0][0].peca->posicao = tabuleiro[0][0].localizacao;
 

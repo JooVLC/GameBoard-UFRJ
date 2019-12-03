@@ -13,6 +13,10 @@
         //Cria o jogo e retorna ele a partir dos nomes pegos do CMD
         Jogo* inicializarJogo(Nome nomeJogadorBranco, Nome nomeJogadorPreto);
 
+        void converterPeaoParaOutraPeca(Tabuleiro tabuleiro, Posicao posPeao, TipoPeca novoTipo);
+        
+        TipoPeca getTipoPelaColuna(Coordenada coluna);
+
         CorPeca determinarVencedorAposXequeMate(Jogo *jogo);
 
         CorPeca determinarVencedorAposXequeAgora(Jogo *jogo);
@@ -109,5 +113,7 @@
         void filtrarCasasPossiveisAoRei(CasaTabuleiro** casasPossiveis, Tabuleiro tabuleiro, Turno turnoAtual);
 
         bool movimentoExisteEmTalPosicao(int linha, int coluna, ListaCasaTabuleiro* lista); 
+        
+        Posicao* peaoEvoluiu(Jogo jogo);
     //endregion
 #endif
