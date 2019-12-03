@@ -13,9 +13,13 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
     while(jogo.jogando)
     {
         system(CLEAR);
-        bool xequeMateDessaCor = xequemate(jogo);
+        bool xequeMateDessaCor = xequemate(jogo) || xequeAgora(jogo);
 
-        if(xequeMateDessaCor) {
+        if(xequeAgora(jogo)) {
+            corVitoriosa = determinarVencedorAposXequeAgora(&jogo);
+            continue;
+        }
+        if(xequemate(jogo)) {
             corVitoriosa = determinarVencedorAposXequeMate(&jogo);
             continue;
         }
@@ -227,12 +231,10 @@ void getNumeroDoUsuario(int *num, int maxNum) {
 
 void limparBuffer(char str[], size_t tamanhoDesejado) {
     size_t strLen = strlen(str);
-    if(strLen != tamanhoDesejado - 1)
-    {
-        str[tamanhoDesejado - 1] = 0;
+    if(strLen != tamanhoDesejado - 1) {
+        str[strLen-1] = 0;
     }
-    else
-    {           
+    else {           
         char c;
         while((c = getchar()) && c != EOF && c != '\n');   
     }

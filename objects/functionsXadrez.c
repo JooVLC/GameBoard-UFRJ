@@ -12,6 +12,11 @@ CorPeca determinarVencedorAposXequeMate(Jogo *jogo) {
     return !jogo->corJogando;
 }
 
+CorPeca determinarVencedorAposXequeAgora(Jogo *jogo) {
+    jogo->jogando = false;
+    return jogo->corJogando;
+}
+
 Peca** criarPeoes(CorPeca corCriada) {
     static const int QTD_PEOES = QTD_CASAS_POR_COLUNA;
     Peca** peoes = malloc(sizeof(Peca*) * QTD_PEOES);
@@ -229,6 +234,26 @@ void acharPecaNoTabuleiro(Posicao* posicao, Tabuleiro tabuleiro, CorPeca corPeca
             }
         }
     }
+}
+
+bool xequeAgora(Jogo jogo) {
+    Posicao posicao;
+    acharPecaNoTabuleiro(&posicao, jogo.tabuleiro, !jogo.corJogando, REI);
+    Lista **listaTodasAsPecasDessaCor = retornarTodosAsPecasDeOutraCor(!jogo.corJogando, jogo.tabuleiro);
+
+    for(size_t i = 0; i < (*listaTodasAsPecasDessaCor)->len; i++)
+    {
+        CasaTabuleiro *pecaDessaCor = retornarElementoDaLista(*listaTodasAsPecasDessaCor, i)->data;
+        Lista** listaMovimentosPeca= movimentosPossiveis(*pecaDessaCor, jogo);
+        for(size_t j = 0; j < (*listaMovimentosPeca)->len; j++)
+        {
+            CasaTabuleiro* movimento = retornarElementoDaLista(*listaMovimentosPeca, i)->data;
+            if(posicao.linha == movimento->localizacao.linha && posicao.coluna == movimento->localizacao.coluna)
+                return true;
+        }
+    }
+
+    return false;
 }
 
 bool xequemate(Jogo jogo) {

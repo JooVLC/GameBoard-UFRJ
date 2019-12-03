@@ -44,6 +44,8 @@
 
         bool xequemate(Jogo jogo);
 
+        bool xequeAgora(Jogo jogo);
+
         //Funcao que inverte o tabuleiro para o proximo jogador
         void inverterTabuleiro(Tabuleiro tabuleiro);
 
