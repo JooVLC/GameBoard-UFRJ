@@ -36,5 +36,3 @@ rm *.o
 ```
 
 ---
-
-> ATENÇÃO: Necessaria a biblioteca gráfica GTK para usar a versao com gui
