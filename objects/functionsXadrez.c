@@ -319,11 +319,11 @@ bool empate(Jogo jogo) {
         CasaTabuleiro* reiProvavelDessaCor = retornarElementoDaLista(*listaTodasAsPecasDessaCor, 1)->data;
 
         if(reiProvavelDessaCor->peca->tipo == REI && (cavaloOuBispoProvavelDessaCor->peca->tipo == BISPO || cavaloOuBispoProvavelDessaCor->peca->tipo == CAVALO)) {
-            if(reiProvavelDessaCor == REI)
+            if(reiProvavelOutraCor->peca->tipo == REI)
                 return true;
         }
         if(cavaloOuBispoProvavelDessaCor->peca->tipo == REI && (reiProvavelDessaCor->peca->tipo == BISPO || reiProvavelDessaCor->peca->tipo == CAVALO)) {
-            if(reiProvavelDessaCor == REI)
+            if(reiProvavelOutraCor->peca->tipo == REI)
                 return true;
         }
     }
@@ -334,11 +334,11 @@ bool empate(Jogo jogo) {
         CasaTabuleiro* reiProvavelDessaCor = retornarElementoDaLista(*listaTodasAsPecasDaOutraCor, 1)->data;
 
         if(reiProvavelDessaCor->peca->tipo == REI && (cavaloOuBispoProvavelDessaCor->peca->tipo == BISPO || cavaloOuBispoProvavelDessaCor->peca->tipo == CAVALO)) {
-            if(reiProvavelDessaCor == REI)
+            if(reiProvavelOutraCor->peca->tipo == REI)
                 return true;
         }
         if(cavaloOuBispoProvavelDessaCor->peca->tipo == REI && (reiProvavelDessaCor->peca->tipo == BISPO || reiProvavelDessaCor->peca->tipo == CAVALO)) {
-            if(reiProvavelDessaCor == REI)
+            if(reiProvavelOutraCor->peca->tipo == REI)
                 return true;
         }
     }
@@ -350,17 +350,17 @@ bool empate(Jogo jogo) {
         CasaTabuleiro* reiProvavelDessaCor = retornarElementoDaLista(*listaTodasAsPecasDaOutraCor, 2)->data;
 
         if(reiProvavelDessaCor->peca->tipo == REI && cavalo1DessaCor->peca->tipo == CAVALO && cavalo2DessaCor->peca->tipo == CAVALO) {
-            if(reiProvavelDessaCor == REI)
+            if(reiProvavelOutraCor->peca->tipo == REI)
                 return true;
         }
 
         if(cavalo1DessaCor->peca->tipo == REI && reiProvavelDessaCor->peca->tipo == CAVALO && cavalo2DessaCor->peca->tipo == CAVALO) {
-            if(reiProvavelDessaCor == REI)
+            if(reiProvavelOutraCor->peca->tipo == REI)
                 return true;
         }
 
         if(cavalo2DessaCor->peca->tipo == REI && cavalo1DessaCor->peca->tipo == CAVALO && cavalo1DessaCor->peca->tipo == CAVALO) {
-            if(reiProvavelDessaCor == REI)
+            if(reiProvavelOutraCor->peca->tipo == REI)
                 return true;
         }
     }
@@ -372,20 +372,22 @@ bool empate(Jogo jogo) {
         CasaTabuleiro* reiProvavelDessaCor = retornarElementoDaLista(*listaTodasAsPecasDessaCor, 2)->data;
 
         if(reiProvavelDessaCor->peca->tipo == REI && cavalo1DessaCor->peca->tipo == CAVALO && cavalo2DessaCor->peca->tipo == CAVALO) {
-            if(reiProvavelDessaCor == REI)
+            if(reiProvavelOutraCor->peca->tipo == REI)
                 return true;
         }
 
         if(cavalo1DessaCor->peca->tipo == REI && reiProvavelDessaCor->peca->tipo == CAVALO && cavalo2DessaCor->peca->tipo == CAVALO) {
-            if(reiProvavelDessaCor == REI)
+            if(reiProvavelOutraCor->peca->tipo == REI)
                 return true;
         }
 
         if(cavalo2DessaCor->peca->tipo == REI && cavalo1DessaCor->peca->tipo == CAVALO && cavalo1DessaCor->peca->tipo == CAVALO) {
-            if(reiProvavelDessaCor == REI)
+            if(reiProvavelOutraCor->peca->tipo == REI)
                 return true;
         }
     }
+
+    return false;
 }
 
 Lista** retornarTodosAsPecasDeOutraCor(CorPeca corJogando, Tabuleiro tabuleiro) {

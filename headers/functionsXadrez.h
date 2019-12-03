@@ -15,6 +15,8 @@
 
         CorPeca determinarVencedorAposXequeMate(Jogo *jogo);
 
+        CorPeca determinarVencedorAposXequeAgora(Jogo *jogo);
+
         CorPeca empatar(Jogo *jogo);
 
         //Apagar o jogo dando free em suas variaveis

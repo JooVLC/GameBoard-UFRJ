@@ -13,8 +13,6 @@ void iniciarJogoConsole(Nome jogadorBranco, Nome jogadorPreto) {
     while(jogo.jogando)
     {
         system(CLEAR);
-        bool xequeMateDessaCor = xequemate(jogo) || xequeAgora(jogo);
-
         if(empate(jogo)) {
             corVitoriosa = empatar(&jogo);
             continue;
