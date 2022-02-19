@@ -19,6 +19,7 @@ int main(void)
     getchar();
 
     iniciarJogoConsole(nomeBranco, nomePreto);
+    //TODO: GUI Version
     //iniciarJogoGUI(nomeBranco, nomePreto);
 
     puts("Digite qualquer tecla para fechar o jogo...");
